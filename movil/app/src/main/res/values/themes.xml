@@ -3,6 +3,8 @@
     <style name="Base.Theme.Onyx" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/ic_launcher_background</item>
     </style>
 
     <style name="Theme.Onyx" parent="Base.Theme.Onyx" />
