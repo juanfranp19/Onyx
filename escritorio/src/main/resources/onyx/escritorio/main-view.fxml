@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" prefHeight="470.0" prefWidth="633.0" spacing="20.0" styleClass="app-background" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="onyx.escritorio.MainController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <Label fx:id="welcomeText" />
+
+   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@app.png" />
+      </image>
+   </ImageView>
+
+   <!-- Separador tipo HR: negro y a todo el ancho disponible -->
+   <Separator prefHeight="0.0" prefWidth="420.0">
+      <style>
+         -fx-background-color: black;
+      </style>
+   </Separator>
+
+   <BorderPane maxHeight="400.0" prefHeight="200.0" prefWidth="452.0">
+      <center>
+         <GridPane maxHeight="200.0" maxWidth="400.0" prefHeight="105.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+           <columnConstraints>
+             <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
+             <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+           </columnConstraints>
+           <rowConstraints>
+             <RowConstraints minHeight="50.0" prefHeight="30.0" />
+             <RowConstraints minHeight="50.0" prefHeight="50.0" />
+               <RowConstraints minHeight="50.0" prefHeight="50.0" />
+           </rowConstraints>
+            <children>
+               <TextField GridPane.columnIndex="1" />
+               <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               <Label text="Usuario">
+                  <GridPane.margin>
+                     <Insets left="10.0" />
+                  </GridPane.margin>
+               </Label>
+               <Label text="Contraseña" GridPane.rowIndex="1">
+                  <GridPane.margin>
+                     <Insets left="10.0" />
+                  </GridPane.margin>
+               </Label>
+                <Button fx:id="btnLogin" styleClass="primary-button" text="Iniciar Sesión" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            </children>
+         </GridPane>
+      </center>
+   </BorderPane>
+</VBox>
