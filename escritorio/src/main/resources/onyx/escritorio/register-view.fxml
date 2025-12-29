@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane styleClass="app-background" xmlns="http://javafx.com/javafx/17.0.12"
+    xmlns:fx="http://javafx.com/fxml/1" fx:controller="onyx.escritorio.RegisterController">
+    <children>
+        <VBox alignment="TOP_CENTER" prefHeight="470.0" prefWidth="633.0" spacing="20.0">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="90.0" />
+            </padding>
+
+            <Label fx:id="welcomeText" />
+
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@app.png" />
+                </image>
+            </ImageView>
+
+            <!-- Separador tipo HR: negro y a todo el ancho disponible -->
+            <Separator prefHeight="0.0" prefWidth="420.0">
+                <style>
+                    -fx-background-color: black;
+                </style>
+            </Separator>
+
+            <BorderPane maxHeight="400.0" prefHeight="280.0" prefWidth="452.0">
+                <top>
+                    <GridPane maxHeight="200.0" maxWidth="440.0" prefHeight="117.0"
+                        prefWidth="440.0" BorderPane.alignment="CENTER">
+                        <columnConstraints>
+                            <ColumnConstraints halignment="LEFT" hgrow="NEVER" maxWidth="116.0"
+                                minWidth="10.0" prefWidth="111.0" />
+                            <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="311.0"
+                                minWidth="10.0" prefWidth="136.0" />
+                            <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" maxWidth="300.0"
+                                minWidth="0.0" prefWidth="149.0" />
+                            <ColumnConstraints fillWidth="false" halignment="LEFT" hgrow="SOMETIMES"
+                                maxWidth="149.0" minWidth="0.0" percentWidth="1.0" prefWidth="0.0" />
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints maxHeight="45.0" minHeight="40.0" prefHeight="40.0" />
+                            <RowConstraints maxHeight="49.0" minHeight="40.0" prefHeight="40.0" />
+                            <RowConstraints maxHeight="60.0" minHeight="40.0" prefHeight="40.0" />
+                            <RowConstraints maxHeight="45.0" minHeight="40.0" prefHeight="40.0" />
+                            <RowConstraints maxHeight="60.0" minHeight="50.0" prefHeight="55.0" />
+                        </rowConstraints>
+                        <children>
+                            <!-- Nombre -->
+                            <Label text="Nombre" GridPane.rowIndex="0" />
+                            <TextField fx:id="inputName" prefHeight="25.0" prefWidth="285.0"
+                                GridPane.columnIndex="1" GridPane.columnSpan="2"
+                                GridPane.rowIndex="0" />
+
+                            <!-- Correo -->
+                            <Label text="Correo Electrónico" GridPane.rowIndex="1" />
+                            <TextField fx:id="inputEmail" GridPane.columnIndex="1"
+                                GridPane.columnSpan="2" GridPane.rowIndex="1" />
+
+                            <!-- Contraseña -->
+                            <Label text="Contraseña" GridPane.rowIndex="2" />
+                            <PasswordField fx:id="inputPassword" GridPane.columnIndex="1"
+                                GridPane.columnSpan="2" GridPane.rowIndex="2" />
+
+                            <!-- Repetir Contraseña -->
+                            <Label text="Repetir Contraseña" GridPane.rowIndex="3" />
+                            <PasswordField fx:id="inputRepeatPassword" prefHeight="24.0"
+                                prefWidth="276.0" GridPane.columnIndex="1" GridPane.columnSpan="2"
+                                GridPane.rowIndex="3" />
+
+                            <!-- Boton Registrar -->
+                            <Button fx:id="btnRegister" onAction="#handleRegister"
+                                styleClass="primary-button" text="Crear Cuenta"
+                                GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        </children>
+                        <padding>
+                            <Insets left="20.0" right="20.0" />
+                        </padding>
+                    </GridPane>
+                </top>
+            </BorderPane>
+        </VBox>
+        <AnchorPane pickOnBounds="false" prefHeight="200.0" prefWidth="200.0">
+            <children>
+                <Button fx:id="btnBack" layoutX="24.0" layoutY="24.0" mnemonicParsing="false"
+                    onAction="#handleBack" styleClass="back-button" text="&lt;"
+                    AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
+            </children>
+        </AnchorPane>
+    </children>
+</StackPane>

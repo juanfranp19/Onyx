@@ -87,8 +87,8 @@
 .primary-button {
     -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, -primary-color 0%, -primary-dark 100%);
     -fx-text-fill: -text-light;
-    -fx-font-weight: 600;
-    -fx-padding: 12px;
+    -fx-font-weight: 400;
+    -fx-padding: 8px;
     -fx-background-radius: 14px;
     -fx-effect: dropshadow(gaussian, rgba(103, 80, 164, 0.55), 16, 0.45, 0, 6);
 }
@@ -143,4 +143,25 @@ GridPane {
 .hr .line {
     -fx-border-color: #000000;
     -fx-border-width: 1 0 0 0;
+}
+
+.input-error {
+    -fx-border-color: #ef4444;
+    -fx-border-width: 1.5px;
+}
+
+.back-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: -text-muted;
+    -fx-font-size: 24px;
+    -fx-font-weight: 700;
+    -fx-padding: 4px 12px;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+}
+
+.back-button:hover {
+    -fx-text-fill: -primary-color;
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-background-radius: 50%;
 }
