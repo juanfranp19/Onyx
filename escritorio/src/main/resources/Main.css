@@ -68,10 +68,7 @@
 
 .modern-input {
     -fx-background-radius: 12px;
-    -fx-background-color: rgba(255, 255, 255, 0.08);
-    -fx-text-fill: -text-light;
-    -fx-prompt-text-fill: rgba(248, 250, 252, 0.5);
-    -fx-padding: 10px 14px;
+    -fx-padding: 3px 7px;
     -fx-border-color: transparent;
     -fx-border-radius: 12px;
     -fx-focus-color: transparent;
@@ -81,7 +78,7 @@
 .modern-input:focused {
     -fx-border-color: -primary-color;
     -fx-border-width: 1.5px;
-    -fx-background-color: rgba(255, 255, 255, 0.12);
+    -fx-background-color: rgb(255, 255, 255);
 }
 
 .primary-button {
@@ -141,13 +138,14 @@ GridPane {
 }
 
 .hr .line {
-    -fx-border-color: #000000;
+    -fx-background-color: #606060;
+    -fx-border-color: #121212;
     -fx-border-width: 1 0 0 0;
 }
 
 .input-error {
     -fx-border-color: #ef4444;
-    -fx-border-width: 1.5px;
+    -fx-border-width: 1.2px;
 }
 
 .back-button {

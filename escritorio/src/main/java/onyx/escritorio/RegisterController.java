@@ -63,8 +63,6 @@ public class RegisterController {
 
         if (isValid) {
             System.out.println("Registro exitoso para: " + inputEmail.getText());
-            // TODO: Implement actual registration logic here.
-            // For now, we can just switch back to login or show a success message.
             handleBack(event);
         }
     }
