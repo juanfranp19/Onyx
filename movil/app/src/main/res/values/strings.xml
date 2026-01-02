@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Onyx</string>
+
+    <!-- MENU -->
+    <string name="menu_grupos">Grupos</string>
+    <string name="menu_tareas">Tareas</string>
+    <string name="menu_perfil">Perfil</string>
 </resources>

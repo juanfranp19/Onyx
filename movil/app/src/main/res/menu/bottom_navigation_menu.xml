@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bnm_grupos"
+        android:icon="@drawable/ic_groups"
+        android:title="@string/menu_grupos" />
+
+    <item
+        android:id="@+id/bnm_tareas"
+        android:icon="@drawable/ic_pending_actions"
+        android:title="@string/menu_tareas" />
+
+    <item
+        android:id="@+id/bnm_perfil"
+        android:icon="@drawable/ic_account"
+        android:title="@string/menu_perfil" />
+
+</menu>
