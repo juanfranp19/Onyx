@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/tabLoginRegisterFragment">
+
+    <fragment
+        android:id="@+id/tabLoginRegisterFragment"
+        android:name="onyx.movil.fragments.TabLoginRegisterFragment"
+        android:label="fragment_tab_login_register"
+        tools:layout="@layout/fragment_tab_login_register" >
+        <action
+            android:id="@+id/action_tabLoginRegisterFragment_to_gruposFragment"
+            app:destination="@id/gruposFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/gruposFragment"
+        android:name="onyx.movil.fragments.GruposFragment"
+        android:label="fragment_grupos"
+        tools:layout="@layout/fragment_grupos" />
+
+    <fragment
+        android:id="@+id/tareasFragment"
+        android:name="onyx.movil.fragments.TareasFragment"
+        android:label="fragment_tareas"
+        tools:layout="@layout/fragment_tareas" />
+
+    <fragment
+        android:id="@+id/perfilFragment"
+        android:name="onyx.movil.fragments.PerfilFragment"
+        android:label="fragment_perfil"
+        tools:layout="@layout/fragment_perfil" />
+
+</navigation>

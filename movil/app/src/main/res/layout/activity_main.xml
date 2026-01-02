@@ -36,7 +36,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
-            android:name="onyx.movil.fragments.TabLoginRegisterFragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            app:navGraph="@navigation/nav_graph"
+            app:defaultNavHost="true"
 
             android:layout_marginTop="?attr/actionBarSize"
             android:layout_marginBottom="@dimen/height_bottom_nav_menu"
