@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.12"
+    xmlns:fx="http://javafx.com/fxml/1"
+    spacing="24" alignment="TOP_LEFT">
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="16">
+        <Label text="Mis Grupos" styleClass="view-title" />
+    </HBox>
+
+    <!-- Content Cards -->
+    <VBox spacing="16" VBox.vgrow="ALWAYS">
+        <!-- Card 1 -->
+        <VBox styleClass="content-card" VBox.vgrow="ALWAYS">
+            <padding>
+                <Insets top="20" bottom="20" left="24" right="24" />
+            </padding>
+            <Label text="Grupo de Trabajo" styleClass="card-title" />
+            <Label text="Colabora con tu equipo en proyectos compartidos"
+                styleClass="card-description" />
+        </VBox>
+
+        <!-- Card 2 -->
+        <VBox styleClass="content-card" VBox.vgrow="ALWAYS">
+            <padding>
+                <Insets top="20" bottom="20" left="24" right="24" />
+            </padding>
+            <Label text="Grupo Personal" styleClass="card-title" />
+            <Label text="Organiza tus tareas y pendientes individuales"
+                styleClass="card-description" />
+        </VBox>
+    </VBox>
+
+</VBox>

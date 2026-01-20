@@ -40,18 +40,14 @@ public class RegisterController {
     private void handleRegister(ActionEvent event) {
         boolean isValid = true;
 
-        // Reset styles
         resetStyle(inputEmail);
         resetStyle(inputPassword);
         resetStyle(inputRepeatPassword);
-
-        // Validate Email
         if (!EMAIL_PATTERN.matcher(inputEmail.getText()).matches()) {
             addErrorStyle(inputEmail);
             isValid = false;
         }
 
-        // Validate Password Match
         String pass = inputPassword.getText();
         String repeatPass = inputRepeatPassword.getText();
 

@@ -30,6 +30,21 @@ public class MainController {
                         () -> inputuser.getText().isBlank() || inputpassword.getText().isBlank(),
                         inputuser.textProperty(),
                         inputpassword.textProperty()));
+
+        btnLogin.setOnAction(this::onLogin);
+    }
+
+    @FXML
+    private void onLogin(ActionEvent event) {
+        try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("main-layout.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), stage.getScene().getWidth(), stage.getScene().getHeight());
+            scene.getStylesheets().add(getClass().getResource("/Main.css").toExternalForm());
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

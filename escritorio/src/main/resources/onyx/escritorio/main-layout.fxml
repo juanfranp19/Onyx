@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12"
+    xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="onyx.escritorio.MainLayoutController"
+    styleClass="app-background">
+
+    <!-- Sidebar -->
+    <left>
+        <VBox styleClass="sidebar" spacing="0" alignment="TOP_CENTER">
+            <!-- Logo -->
+            <VBox styleClass="sidebar-logo" alignment="CENTER">
+                <padding>
+                    <Insets top="16" bottom="16" left="12" right="12" />
+                </padding>
+                <ImageView fitHeight="50" fitWidth="50" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@app.png" />
+                    </image>
+                </ImageView>
+            </VBox>
+
+            <!-- Separator -->
+            <Separator styleClass="sidebar-separator" />
+
+            <!-- Navigation Items -->
+            <VBox styleClass="nav-container" spacing="8" VBox.vgrow="ALWAYS">
+                <padding>
+                    <Insets top="20" bottom="20" left="8" right="8" />
+                </padding>
+
+                <!-- Grupos -->
+                <HBox fx:id="navGrupos" styleClass="nav-item, active" alignment="CENTER_LEFT"
+                    onMouseClicked="#showGrupos">
+                    <padding>
+                        <Insets top="12" bottom="12" left="12" right="12" />
+                    </padding>
+                    <Label styleClass="nav-icon" text="👥" />
+                    <Label styleClass="nav-label" text="Grupos">
+                        <HBox.margin>
+                            <Insets left="10" />
+                        </HBox.margin>
+                    </Label>
+                </HBox>
+
+                <!-- Tareas -->
+                <HBox fx:id="navTareas" styleClass="nav-item" alignment="CENTER_LEFT"
+                    onMouseClicked="#showTareas">
+                    <padding>
+                        <Insets top="12" bottom="12" left="12" right="12" />
+                    </padding>
+                    <Label styleClass="nav-icon" text="✓" />
+                    <Label styleClass="nav-label" text="Tareas">
+                        <HBox.margin>
+                            <Insets left="10" />
+                        </HBox.margin>
+                    </Label>
+                </HBox>
+
+                <!-- Pendientes -->
+                <HBox fx:id="navPendientes" styleClass="nav-item" alignment="CENTER_LEFT"
+                    onMouseClicked="#showPendientes">
+                    <padding>
+                        <Insets top="12" bottom="12" left="12" right="12" />
+                    </padding>
+                    <Label styleClass="nav-icon" text="⏱" />
+                    <Label styleClass="nav-label" text="Pendientes">
+                        <HBox.margin>
+                            <Insets left="10" />
+                        </HBox.margin>
+                    </Label>
+                </HBox>
+            </VBox>
+
+            <!-- Bottom Settings Menu -->
+            <VBox styleClass="sidebar-bottom" alignment="CENTER">
+                <padding>
+                    <Insets top="12" bottom="16" left="8" right="8" />
+                </padding>
+                <Separator styleClass="sidebar-separator" />
+                <MenuButton fx:id="settingsMenu" styleClass="settings-button" text="☰">
+                    <items>
+                        <MenuItem text="⚙ Ajustes" onAction="#showSettings" />
+                        <MenuItem text="🚪 Cerrar Sesión" onAction="#logout" />
+                    </items>
+                </MenuButton>
+            </VBox>
+        </VBox>
+    </left>
+
+    <!-- Main Content Area -->
+    <center>
+        <StackPane fx:id="contentArea" styleClass="content-area">
+            <padding>
+                <Insets top="24" bottom="24" left="32" right="32" />
+            </padding>
+        </StackPane>
+    </center>
+
+</BorderPane>
