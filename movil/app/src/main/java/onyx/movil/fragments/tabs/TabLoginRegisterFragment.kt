@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.tabs.TabLayoutMediator
+import onyx.movil.R
 import onyx.movil.databinding.FragmentTabLoginRegisterBinding
 import onyx.movil.viewpager.TabLoginRegisterViewPagerAdapter
 
@@ -32,8 +33,8 @@ class TabLoginRegisterFragment : Fragment() {
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) {
             tab, position -> tab.text = when (position) {
-                0 -> "Iniciar sesión"
-                1 -> "Registrarse"
+                0 -> getString(R.string.tab_login)
+                1 -> getString(R.string.tab_register)
                 else -> ""
             }
         }.attach()

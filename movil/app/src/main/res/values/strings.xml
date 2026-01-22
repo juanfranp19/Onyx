@@ -5,4 +5,20 @@
     <string name="menu_grupos">Grupos</string>
     <string name="menu_tareas">Tareas</string>
     <string name="menu_perfil">Perfil</string>
+
+    <!-- TABS -->
+    <string name="tab_login">Iniciar sesión</string>
+    <string name="tab_register">Registrarse</string>
+
+    <!-- FORMS -->
+    <string name="field_user">User</string>
+    <string name="field_email">Email</string>
+    <string name="field_passwd">Contraseña</string>
+    <string name="field_confirm_passwd">Confirmar contraseña</string>
+
+    <string name="btn_login">Iniciar sesión</string>
+    <string name="btn_crear_cuenta">Crear cuenta</string>
+
+    <!-- IMGS -->
+    <string name="img_logo">Logo Onyx</string>
 </resources>
