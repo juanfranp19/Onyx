@@ -3,6 +3,7 @@ package onyx.movil
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.fragment.NavHostFragment
 import onyx.movil.databinding.ActivityMainBinding
 
@@ -84,10 +85,24 @@ class MainActivity : AppCompatActivity() {
     private fun mostrarScaffold() {
         binding.appBarLayout.visibility = View.VISIBLE
         binding.bottomNavigationView.visibility = View.VISIBLE
+
+        val params = binding.fragmentContainerView.layoutParams as ConstraintLayout.LayoutParams
+        params.topToTop = ConstraintLayout.LayoutParams.UNSET
+        params.bottomToBottom = ConstraintLayout.LayoutParams.UNSET
+        params.topToBottom = binding.appBarLayout.id
+        params.bottomToTop = binding.bottomNavigationView.id
+        binding.fragmentContainerView.layoutParams = params
     }
 
     private fun esconderScaffold() {
         binding.appBarLayout.visibility = View.GONE
         binding.bottomNavigationView.visibility = View.GONE
+
+        val params = binding.fragmentContainerView.layoutParams as ConstraintLayout.LayoutParams
+        params.topToBottom = ConstraintLayout.LayoutParams.UNSET
+        params.bottomToTop = ConstraintLayout.LayoutParams.UNSET
+        params.topToTop = ConstraintLayout.LayoutParams.PARENT_ID
+        params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+        binding.fragmentContainerView.layoutParams = params
     }
 }
