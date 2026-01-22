@@ -1,4 +1,4 @@
-package onyx.movil.fragments
+package onyx.movil.fragments.tabs
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
