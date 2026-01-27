@@ -52,32 +52,51 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        /* FLOATING ACTION BUTTON*/
+
+        binding.floatingActionButton.setOnClickListener {
+
+            val currentDestination = navController.currentDestination?.id
+
+            if (currentDestination == R.id.gruposFragment) {
+                navController.navigate(R.id.grupoCreateFragment)
+            }
+
+            if (currentDestination == R.id.tareasFragment) {
+                navController.navigate(R.id.tareaCreateFragment)
+            }
+        }
+
         /* ELEMENTOS MOSTRADOS EN CADA FRAGMENT */
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-
+            mostrarScaffold()
+            esconderFloatingButton()
             when (destination.id) {
                 R.id.gruposFragment -> {
                     binding.toolbar.title = this.getString(R.string.menu_grupos)
-                    mostrarScaffold()
+                    mostrarFloatingButton()
                     binding.bottomNavigationView.selectedItemId = R.id.bnm_grupos
+                }
+                R.id.grupoCreateFragment -> {
+                    binding.toolbar.title = this.getString(R.string.menu_grupo_crear)
                 }
                 R.id.tareasFragment -> {
                     binding.toolbar.title = this.getString(R.string.menu_tareas)
-                    mostrarScaffold()
+                    mostrarFloatingButton()
                     binding.bottomNavigationView.selectedItemId = R.id.bnm_tareas
+                }
+                R.id.tareaCreateFragment -> {
+                    binding.toolbar.title = this.getString(R.string.menu_tarea_crear)
                 }
                 R.id.perfilFragment -> {
                     binding.toolbar.title = this.getString(R.string.menu_perfil)
-                    mostrarScaffold()
                     binding.bottomNavigationView.selectedItemId = R.id.bnm_perfil
                 }
                 R.id.tabLoginRegisterFragment -> {
                     esconderScaffold()
                 }
-                else -> {
-                    binding.bottomNavigationView.selectedItemId = R.id.bnm_grupos
-                }
+                else -> {}
             }
         }
     }
@@ -104,5 +123,13 @@ class MainActivity : AppCompatActivity() {
         params.topToTop = ConstraintLayout.LayoutParams.PARENT_ID
         params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
         binding.fragmentContainerView.layoutParams = params
+    }
+
+    private fun mostrarFloatingButton() {
+        binding.floatingActionButton.visibility = View.VISIBLE
+    }
+
+    private fun esconderFloatingButton() {
+        binding.floatingActionButton.visibility = View.GONE
     }
 }

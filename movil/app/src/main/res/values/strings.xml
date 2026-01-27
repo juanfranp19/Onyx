@@ -3,7 +3,9 @@
 
     <!-- MENU -->
     <string name="menu_grupos">Grupos</string>
+    <string name="menu_grupo_crear">Crear grupo</string>
     <string name="menu_tareas">Tareas</string>
+    <string name="menu_tarea_crear">Crear tarea</string>
     <string name="menu_perfil">Perfil</string>
 
     <!-- TABS -->

@@ -6,6 +6,7 @@
     <dimen name="spacing_between_field_button">30dp</dimen>
     <dimen name="spacing_between_fields">20dp</dimen>
 
+    <dimen name="margin_floating_button">16dp</dimen>
     <dimen name="margin_item_grupo">20dp</dimen>
     <dimen name="padding_item_grupo">15dp</dimen>
     <dimen name="margin_item_tarea">20dp</dimen>

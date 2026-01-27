@@ -33,4 +33,16 @@
         android:label="fragment_perfil"
         tools:layout="@layout/fragment_perfil" />
 
+    <fragment
+        android:id="@+id/grupoCreateFragment"
+        android:name="onyx.movil.fragments.GrupoCreateFragment"
+        android:label="fragment_grupo_create"
+        tools:layout="@layout/fragment_grupo_create" />
+
+    <fragment
+        android:id="@+id/tareaCreateFragment"
+        android:name="onyx.movil.fragments.TareaCreateFragment"
+        android:label="fragment_tarea_create"
+        tools:layout="@layout/fragment_tarea_create" />
+
 </navigation>
