@@ -50,4 +50,12 @@ public class UsuarioController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Usuario loginRequest) {
+        return usuarioRepository.findByNombreUsuario(loginRequest.getNombreUsuario())
+                .filter(user -> user.getPasswordHash().equals(loginRequest.getPasswordHash()))
+                .map(user -> ResponseEntity.ok(user))
+                .orElse(ResponseEntity.status(401).build());
+    }
 }

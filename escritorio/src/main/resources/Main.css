@@ -305,3 +305,52 @@ GridPane {
     -fx-font-size: 16px;
     -fx-text-fill: #888888;
 }
+
+/* ========== ERROR DIALOG STYLES ========== */
+
+.error-dialog-overlay {
+    -fx-background-color: transparent;
+}
+
+.error-dialog-content {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, -bg-gradient-start 0%, -bg-gradient-end 100%);
+    -fx-background-radius: 20px;
+    -fx-padding: 32px 40px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 24, 0.3, 0, 8);
+    -fx-alignment: center;
+    -fx-spacing: 16px;
+}
+
+.error-dialog-icon {
+    -fx-font-size: 42px;
+    -fx-text-fill: #dc2626;
+}
+
+.error-dialog-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #1e1b4b;
+}
+
+.error-dialog-message {
+    -fx-font-size: 14px;
+    -fx-text-fill: #4c4878;
+    -fx-wrap-text: true;
+    -fx-text-alignment: center;
+}
+
+.error-dialog-button {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, -primary-color 0%, -primary-dark 100%);
+    -fx-text-fill: -text-light;
+    -fx-font-weight: 600;
+    -fx-font-size: 14px;
+    -fx-padding: 10px 32px;
+    -fx-background-radius: 12px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(103, 80, 164, 0.5), 12, 0.4, 0, 4);
+}
+
+.error-dialog-button:hover {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #8b7ac4 0%, #7760b4 100%);
+    -fx-effect: dropshadow(gaussian, rgba(103, 80, 164, 0.6), 16, 0.5, 0, 6);
+}
