@@ -78,6 +78,7 @@ public class MainController {
         Stage dialogStage = new Stage();
         dialogStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
         dialogStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
+        dialogStage.initOwner(MainApplication.getPrimaryStage());
         dialogStage.setTitle("Error");
 
         javafx.scene.layout.VBox content = new javafx.scene.layout.VBox(16);
@@ -110,6 +111,14 @@ public class MainController {
         dialogScene.setFill(javafx.scene.paint.Color.TRANSPARENT);
         dialogScene.getStylesheets().add(getClass().getResource("/Main.css").toExternalForm());
         dialogStage.setScene(dialogScene);
+
+        // Centrar en la ventana principal
+        Stage owner = MainApplication.getPrimaryStage();
+        dialogStage.setOnShown(e -> {
+            dialogStage.setX(owner.getX() + (owner.getWidth() - dialogStage.getWidth()) / 2);
+            dialogStage.setY(owner.getY() + (owner.getHeight() - dialogStage.getHeight()) / 2);
+        });
+
         dialogStage.showAndWait();
     }
 
