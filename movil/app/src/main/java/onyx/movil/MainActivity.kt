@@ -2,10 +2,15 @@ package onyx.movil
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import kotlinx.coroutines.launch
 import onyx.movil.databinding.ActivityMainBinding
+import onyx.movil.local.SessionManager
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -18,6 +23,17 @@ class MainActivity : AppCompatActivity() {
         // nav controller
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
+
+        /* SESSION MANAGER */
+
+        val sessionManager = SessionManager(this)
+
+        lifecycleScope.launch {
+            // obtiene el ID del usuario de la sesión
+            if (sessionManager.getUserId() != null) {
+                navController.navigate(R.id.gruposFragment)
+            }
+        }
 
         /* TOOLBAR */
 
@@ -52,7 +68,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        /* FLOATING ACTION BUTTON*/
+        /* FLOATING ACTION BUTTON */
 
         binding.floatingActionButton.setOnClickListener {
 
@@ -97,6 +113,34 @@ class MainActivity : AppCompatActivity() {
                     esconderScaffold()
                 }
                 else -> {}
+            }
+        }
+
+        /* MANEJA QUÉ FRAGMENT NO PUEDE IR PARA ATRÁS EN LA NAVEGACIÓN */
+
+        onBackPressedDispatcher.addCallback(this) {
+            val containerView = findNavController(R.id.fragmentContainerView)
+
+            when (containerView.currentDestination?.id) {
+                in listOf(
+                    R.id.tabLoginRegisterFragment,
+                    R.id.gruposFragment
+                ) -> {
+                    // cierra la app
+                    finish()
+                }
+
+                in listOf(
+                    R.id.tareasFragment,
+                    R.id.perfilFragment
+                ) -> {
+                    navController.navigate(R.id.gruposFragment)
+                }
+
+                else -> {
+                    // continua navegando
+                    containerView.navigateUp()
+                }
             }
         }
     }

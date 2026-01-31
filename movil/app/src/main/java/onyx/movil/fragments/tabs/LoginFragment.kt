@@ -14,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import onyx.movil.R
 import onyx.movil.databinding.FragmentLoginBinding
+import onyx.movil.local.SessionManager
 import onyx.movil.providers.UserProvider
 import onyx.movil.retrofit.RetrofitInstance
 import onyx.movil.ui.states.UserUiState
@@ -45,6 +46,8 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val sessionManager = SessionManager(requireContext())
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 userViewModel.uiState.collect { state ->
@@ -59,7 +62,8 @@ class LoginFragment : Fragment() {
                         is UserUiState.SuccessLogin -> {
                             val user = state.user
 
-                            // todo session manager
+                            // guarda el id en la sesión
+                            sessionManager.saveSession(user.id)
 
                             binding.btnLogin.isEnabled = true
                             findNavController().navigate(R.id.gruposFragment)
