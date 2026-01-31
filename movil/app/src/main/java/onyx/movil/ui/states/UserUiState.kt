@@ -1,0 +1,10 @@
+package onyx.movil.ui.states
+
+import onyx.movil.models.User
+
+sealed class UserUiState {
+    object Idle: UserUiState()
+    object Loading: UserUiState()
+    data class SuccessLogin(val user: User): UserUiState()
+    data class Error(val message: String): UserUiState()
+}
