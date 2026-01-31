@@ -1,7 +1,10 @@
 package onyx.api.controllers;
 
+import onyx.api.dto.GrupoRequestDTO;
 import onyx.api.entities.Grupo;
+import onyx.api.entities.Usuario;
 import onyx.api.repositories.GrupoRepository;
+import onyx.api.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +18,9 @@ public class GrupoController {
     @Autowired
     private GrupoRepository grupoRepository;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
     @GetMapping
     public List<Grupo> getAll() {
         return grupoRepository.findAll();
@@ -27,9 +33,32 @@ public class GrupoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("usuario/{id}")
+    public ResponseEntity<List<Grupo>> getByIdUsuario(@PathVariable Long id) {
+
+        List<Grupo> grupos = grupoRepository.findByCreador_Id(id);
+
+        if (grupos.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(grupos);
+    }
+
     @PostMapping
-    public Grupo create(@RequestBody Grupo grupo) {
-        return grupoRepository.save(grupo);
+    public ResponseEntity<?> create(@RequestBody GrupoRequestDTO grupo) {
+
+        Usuario creador = usuarioRepository.findById(grupo.getCreador_id())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        Grupo newGrupo = new Grupo();
+        newGrupo.setNombre(grupo.getNombre());
+        newGrupo.setDescripcion(grupo.getDescripcion());
+        newGrupo.setCreador(creador);
+
+        grupoRepository.save(newGrupo);
+
+        return ResponseEntity.ok(grupo);
     }
 
     @PutMapping("/{id}")
