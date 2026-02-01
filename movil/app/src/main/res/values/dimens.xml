@@ -13,4 +13,6 @@
     <dimen name="padding_item_tarea">15dp</dimen>
 
     <dimen name="progressbar_margin_button">275dp</dimen>
+
+    <dimen name="mensaje_empty_margin_top">200dp</dimen>
 </resources>

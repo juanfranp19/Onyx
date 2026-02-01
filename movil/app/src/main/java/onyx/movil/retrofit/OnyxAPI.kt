@@ -1,7 +1,9 @@
 package onyx.movil.retrofit
 
 import onyx.movil.models.Grupo
+import onyx.movil.models.Tarea
 import onyx.movil.models.User
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -13,4 +15,7 @@ interface OnyxAPI {
 
     @GET("grupos/usuario/{id}")
     suspend fun getGrupos(@Path("id") id: Long?): List<Grupo>
+
+    @GET("tareas/grupo/{grupoId}")
+    suspend fun getTareasByGrupo(@Path("grupoId") grupoId: Long?): Response<List<Tarea>>
 }
