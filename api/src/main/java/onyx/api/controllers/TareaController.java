@@ -1,7 +1,12 @@
 package onyx.api.controllers;
 
+import onyx.api.dto.TareaRequestDTO;
+import onyx.api.entities.Grupo;
 import onyx.api.entities.Tarea;
+import onyx.api.entities.Usuario;
+import onyx.api.repositories.GrupoRepository;
 import onyx.api.repositories.TareaRepository;
+import onyx.api.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +19,12 @@ public class TareaController {
 
     @Autowired
     private TareaRepository tareaRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private GrupoRepository grupoRepository;
 
     @GetMapping
     public List<Tarea> getAll() {
@@ -28,8 +39,24 @@ public class TareaController {
     }
 
     @PostMapping
-    public Tarea create(@RequestBody Tarea tarea) {
-        return tareaRepository.save(tarea);
+    public ResponseEntity<Tarea> create(@RequestBody TareaRequestDTO tarea) {
+
+        Usuario creador = usuarioRepository.findById(tarea.getCreador_id())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        Grupo grupo = grupoRepository.findById(tarea.getGrupo_id())
+                .orElseThrow(() -> new RuntimeException("Grupo no encontrado"));
+
+        Tarea newTarea = new Tarea();
+        newTarea.setTitulo(tarea.getTitulo());
+        newTarea.setDescripcion(tarea.getDescripcion());
+        newTarea.setFechaVencimiento(tarea.getFechaVencimiento());
+        newTarea.setCreador(creador);
+        newTarea.setGrupo(grupo);
+
+        tareaRepository.save(newTarea);
+
+        return ResponseEntity.ok(newTarea);
     }
 
     @PutMapping("/{id}")
