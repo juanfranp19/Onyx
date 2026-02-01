@@ -29,4 +29,15 @@
         app:layout_constraintStart_toStartOf="@+id/rv"
         app:layout_constraintTop_toTopOf="@+id/rv" />
 
+    <TextView
+        android:id="@+id/mensajeEmpty"
+        android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/mensaje_empty_margin_top"
+        android:text="@string/msg_empty_grupos"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

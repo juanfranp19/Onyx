@@ -25,5 +25,6 @@
     <string name="img_logo">Logo Onyx</string>
 
     <!-- MENSAJES -->
+    <string name="msg_empty_grupos">Sin grupos</string>
     <string name="msg_empty_tareas">Sin tareas</string>
 </resources>

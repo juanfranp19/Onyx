@@ -71,6 +71,12 @@ class GruposFragment : Fragment() {
                             binding.rv.layoutManager = LinearLayoutManager(requireContext())
                         }
 
+                        GrupoUiState.Empty -> {
+                            // aparece el mensaje empty
+                            binding.progressBar.visibility = View.GONE
+                            binding.mensajeEmpty.visibility = View.VISIBLE
+                        }
+
                         is GrupoUiState.SuccessGetGrupos -> {
                             val grupos = state.grupos
 

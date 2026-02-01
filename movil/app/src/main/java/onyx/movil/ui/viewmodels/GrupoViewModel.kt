@@ -19,7 +19,12 @@ class GrupoViewModel(private val provider: GrupoProvider) : ViewModel() {
 
             // llama al la función del provider y cambia de estado
             provider.getGrupos(id)
-                .onSuccess { grupos -> _uiState.value = GrupoUiState.SuccessGetGrupos(grupos) }
+                .onSuccess { grupos ->
+                    // vacío
+                    if (grupos.isEmpty()) _uiState.value = GrupoUiState.Empty
+                    // con datos
+                    else _uiState.value = GrupoUiState.SuccessGetGrupos(grupos)
+                }
                 .onFailure { _ -> _uiState.value = GrupoUiState.Error("Error al obtener los grupos") }
         }
     }
