@@ -5,10 +5,30 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 import onyx.movil.databinding.FragmentGruposBinding
+import onyx.movil.local.SessionManager
+import onyx.movil.providers.GrupoProvider
+import onyx.movil.retrofit.RetrofitInstance
+import onyx.movil.ui.recyclerview.GrupoAdapter
+import onyx.movil.ui.states.GrupoUiState
+import onyx.movil.ui.viewmodels.GrupoViewModel
+import onyx.movil.ui.viewmodels.factories.GrupoViewModelFactory
 
 class GruposFragment : Fragment() {
     private lateinit var binding: FragmentGruposBinding
+
+    private val grupoViewModel: GrupoViewModel by lazy {
+        val provider = GrupoProvider(RetrofitInstance.api)
+        val factory = GrupoViewModelFactory(provider)
+        ViewModelProvider(this, factory)[GrupoViewModel::class.java]
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,5 +44,66 @@ class GruposFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // session manager
+        val sessionManager = SessionManager(requireContext())
+
+        viewLifecycleOwner.lifecycleScope.launch {
+
+            // obtiene los grupos
+            val userId = sessionManager.getUserId()
+            grupoViewModel.getGrupos(userId)
+
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                grupoViewModel.uiState.collect { state ->
+                    when (state) {
+
+                        GrupoUiState.Idle -> Unit
+
+                        GrupoUiState.Loading -> {
+                            // aparece la progressbar y desaparece el rv
+                            binding.progressBar.visibility = View.VISIBLE
+                            binding.rv.visibility = View.GONE
+
+                            // layout manager
+                            binding.rv.layoutManager = LinearLayoutManager(requireContext())
+                        }
+
+                        is GrupoUiState.SuccessGetGrupos -> {
+                            val grupos = state.grupos
+
+                            val adapter = GrupoAdapter(requireContext(), grupos)
+                            binding.rv.adapter = adapter
+
+                            // cada grupo
+                            adapter.setOnItemClickListener(object: GrupoAdapter.OnItemClickListener {
+                                override fun onItemClick(position: Int) {
+
+                                    val grupo = grupos[position]
+
+                                    // todo fragment details
+
+                                }
+                            })
+
+                            // aparece el rv
+                            binding.progressBar.visibility = View.GONE
+                            binding.rv.visibility = View.VISIBLE
+                        }
+
+                        is GrupoUiState.Error -> {
+                            binding.progressBar.visibility = View.GONE
+                            binding.rv.visibility = View.VISIBLE
+
+                            Snackbar.make(
+                                binding.root,
+                                state.message,
+                                Snackbar.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                }
+            }
+        }
     }
 }
