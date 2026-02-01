@@ -38,6 +38,18 @@ public class TareaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/grupo/{id}")
+    public ResponseEntity<List<Tarea>> getByGrupoId(@PathVariable Integer id) {
+
+        List<Tarea> tareas = tareaRepository.findByGrupo_Id(id);
+
+        if (tareas.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(tareas);
+    }
+
     @PostMapping
     public ResponseEntity<Tarea> create(@RequestBody TareaRequestDTO tarea) {
 
