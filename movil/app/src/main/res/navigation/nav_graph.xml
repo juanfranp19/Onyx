@@ -19,7 +19,11 @@
         android:id="@+id/gruposFragment"
         android:name="onyx.movil.fragments.GruposFragment"
         android:label="fragment_grupos"
-        tools:layout="@layout/fragment_grupos" />
+        tools:layout="@layout/fragment_grupos" >
+        <action
+            android:id="@+id/action_gruposFragment_to_grupoDetailsFragment"
+            app:destination="@id/grupoDetailsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/tareasFragment"
@@ -44,5 +48,27 @@
         android:name="onyx.movil.fragments.TareaCreateFragment"
         android:label="fragment_tarea_create"
         tools:layout="@layout/fragment_tarea_create" />
+
+    <fragment
+        android:id="@+id/grupoDetailsFragment"
+        android:name="onyx.movil.fragments.GrupoDetailsFragment"
+        android:label="fragment_grupo_details"
+        tools:layout="@layout/fragment_grupo_details">
+        <argument
+            android:name="idGrupo"
+            app:argType="long" />
+        <argument
+            android:name="nombreGrupo"
+            app:argType="string" />
+        <argument
+            android:name="descGrupo"
+            app:argType="string" />
+        <argument
+            android:name="fechaCreacionGrupo"
+            app:argType="string" />
+        <argument
+            android:name="creadorGrupo"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

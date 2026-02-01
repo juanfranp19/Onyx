@@ -9,9 +9,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import onyx.movil.R
 import onyx.movil.databinding.FragmentGruposBinding
 import onyx.movil.local.SessionManager
 import onyx.movil.providers.GrupoProvider
@@ -81,8 +83,16 @@ class GruposFragment : Fragment() {
 
                                     val grupo = grupos[position]
 
-                                    // todo fragment details
+                                    // argumentos del fragment
+                                    val bundle = Bundle().apply {
+                                        putLong("idGrupo", grupo.id)
+                                        putString("nombreGrupo", grupo.nombre)
+                                        putString("descGrupo", grupo.descripcion)
+                                        putString("fechaCreacionGrupo", grupo.fechaCreacion)
+                                        putString("creadorGrupo", grupo.creador.nombreUsuario)
+                                    }
 
+                                    findNavController().navigate(R.id.action_gruposFragment_to_grupoDetailsFragment, bundle)
                                 }
                             })
 
