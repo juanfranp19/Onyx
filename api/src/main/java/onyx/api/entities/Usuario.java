@@ -1,26 +1,32 @@
 package onyx.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String nombreUsuario;
     private String email;
     private String passwordHash;
     private LocalDateTime fechaRegistro;
+
+    @ManyToMany(mappedBy = "usuarios")
+    @JsonManagedReference
+    private List<Grupo> grupos;
 
     @PrePersist
     protected void onCreate() {
