@@ -16,20 +16,20 @@ import kotlinx.coroutines.launch
 import onyx.movil.R
 import onyx.movil.databinding.FragmentGruposBinding
 import onyx.movil.local.SessionManager
-import onyx.movil.providers.GrupoProvider
+import onyx.movil.providers.UserProvider
 import onyx.movil.retrofit.RetrofitInstance
 import onyx.movil.ui.recyclerview.GrupoAdapter
-import onyx.movil.ui.states.GrupoUiState
-import onyx.movil.ui.viewmodels.GrupoViewModel
-import onyx.movil.ui.viewmodels.factories.GrupoViewModelFactory
+import onyx.movil.ui.states.UserUiState
+import onyx.movil.ui.viewmodels.UserViewModel
+import onyx.movil.ui.viewmodels.factories.UserViewModelFactory
 
 class GruposFragment : Fragment() {
     private lateinit var binding: FragmentGruposBinding
 
-    private val grupoViewModel: GrupoViewModel by lazy {
-        val provider = GrupoProvider(RetrofitInstance.api)
-        val factory = GrupoViewModelFactory(provider)
-        ViewModelProvider(this, factory)[GrupoViewModel::class.java]
+    private val userViewModel: UserViewModel by lazy {
+        val provider = UserProvider(RetrofitInstance.api)
+        val factory = UserViewModelFactory(provider)
+        ViewModelProvider(this, factory)[UserViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,17 +52,16 @@ class GruposFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
 
-            // obtiene los grupos
+            // obtiene el usuario
             val userId = sessionManager.getUserId()
-            grupoViewModel.getGrupos(userId)
+            userViewModel.getUsuario(userId)
 
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                grupoViewModel.uiState.collect { state ->
+                userViewModel.uiState.collect { state ->
                     when (state) {
+                        UserUiState.Idle -> Unit
 
-                        GrupoUiState.Idle -> Unit
-
-                        GrupoUiState.Loading -> {
+                        UserUiState.Loading -> {
                             // aparece la progressbar y desaparece el rv
                             binding.progressBar.visibility = View.VISIBLE
                             binding.rv.visibility = View.GONE
@@ -71,43 +70,49 @@ class GruposFragment : Fragment() {
                             binding.rv.layoutManager = LinearLayoutManager(requireContext())
                         }
 
-                        GrupoUiState.Empty -> {
-                            // aparece el mensaje empty
-                            binding.progressBar.visibility = View.GONE
-                            binding.mensajeEmpty.visibility = View.VISIBLE
-                        }
+                        is UserUiState.SuccessGetUsuario -> {
 
-                        is GrupoUiState.SuccessGetGrupos -> {
-                            val grupos = state.grupos
+                            // obtiene los grupos
+                            val grupos = state.usuario.grupos
 
-                            val adapter = GrupoAdapter(requireContext(), grupos)
-                            binding.rv.adapter = adapter
+                            if (!grupos.isEmpty()) {
 
-                            // cada grupo
-                            adapter.setOnItemClickListener(object: GrupoAdapter.OnItemClickListener {
-                                override fun onItemClick(position: Int) {
+                                val adapter = GrupoAdapter(requireContext(), grupos)
+                                binding.rv.adapter = adapter
 
-                                    val grupo = grupos[position]
+                                // cada grupo
+                                adapter.setOnItemClickListener(object: GrupoAdapter.OnItemClickListener {
+                                    override fun onItemClick(position: Int) {
 
-                                    // argumentos del fragment
-                                    val bundle = Bundle().apply {
-                                        putLong("idGrupo", grupo.id)
-                                        putString("nombreGrupo", grupo.nombre)
-                                        putString("descGrupo", grupo.descripcion)
-                                        putString("fechaCreacionGrupo", grupo.fechaCreacion)
-                                        putString("creadorGrupo", grupo.creador.nombreUsuario)
+                                        val grupo = grupos[position]
+
+                                        // argumentos del fragment
+                                        val bundle = Bundle().apply {
+                                            putLong("idGrupo", grupo.id)
+                                            putString("nombreGrupo", grupo.nombre)
+                                            putString("descGrupo", grupo.descripcion)
+                                            putString("fechaCreacionGrupo", grupo.fechaCreacion)
+                                            //todo obtener el nombre de usuario
+                                            //putString("creadorGrupo", grupo.creador.nombreUsuario)
+                                        }
+
+                                        findNavController().navigate(R.id.action_gruposFragment_to_grupoDetailsFragment, bundle)
                                     }
+                                })
 
-                                    findNavController().navigate(R.id.action_gruposFragment_to_grupoDetailsFragment, bundle)
-                                }
-                            })
+                                // aparece el rv
+                                binding.rv.visibility = View.VISIBLE
 
-                            // aparece el rv
+                            } else {
+                                // aparece mensaje empty
+                                binding.mensajeEmpty.visibility = View.VISIBLE
+                            }
+
+                            // desaparece progressbar
                             binding.progressBar.visibility = View.GONE
-                            binding.rv.visibility = View.VISIBLE
                         }
 
-                        is GrupoUiState.Error -> {
+                        is UserUiState.Error -> {
                             binding.progressBar.visibility = View.GONE
                             binding.rv.visibility = View.VISIBLE
 
@@ -117,6 +122,8 @@ class GruposFragment : Fragment() {
                                 Snackbar.LENGTH_LONG
                             ).show()
                         }
+
+                        else -> {}
                     }
                 }
             }

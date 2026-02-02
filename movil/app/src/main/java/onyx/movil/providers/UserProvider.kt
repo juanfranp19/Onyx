@@ -25,4 +25,18 @@ class UserProvider(private val api: OnyxAPI) {
             return Result.failure(e)
         }
     }
+
+    suspend fun getUser(id: Long?): Result<User> {
+        try {
+
+            // llama a la api
+            val user: User = api.getUsuario(id)
+
+            // obtiene los datos del usuario
+            return Result.success(user)
+
+        } catch (e: Exception) {
+            return Result.failure(e)
+        }
+    }
 }

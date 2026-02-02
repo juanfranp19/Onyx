@@ -6,5 +6,6 @@ sealed class UserUiState {
     object Idle: UserUiState()
     object Loading: UserUiState()
     data class SuccessLogin(val user: User): UserUiState()
+    data class SuccessGetUsuario(val usuario: User): UserUiState()
     data class Error(val message: String): UserUiState()
 }

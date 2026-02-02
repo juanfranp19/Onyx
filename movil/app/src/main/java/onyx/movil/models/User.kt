@@ -5,5 +5,6 @@ data class User(
     val nombreUsuario: String,
     val email: String,
     val passwordHash: String,
-    val fechaRegistro: String
+    val fechaRegistro: String,
+    val grupos: List<Grupo>
 )

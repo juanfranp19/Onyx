@@ -77,6 +77,8 @@ class LoginFragment : Fragment() {
                                 Snackbar.LENGTH_LONG
                             ).show()
                         }
+
+                        else -> {}
                     }
                 }
             }

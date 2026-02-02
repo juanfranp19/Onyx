@@ -23,4 +23,16 @@ class UserViewModel(private val provider: UserProvider) : ViewModel() {
                 .onFailure { _ -> _uiState.value = UserUiState.Error("Error en el login") }
         }
     }
+
+    fun getUsuario(id: Long?) {
+        viewModelScope.launch {
+            // cambia el estado
+            _uiState.value = UserUiState.Loading
+
+            // llama al la función del provider y cambia de estado
+            provider.getUser(id)
+                .onSuccess { user -> _uiState.value = UserUiState.SuccessGetUsuario(user) }
+                .onFailure { _ -> _uiState.value = UserUiState.Error("Error en el login") }
+        }
+    }
 }

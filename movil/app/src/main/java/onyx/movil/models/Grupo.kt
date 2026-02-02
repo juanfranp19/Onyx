@@ -5,5 +5,6 @@ data class Grupo(
     val nombre: String,
     val descripcion: String,
     val fechaCreacion: String,
-    val creador: User
+    val creadorId: Long,
+    val tareas: List<Tarea>
 )

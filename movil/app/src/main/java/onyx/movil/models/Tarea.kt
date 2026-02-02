@@ -7,6 +7,6 @@ data class Tarea(
     val fechaCreacion: String,
     val fechaVencimiento: String,
     val lista: String,
-    val grupo: Grupo,
-    val creador: User
+    val grupoId: Long,
+    val creadorId: Long
 )

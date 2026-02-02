@@ -13,9 +13,9 @@ interface OnyxAPI {
     @POST("usuarios/login")
     suspend fun login(@Body body: Map<String, String>): User
 
-    @GET("grupos/usuario/{id}")
-    suspend fun getGrupos(@Path("id") id: Long?): Response<List<Grupo>>
-
     @GET("tareas/grupo/{grupoId}")
     suspend fun getTareasByGrupo(@Path("grupoId") grupoId: Long?): Response<List<Tarea>>
+
+    @GET("usuarios/{id}")
+    suspend fun getUsuario(@Path("id") id: Long?): User
 }
