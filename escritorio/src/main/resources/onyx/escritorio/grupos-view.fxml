@@ -4,36 +4,45 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/17.0.12"
+<StackPane xmlns="http://javafx.com/javafx/17.0.12"
     xmlns:fx="http://javafx.com/fxml/1"
-    spacing="24" alignment="TOP_LEFT">
+    fx:controller="onyx.escritorio.GruposController"
+    alignment="TOP_LEFT">
 
-    <!-- Header -->
-    <HBox alignment="CENTER_LEFT" spacing="16">
-        <Label text="Mis Grupos" styleClass="view-title" />
-    </HBox>
+    <VBox spacing="24" alignment="TOP_LEFT">
+        <padding>
+            <Insets top="24" right="24" bottom="24" left="24" />
+        </padding>
 
-    <!-- Content Cards -->
-    <VBox spacing="16" VBox.vgrow="ALWAYS">
-        <!-- Card 1 -->
-        <VBox styleClass="content-card" VBox.vgrow="ALWAYS">
-            <padding>
-                <Insets top="20" bottom="20" left="24" right="24" />
-            </padding>
-            <Label text="Grupo de Trabajo" styleClass="card-title" />
-            <Label text="Colabora con tu equipo en proyectos compartidos"
-                styleClass="card-description" />
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="16">
+            <Label text="Mis Grupos" styleClass="view-title" />
+        </HBox>
+
+        <!-- Empty State (Visible by default) -->
+        <VBox fx:id="emptyState" styleClass="empty-state-container" VBox.vgrow="ALWAYS" alignment="CENTER">
+            <Label text="📂" styleClass="empty-state-icon" />
+            <Label text="No tienes grupos asignados" styleClass="empty-state-title" />
+            <Label text="Crea un nuevo grupo para empezar a colaborar con tu equipo."
+                styleClass="empty-state-description" />
         </VBox>
 
-        <!-- Card 2 -->
-        <VBox styleClass="content-card" VBox.vgrow="ALWAYS">
-            <padding>
-                <Insets top="20" bottom="20" left="24" right="24" />
-            </padding>
-            <Label text="Grupo Personal" styleClass="card-title" />
-            <Label text="Organiza tus tareas y pendientes individuales"
-                styleClass="card-description" />
-        </VBox>
+        <!-- Content List (Hidden by default) -->
+        <ScrollPane fx:id="contentList" fitToWidth="true" style="-fx-background-color: transparent;" visible="false" managed="false">
+            <VBox spacing="16">
+                <!-- Items will be added here dynamically -->
+            </VBox>
+        </ScrollPane>
     </VBox>
 
-</VBox>
+    <!-- FAB Button -->
+    <Button text="+" styleClass="fab-button" onAction="#handleCreateGroup" StackPane.alignment="BOTTOM_RIGHT">
+        <StackPane.margin>
+            <Insets right="32" bottom="32" />
+        </StackPane.margin>
+        <tooltip>
+            <Tooltip text="Crear nuevo grupo" />
+        </tooltip>
+    </Button>
+
+</StackPane>

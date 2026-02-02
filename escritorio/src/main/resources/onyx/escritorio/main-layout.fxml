@@ -40,7 +40,7 @@
                     <padding>
                         <Insets top="12" bottom="12" left="12" right="12" />
                     </padding>
-                    <Label styleClass="nav-icon" text="👥" />
+                    <Label styleClass="nav-icon" text="📂" />
                     <Label styleClass="nav-label" text="Grupos">
                         <HBox.margin>
                             <Insets left="10" />
@@ -54,7 +54,7 @@
                     <padding>
                         <Insets top="12" bottom="12" left="12" right="12" />
                     </padding>
-                    <Label styleClass="nav-icon" text="✓" />
+                    <Label styleClass="nav-icon" text="📋" />
                     <Label styleClass="nav-label" text="Tareas">
                         <HBox.margin>
                             <Insets left="10" />
@@ -78,17 +78,22 @@
             </VBox>
 
             <!-- Bottom Settings Menu -->
-            <VBox styleClass="sidebar-bottom" alignment="CENTER">
+            <VBox styleClass="sidebar-bottom" alignment="CENTER_LEFT" spacing="8">
                 <padding>
-                    <Insets top="12" bottom="16" left="8" right="8" />
+                    <Insets top="12" bottom="16" left="16" right="16" />
                 </padding>
+                
                 <Separator styleClass="sidebar-separator" />
-                <MenuButton fx:id="settingsMenu" styleClass="settings-button" text="☰">
-                    <items>
-                        <MenuItem text="⚙ Ajustes" onAction="#showSettings" />
-                        <MenuItem text="🚪 Cerrar Sesión" onAction="#logout" />
-                    </items>
-                </MenuButton>
+                
+                <!-- User Info -->
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <VBox>
+                        <Label fx:id="lblUsername" text="Usuario" styleClass="user-name-label" />
+                        <Label fx:id="lblEmail" text="email@onyx.com" styleClass="user-email-label" />
+                    </VBox>
+                </HBox>
+
+                <Button fx:id="btnSettings" styleClass="settings-button-full" text="⚙  Opciones" onAction="#showSettingsMenu" />
             </VBox>
         </VBox>
     </left>

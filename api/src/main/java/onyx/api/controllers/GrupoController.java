@@ -47,9 +47,15 @@ public class GrupoController {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody GrupoRequestDTO grupo) {
+        System.out.println("Recibida petición crear grupo: " + grupo);
 
-        Usuario creador = usuarioRepository.findById(grupo.getCreador_id())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        if (grupo.getCreadorId() == null) {
+            System.out.println("Error: creadorId es null");
+            return ResponseEntity.badRequest().body("El ID del creador es obligatorio");
+        }
+
+        Usuario creador = usuarioRepository.findById(grupo.getCreadorId())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + grupo.getCreadorId()));
 
         Grupo newGrupo = new Grupo();
         newGrupo.setNombre(grupo.getNombre());
@@ -57,8 +63,9 @@ public class GrupoController {
         newGrupo.setCreador(creador);
 
         grupoRepository.save(newGrupo);
+        System.out.println("Grupo creado con éxito: " + newGrupo.getId());
 
-        return ResponseEntity.ok(grupo);
+        return ResponseEntity.ok(newGrupo);
     }
 
     @PutMapping("/{id}")

@@ -1,10 +1,12 @@
 package onyx.api.controllers;
 
 import onyx.api.dto.LoginRequestDTO;
+import onyx.api.dto.RegisterRequestDTO;
 import onyx.api.entities.Usuario;
 import onyx.api.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +17,9 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping
     public List<Usuario> getAll() {
@@ -29,8 +34,17 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public Usuario create(@RequestBody Usuario usuario) {
-        return usuarioRepository.save(usuario);
+    public ResponseEntity<?> create(@RequestBody RegisterRequestDTO registerRequest) {
+        if (usuarioRepository.findByNombreUsuario(registerRequest.getNombreUsuario()).isPresent()) {
+            return ResponseEntity.badRequest().body("El nombre de usuario ya existe");
+        }
+        
+        Usuario usuario = new Usuario();
+        usuario.setNombreUsuario(registerRequest.getNombreUsuario());
+        usuario.setEmail(registerRequest.getEmail());
+        usuario.setPasswordHash(passwordEncoder.encode(registerRequest.getPasswordHash()));
+        
+        return ResponseEntity.ok(usuarioRepository.save(usuario));
     }
 
     @PutMapping("/{id}")
@@ -38,6 +52,11 @@ public class UsuarioController {
         return usuarioRepository.findById(id)
                 .map(existing -> {
                     usuario.setId(id);
+                    if (usuario.getPasswordHash() != null && !usuario.getPasswordHash().isEmpty()) {
+                        usuario.setPasswordHash(passwordEncoder.encode(usuario.getPasswordHash()));
+                    } else {
+                        usuario.setPasswordHash(existing.getPasswordHash());
+                    }
                     return ResponseEntity.ok(usuarioRepository.save(usuario));
                 })
                 .orElse(ResponseEntity.notFound().build());
@@ -55,7 +74,7 @@ public class UsuarioController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDTO loginRequest) {
         return usuarioRepository.findByNombreUsuario(loginRequest.getNombreUsuario())
-                .filter(user -> user.getPasswordHash().equals(loginRequest.getPasswordHash()))
+                .filter(user -> passwordEncoder.matches(loginRequest.getPasswordHash(), user.getPasswordHash()))
                 .map(user -> ResponseEntity.ok(user))
                 .orElse(ResponseEntity.status(401).build());
     }

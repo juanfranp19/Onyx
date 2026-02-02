@@ -29,7 +29,7 @@ public class Grupo {
     @JoinColumn(name = "creador_id", nullable = false)
     private Usuario creador;
 
-    @Column(name = "fecha_creación", nullable = false)
+    @Column(name = "fecha_creacion", nullable = false)
     private LocalDateTime fechaCreacion;
 
     @ManyToMany
