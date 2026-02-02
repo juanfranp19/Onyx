@@ -1,5 +1,6 @@
 package onyx.api.controllers;
 
+import onyx.api.dto.LoginRequestDTO;
 import onyx.api.entities.Usuario;
 import onyx.api.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Usuario loginRequest) {
+    public ResponseEntity<?> login(@RequestBody LoginRequestDTO loginRequest) {
         return usuarioRepository.findByNombreUsuario(loginRequest.getNombreUsuario())
                 .filter(user -> user.getPasswordHash().equals(loginRequest.getPasswordHash()))
                 .map(user -> ResponseEntity.ok(user))
