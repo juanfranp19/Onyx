@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
                 navController.navigate(R.id.grupoCreateFragment)
             }
 
-            if (currentDestination == R.id.tareasFragment) {
+            if (currentDestination == R.id.tareasFragment || currentDestination == R.id.grupoDetailsFragment) {
                 navController.navigate(R.id.tareaCreateFragment)
             }
         }
@@ -91,15 +91,18 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.gruposFragment -> {
                     binding.toolbar.title = this.getString(R.string.menu_grupos)
-                    mostrarFloatingButton()
+                    mostrarFloatingButton(R.drawable.ic_group_add)
                     binding.bottomNavigationView.selectedItemId = R.id.bnm_grupos
                 }
                 R.id.grupoCreateFragment -> {
                     binding.toolbar.title = this.getString(R.string.menu_grupo_crear)
                 }
+                R.id.grupoDetailsFragment -> {
+                    mostrarFloatingButton(R.drawable.ic_assigment_add)
+                }
                 R.id.tareasFragment -> {
                     binding.toolbar.title = this.getString(R.string.menu_tareas)
-                    mostrarFloatingButton()
+                    mostrarFloatingButton(R.drawable.ic_assigment_add)
                     binding.bottomNavigationView.selectedItemId = R.id.bnm_tareas
                 }
                 R.id.tareaCreateFragment -> {
@@ -169,8 +172,9 @@ class MainActivity : AppCompatActivity() {
         binding.fragmentContainerView.layoutParams = params
     }
 
-    private fun mostrarFloatingButton() {
+    private fun mostrarFloatingButton(ic: Int) {
         binding.floatingActionButton.visibility = View.VISIBLE
+        binding.floatingActionButton.setImageResource(ic)
     }
 
     private fun esconderFloatingButton() {
