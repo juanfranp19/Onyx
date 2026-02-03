@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx/17.0.12"
+    xmlns:fx="http://javafx.com/fxml/1"
+    alignment="TOP_LEFT">
+
+    <VBox spacing="24" alignment="TOP_LEFT">
+        <padding>
+            <Insets top="24" right="24" bottom="24" left="24" />
+        </padding>
+
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="16">
+            <Label text="Mis Tareas" styleClass="view-title" />
+        </HBox>
+
+        <!-- Empty State (Visible by default) -->
+        <VBox fx:id="emptyState" styleClass="empty-state-container" VBox.vgrow="ALWAYS" alignment="CENTER">
+            <Label text="📋" styleClass="empty-state-icon" />
+            <Label text="No tienes tareas pendientes" styleClass="empty-state-title" />
+            <Label text="Añade una nueva tarea para organizar tu día."
+                styleClass="empty-state-description" />
+        </VBox>
+
+        <!-- Content List (Hidden by default) -->
+        <ScrollPane fx:id="contentList" fitToWidth="true" style="-fx-background-color: transparent;" visible="false" managed="false">
+            <VBox spacing="16">
+                <!-- Items will be added here dynamically -->
+            </VBox>
+        </ScrollPane>
+    </VBox>
+
+    <!-- FAB Button -->
+    <Button text="+" styleClass="fab-button" StackPane.alignment="BOTTOM_RIGHT">
+        <StackPane.margin>
+            <Insets right="32" bottom="32" />
+        </StackPane.margin>
+        <tooltip>
+            <Tooltip text="Añadir nueva tarea" />
+        </tooltip>
+    </Button>
+
+</StackPane>
