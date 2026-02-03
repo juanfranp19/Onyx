@@ -24,6 +24,18 @@ class UserViewModel(private val provider: UserProvider) : ViewModel() {
         }
     }
 
+    fun register(nombreUsuario: String, email: String, passwordHash: String) {
+        viewModelScope.launch {
+            // cambia el estado
+            _uiState.value = UserUiState.Loading
+
+            // llama al la función del provider y cambia de estado
+            provider.register(nombreUsuario, email, passwordHash)
+                .onSuccess { user -> _uiState.value = UserUiState.SuccessRegister(user) }
+                .onFailure { _ -> _uiState.value = UserUiState.Error("Error al crear usuario") }
+        }
+    }
+
     fun getUsuario(id: Long?) {
         viewModelScope.launch {
             // cambia el estado

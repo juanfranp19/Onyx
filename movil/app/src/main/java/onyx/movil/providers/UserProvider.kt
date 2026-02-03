@@ -26,6 +26,27 @@ class UserProvider(private val api: OnyxAPI) {
         }
     }
 
+    suspend fun register(nombreUsuario: String, email: String, passwordHash: String): Result<User> {
+        try {
+
+            // llama a la api
+            val user: User = api.register(
+                mapOf(
+                    "nombreUsuario" to nombreUsuario,
+                    "email" to email,
+                    "passwordHash" to passwordHash
+                )
+            )
+
+            // obtiene el usuario loggeado
+            return Result.success(user)
+
+        } catch (e: Exception) {
+            Log.e("REGISTER_ERROR", "Exception: ", e)
+            return Result.failure(e)
+        }
+    }
+
     suspend fun getUser(id: Long?): Result<User> {
         try {
 
