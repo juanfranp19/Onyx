@@ -39,7 +39,7 @@ public class Grupo {
             inverseJoinColumns = @JoinColumn(name = "usuario_id")
     )
     @JsonBackReference
-    private List<Usuario> usuarios;
+    private List<Usuario> usuarios = new ArrayList<>();
 
     @OneToMany(mappedBy = "grupo", cascade = CascadeType.PERSIST, orphanRemoval = false)
     private List<Tarea> tareas = new ArrayList<>();

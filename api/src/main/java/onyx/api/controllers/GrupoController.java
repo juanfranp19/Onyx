@@ -61,6 +61,7 @@ public class GrupoController {
         newGrupo.setNombre(grupo.getNombre());
         newGrupo.setDescripcion(grupo.getDescripcion());
         newGrupo.setCreador(creador);
+        newGrupo.getUsuarios().add(creador);
 
         grupoRepository.save(newGrupo);
         System.out.println("Grupo creado con éxito: " + newGrupo.getId());
