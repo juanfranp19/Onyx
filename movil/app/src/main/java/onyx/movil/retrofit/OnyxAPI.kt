@@ -1,5 +1,6 @@
 package onyx.movil.retrofit
 
+import onyx.movil.models.Grupo
 import onyx.movil.models.Tarea
 import onyx.movil.models.User
 import retrofit2.Response
@@ -20,4 +21,7 @@ interface OnyxAPI {
 
     @GET("usuarios/{id}")
     suspend fun getUsuario(@Path("id") id: Long?): User
+
+    @POST("grupos")
+    suspend fun postGrupo(@Body body: Map<String, @JvmSuppressWildcards Any>): Grupo
 }

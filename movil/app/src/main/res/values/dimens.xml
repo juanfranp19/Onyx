@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- height -->
     <dimen name="height_bottom_nav_menu">80dp</dimen>
 
+    <!-- spacing -->
     <dimen name="spacing_with_screen">50dp</dimen>
     <dimen name="spacing_between_field_button">30dp</dimen>
     <dimen name="spacing_between_fields">20dp</dimen>
 
+    <!-- margin/padding -->
     <dimen name="margin_floating_button">16dp</dimen>
     <dimen name="margin_item_grupo">20dp</dimen>
     <dimen name="padding_item_grupo">15dp</dimen>
     <dimen name="margin_item_tarea">20dp</dimen>
     <dimen name="padding_item_tarea">15dp</dimen>
-
     <dimen name="progressbar_margin_button">275dp</dimen>
-
     <dimen name="mensaje_empty_margin_top">200dp</dimen>
 </resources>

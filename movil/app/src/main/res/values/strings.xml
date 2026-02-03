@@ -3,9 +3,11 @@
 
     <!-- MENU -->
     <string name="menu_grupos">Grupos</string>
-    <string name="menu_grupo_crear">Crear grupo</string>
+    <string name="menu_grupo_detalles">Detalles</string>
+    <string name="menu_grupo_crear">Nuevo grupo</string>
     <string name="menu_tareas">Tareas</string>
-    <string name="menu_tarea_crear">Crear tarea</string>
+    <string name="menu_tareas_detalles">Detalles</string>
+    <string name="menu_tarea_crear">Nueva tarea</string>
     <string name="menu_perfil">Perfil</string>
 
     <!-- TABS -->
@@ -17,10 +19,12 @@
     <string name="field_email">Email</string>
     <string name="field_passwd">Contraseña</string>
     <string name="field_confirm_passwd">Confirmar contraseña</string>
+    <string name="field_descripcion">Descripción</string>
+    <string name="field_nombre">Nombre</string>
 
     <string name="btn_login">Iniciar sesión</string>
     <string name="btn_crear_cuenta">Crear cuenta</string>
-
+    <string name="btn_crear_grupo">Crear grupo</string>
     <!-- IMGS -->
     <string name="img_logo">Logo Onyx</string>
 

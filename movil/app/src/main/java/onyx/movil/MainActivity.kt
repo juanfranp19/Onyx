@@ -89,6 +89,9 @@ class MainActivity : AppCompatActivity() {
             mostrarScaffold()
             esconderFloatingButton()
             when (destination.id) {
+
+                // grupos
+
                 R.id.gruposFragment -> {
                     binding.toolbar.title = this.getString(R.string.menu_grupos)
                     mostrarFloatingButton(R.drawable.ic_group_add)
@@ -98,8 +101,12 @@ class MainActivity : AppCompatActivity() {
                     binding.toolbar.title = this.getString(R.string.menu_grupo_crear)
                 }
                 R.id.grupoDetailsFragment -> {
+                    binding.toolbar.title = this.getString(R.string.menu_grupo_detalles)
                     mostrarFloatingButton(R.drawable.ic_assigment_add)
                 }
+
+                // tareas
+
                 R.id.tareasFragment -> {
                     binding.toolbar.title = this.getString(R.string.menu_tareas)
                     mostrarFloatingButton(R.drawable.ic_assigment_add)
@@ -108,10 +115,15 @@ class MainActivity : AppCompatActivity() {
                 R.id.tareaCreateFragment -> {
                     binding.toolbar.title = this.getString(R.string.menu_tarea_crear)
                 }
+
+                // perfil
+
                 R.id.perfilFragment -> {
                     binding.toolbar.title = this.getString(R.string.menu_perfil)
                     binding.bottomNavigationView.selectedItemId = R.id.bnm_perfil
                 }
+
+                // login register
                 R.id.tabLoginRegisterFragment -> {
                     esconderScaffold()
                 }
