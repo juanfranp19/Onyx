@@ -16,20 +16,20 @@ import kotlinx.coroutines.launch
 import onyx.movil.R
 import onyx.movil.databinding.FragmentGruposBinding
 import onyx.movil.local.SessionManager
-import onyx.movil.providers.UserProvider
+import onyx.movil.providers.GrupoProvider
 import onyx.movil.retrofit.RetrofitInstance
 import onyx.movil.ui.recyclerview.GrupoAdapter
-import onyx.movil.ui.states.UserUiState
-import onyx.movil.ui.viewmodels.UserViewModel
-import onyx.movil.ui.viewmodels.factories.UserViewModelFactory
+import onyx.movil.ui.states.GrupoUiState
+import onyx.movil.ui.viewmodels.GrupoViewModel
+import onyx.movil.ui.viewmodels.factories.GrupoViewModelFactory
 
 class GruposFragment : Fragment() {
     private lateinit var binding: FragmentGruposBinding
 
-    private val userViewModel: UserViewModel by lazy {
-        val provider = UserProvider(RetrofitInstance.api)
-        val factory = UserViewModelFactory(provider)
-        ViewModelProvider(this, factory)[UserViewModel::class.java]
+    private val grupoViewModel: GrupoViewModel by lazy {
+        val provider = GrupoProvider(RetrofitInstance.api)
+        val factory = GrupoViewModelFactory(provider)
+        ViewModelProvider(this, factory)[GrupoViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,14 +54,14 @@ class GruposFragment : Fragment() {
 
             // obtiene el usuario
             val userId = sessionManager.getUserId()
-            userViewModel.getUsuario(userId)
+            grupoViewModel.getGrupos(userId)
 
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                userViewModel.uiState.collect { state ->
+                grupoViewModel.uiState.collect { state ->
                     when (state) {
-                        UserUiState.Idle -> Unit
+                        GrupoUiState.Idle -> Unit
 
-                        UserUiState.Loading -> {
+                        GrupoUiState.Loading -> {
                             // aparece la progressbar y desaparece el rv
                             binding.progressBar.visibility = View.VISIBLE
                             binding.rv.visibility = View.GONE
@@ -70,10 +70,10 @@ class GruposFragment : Fragment() {
                             binding.rv.layoutManager = LinearLayoutManager(requireContext())
                         }
 
-                        is UserUiState.SuccessGetUsuario -> {
+                        is GrupoUiState.SuccessGetGrupos -> {
 
                             // obtiene los grupos
-                            val grupos = state.usuario.grupos
+                            val grupos = state.grupos
 
                             if (!grupos.isEmpty()) {
 
@@ -112,7 +112,7 @@ class GruposFragment : Fragment() {
                             binding.progressBar.visibility = View.GONE
                         }
 
-                        is UserUiState.Error -> {
+                        is GrupoUiState.Error -> {
                             binding.progressBar.visibility = View.GONE
                             binding.rv.visibility = View.VISIBLE
 

@@ -12,6 +12,21 @@ class GrupoViewModel(private val provider: GrupoProvider) : ViewModel() {
     private val _uiState = MutableStateFlow<GrupoUiState>(GrupoUiState.Idle)
     val uiState: StateFlow<GrupoUiState> = _uiState
 
+    fun getGrupos(id: Long?) {
+        viewModelScope.launch {
+            // cambia el estado
+            _uiState.value = GrupoUiState.Loading
+
+            // llama al la función del provider y cambia de estado
+            provider.getGrupos(id)
+                .onSuccess { grupos ->
+                    if (grupos.isEmpty()) _uiState.value = GrupoUiState.Empty
+                    else _uiState.value = GrupoUiState.SuccessGetGrupos(grupos)
+                }
+                .onFailure { _ -> _uiState.value = GrupoUiState.Error("Error al cargar grupos") }
+        }
+    }
+
     fun postGrupo(nombre: String, desc: String, creadorId: Long?) {
         viewModelScope.launch {
             // cambia el estado
