@@ -36,7 +36,7 @@ public class GrupoController {
     @GetMapping("usuario/{id}")
     public ResponseEntity<List<Grupo>> getByIdUsuario(@PathVariable Long id) {
 
-        List<Grupo> grupos = grupoRepository.findByCreador_Id(id);
+        List<Grupo> grupos = grupoRepository.findGruposByUsuarioId(id);
 
         if (grupos.isEmpty()) {
             return ResponseEntity.notFound().build();
