@@ -70,6 +70,11 @@ class GruposFragment : Fragment() {
                             binding.rv.layoutManager = LinearLayoutManager(requireContext())
                         }
 
+                        GrupoUiState.Empty -> {
+                            // aparece mensaje empty
+                            binding.mensajeEmpty.visibility = View.VISIBLE
+                        }
+
                         is GrupoUiState.SuccessGetGrupos -> {
 
                             // obtiene los grupos
@@ -103,9 +108,6 @@ class GruposFragment : Fragment() {
                                 // aparece el rv
                                 binding.rv.visibility = View.VISIBLE
 
-                            } else {
-                                // aparece mensaje empty
-                                binding.mensajeEmpty.visibility = View.VISIBLE
                             }
 
                             // desaparece progressbar
@@ -127,6 +129,10 @@ class GruposFragment : Fragment() {
                     }
                 }
             }
+        }
+
+        binding.floatingActionButton.setOnClickListener {
+            findNavController().navigate(R.id.action_gruposFragment_to_grupoCreateFragment)
         }
     }
 }

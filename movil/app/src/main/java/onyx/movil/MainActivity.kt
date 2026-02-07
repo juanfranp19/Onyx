@@ -68,33 +68,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        /* FLOATING ACTION BUTTON */
-
-        binding.floatingActionButton.setOnClickListener {
-
-            val currentDestination = navController.currentDestination?.id
-
-            if (currentDestination == R.id.gruposFragment) {
-                navController.navigate(R.id.grupoCreateFragment)
-            }
-
-            if (currentDestination == R.id.tareasFragment || currentDestination == R.id.grupoDetailsFragment) {
-                navController.navigate(R.id.tareaCreateFragment)
-            }
-        }
-
         /* ELEMENTOS MOSTRADOS EN CADA FRAGMENT */
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             mostrarScaffold()
-            esconderFloatingButton()
             when (destination.id) {
 
                 // grupos
 
                 R.id.gruposFragment -> {
                     binding.toolbar.title = this.getString(R.string.menu_grupos)
-                    mostrarFloatingButton(R.drawable.ic_group_add)
                     binding.bottomNavigationView.selectedItemId = R.id.bnm_grupos
                 }
                 R.id.grupoCreateFragment -> {
@@ -102,14 +85,12 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.grupoDetailsFragment -> {
                     binding.toolbar.title = this.getString(R.string.menu_grupo_detalles)
-                    mostrarFloatingButton(R.drawable.ic_assigment_add)
                 }
 
                 // tareas
 
                 R.id.tareasFragment -> {
                     binding.toolbar.title = this.getString(R.string.menu_tareas)
-                    mostrarFloatingButton(R.drawable.ic_assigment_add)
                     binding.bottomNavigationView.selectedItemId = R.id.bnm_tareas
                 }
                 R.id.tareaCreateFragment -> {
@@ -182,14 +163,5 @@ class MainActivity : AppCompatActivity() {
         params.topToTop = ConstraintLayout.LayoutParams.PARENT_ID
         params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
         binding.fragmentContainerView.layoutParams = params
-    }
-
-    private fun mostrarFloatingButton(ic: Int) {
-        binding.floatingActionButton.visibility = View.VISIBLE
-        binding.floatingActionButton.setImageResource(ic)
-    }
-
-    private fun esconderFloatingButton() {
-        binding.floatingActionButton.visibility = View.GONE
     }
 }

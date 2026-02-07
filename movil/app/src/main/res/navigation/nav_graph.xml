@@ -23,13 +23,20 @@
         <action
             android:id="@+id/action_gruposFragment_to_grupoDetailsFragment"
             app:destination="@id/grupoDetailsFragment" />
+        <action
+            android:id="@+id/action_gruposFragment_to_grupoCreateFragment"
+            app:destination="@id/grupoCreateFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/tareasFragment"
         android:name="onyx.movil.fragments.TareasFragment"
         android:label="fragment_tareas"
-        tools:layout="@layout/fragment_tareas" />
+        tools:layout="@layout/fragment_tareas" >
+        <action
+            android:id="@+id/action_tareasFragment_to_tareaCreateFragment"
+            app:destination="@id/tareaCreateFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/perfilFragment"

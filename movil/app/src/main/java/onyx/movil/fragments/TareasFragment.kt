@@ -9,9 +9,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import onyx.movil.R
 import onyx.movil.databinding.FragmentTareasBinding
 import onyx.movil.local.SessionManager
 import onyx.movil.models.Tarea
@@ -115,6 +117,14 @@ class TareasFragment : Fragment() {
                     }
                 }
             }
+        }
+
+        binding.floatingActionButton.setOnClickListener {
+            val bundle = Bundle().apply {
+                putLong("idGrupo", 0)
+            }
+
+            findNavController().navigate(R.id.action_tareasFragment_to_tareaCreateFragment, bundle)
         }
     }
 }

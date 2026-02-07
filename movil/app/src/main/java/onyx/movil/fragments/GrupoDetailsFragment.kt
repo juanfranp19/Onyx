@@ -9,9 +9,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import onyx.movil.R
 import onyx.movil.databinding.FragmentGrupoDetailsBinding
 import onyx.movil.providers.TareaProvider
 import onyx.movil.retrofit.RetrofitInstance
@@ -104,8 +106,21 @@ class GrupoDetailsFragment : Fragment() {
                                 Snackbar.LENGTH_LONG
                             ).show()
                         }
+
+                        else -> {}
                     }
                 }
+            }
+        }
+
+        binding.floatingActionButton.setOnClickListener {
+
+            if (idGrupo != null) {
+                val bundle = Bundle().apply {
+                    putLong("idGrupo", idGrupo)
+                }
+
+                findNavController().navigate(R.id.action_grupoDetailsFragment_to_tareaCreateFragment, bundle)
             }
         }
     }
