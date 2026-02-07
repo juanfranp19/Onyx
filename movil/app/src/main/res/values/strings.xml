@@ -21,10 +21,14 @@
     <string name="field_confirm_passwd">Confirmar contraseña</string>
     <string name="field_descripcion">Descripción</string>
     <string name="field_nombre">Nombre</string>
+    <string name="field_titulo">Título</string>
+    <string name="field_desc">Descripción</string>
+    <string name="field_grupo_asociado">Grupo asociado</string>
 
     <string name="btn_login">Iniciar sesión</string>
     <string name="btn_crear_cuenta">Crear cuenta</string>
     <string name="btn_crear_grupo">Crear grupo</string>
+    <string name="btn_crear_tarea">Crear tarea</string>
     <!-- IMGS -->
     <string name="img_logo">Logo Onyx</string>
 

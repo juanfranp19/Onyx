@@ -1,5 +1,6 @@
 package onyx.movil.providers
 
+import android.util.Log
 import onyx.movil.models.Tarea
 import onyx.movil.retrofit.OnyxAPI
 import retrofit2.HttpException
@@ -22,6 +23,28 @@ class TareaProvider(private val api: OnyxAPI) {
             }
 
         } catch (e: Exception) {
+            return Result.failure(e)
+        }
+    }
+
+    suspend fun postTarea(titulo: String?, descripcion: String?, creadorId: Long?, grupoId: Long?): Result<Tarea> {
+        try {
+
+            // llama a la api
+            val tarea = api.postTarea(
+                mapOf(
+                    "titulo" to titulo,
+                    "descripcion" to descripcion,
+                    "creador_id" to creadorId,
+                    "grupo_id" to grupoId
+                ) as Map<String, @JvmSuppressWildcards Any>
+            )
+
+            // obtiene respuesta de la api
+            return Result.success(tarea)
+
+        } catch (e: Exception) {
+            Log.e("POST_TAREA_ERROR", "Exception: ", e)
             return Result.failure(e)
         }
     }

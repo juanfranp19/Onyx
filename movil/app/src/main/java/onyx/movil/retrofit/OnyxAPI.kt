@@ -27,4 +27,7 @@ interface OnyxAPI {
 
     @POST("grupos")
     suspend fun postGrupo(@Body body: Map<String, @JvmSuppressWildcards Any>): Grupo
+
+    @POST("tareas")
+    suspend fun postTarea(@Body body: Map<String, @JvmSuppressWildcards Any>): Tarea
 }

@@ -7,4 +7,8 @@ data class Grupo(
     val fechaCreacion: String,
     val creadorId: Long,
     val tareas: List<Tarea>
-)
+) {
+    override fun toString(): String {
+        return nombre
+    }
+}
