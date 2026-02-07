@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
@@ -13,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import onyx.movil.R
 import onyx.movil.databinding.FragmentTareaCreateBinding
 import onyx.movil.local.SessionManager
 import onyx.movil.models.Grupo
@@ -140,6 +142,8 @@ class TareaCreateFragment : Fragment() {
 
                                 // lista para el spinner
                                 val grupos: MutableList<Grupo> = grupos as MutableList<Grupo>
+                                // grupo para la opción sin grupos
+                                grupos.add(0, Grupo(-1, getString(R.string.msg_empty_grupos), "", "", 0, emptyList()))
 
                                 // adapter del spinner
                                 val adapter = ArrayAdapter(
@@ -150,11 +154,15 @@ class TareaCreateFragment : Fragment() {
 
                                 binding.spinnerGrupo.adapter = adapter
 
-                                if (idGrupo != null) {
+                                if (idGrupo?.toInt() != 0) {
                                     // si hay idGrupo cargado, selecciona en el spinner y lo deshabilita
                                     val posicion = grupos.indexOfFirst { it.id == idGrupo }
                                     binding.spinnerGrupo.setSelection(posicion)
                                     binding.spinnerGrupo.isEnabled = false
+
+                                } else {
+                                    // selecciona el primer grupo de la lista, el sin grupo
+                                    binding.spinnerGrupo.setSelection(0)
                                 }
 
                                 // aparece el contenido
@@ -180,8 +188,11 @@ class TareaCreateFragment : Fragment() {
         /* manejar el estado el btn */
 
         fun noHayCamposVacios(): Boolean {
-            // devuelve true si todos las campos no están vacíos
-            return !binding.tituloEditText.text?.isEmpty()!! && !binding.descEditText.text?.isEmpty()!!
+            // obtiene el grupo seleccionado
+            val grupoSeleccionado = binding.spinnerGrupo.selectedItem as Grupo
+
+            // devuelve true si el titulo no está vacio y el id del grupo no coincide con el del grupo vacio
+            return !binding.tituloEditText.text?.isEmpty()!! && grupoSeleccionado.id.toInt() != -1
         }
 
         // valor inicial
@@ -193,8 +204,12 @@ class TareaCreateFragment : Fragment() {
             binding.btnCrearTarea.isEnabled = noHayCamposVacios()
         }
 
-        binding.descEditText.addTextChangedListener {
-            binding.btnCrearTarea.isEnabled = noHayCamposVacios()
+        binding.spinnerGrupo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                binding.btnCrearTarea.isEnabled = noHayCamposVacios()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 }
