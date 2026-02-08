@@ -99,14 +99,19 @@ public class GruposController {
 
     private void abrirDetalleGrupo(Grupo grupo) {
         try {
-            FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource("grupo-detalle-view.fxml"));
+            java.net.URL fxmlUrl = MainApplication.class.getResource("/onyx/escritorio/grupo-detalle-view.fxml");
+            if (fxmlUrl == null) throw new IOException("FXML resource not found: /onyx/escritorio/grupo-detalle-view.fxml");
+            FXMLLoader loader = new FXMLLoader(fxmlUrl);
             Node view = loader.load();
 
             GrupoDetalleController controller = loader.getController();
             controller.setGrupo(grupo);
             controller.setOnBack(this::volverAGrupos);
 
-            StackPane contentArea = (StackPane) emptyState.getScene().lookup(".content-area");
+            StackPane contentArea = null;
+            if (MainApplication.getPrimaryStage() != null && MainApplication.getPrimaryStage().getScene() != null) {
+                contentArea = (StackPane) MainApplication.getPrimaryStage().getScene().lookup(".content-area");
+            }
             if (contentArea != null) {
                 view.setOpacity(0);
                 contentArea.getChildren().clear();
@@ -124,10 +129,15 @@ public class GruposController {
 
     private void volverAGrupos() {
         try {
-            FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource("grupos-view.fxml"));
+            java.net.URL fxmlUrl = MainApplication.class.getResource("/onyx/escritorio/grupos-view.fxml");
+            if (fxmlUrl == null) throw new IOException("FXML resource not found: /onyx/escritorio/grupos-view.fxml");
+            FXMLLoader loader = new FXMLLoader(fxmlUrl);
             Node view = loader.load();
 
-            StackPane contentArea = (StackPane) emptyState.getScene().lookup(".content-area");
+            StackPane contentArea = null;
+            if (MainApplication.getPrimaryStage() != null && MainApplication.getPrimaryStage().getScene() != null) {
+                contentArea = (StackPane) MainApplication.getPrimaryStage().getScene().lookup(".content-area");
+            }
             if (contentArea != null) {
                 view.setOpacity(0);
                 contentArea.getChildren().clear();
