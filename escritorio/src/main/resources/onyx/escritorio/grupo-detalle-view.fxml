@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="onyx.escritorio.GrupoDetalleController"
+      spacing="20" alignment="TOP_LEFT">
+
+    <padding>
+        <Insets top="24" right="24" bottom="24" left="24" />
+    </padding>
+
+    <!-- Back button + Title -->
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <Button text="←" styleClass="back-button" onAction="#handleBack" />
+        <Label fx:id="lblGroupName" text="Grupo" styleClass="view-title" />
+    </HBox>
+
+    <!-- Group info card -->
+    <VBox styleClass="detail-info-card" spacing="8">
+        <padding>
+            <Insets top="20" right="24" bottom="20" left="24" />
+        </padding>
+
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label text="📂" style="-fx-font-size: 22px;" />
+            <Label text="Información del grupo" styleClass="detail-section-title" />
+        </HBox>
+
+        <Label fx:id="lblGroupDescription" styleClass="detail-info-text" wrapText="true" />
+        <Label fx:id="lblGroupDate" styleClass="detail-info-date" />
+    </VBox>
+
+    <!-- Tareas section title -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label text="📋" style="-fx-font-size: 20px;" />
+        <Label text="Tareas del grupo" styleClass="detail-section-title" />
+    </HBox>
+
+    <!-- Empty tareas state -->
+    <VBox fx:id="emptyTareasState" styleClass="empty-state-container" alignment="CENTER" visible="false" managed="false">
+        <Label text="📋" styleClass="empty-state-icon" style="-fx-font-size: 48px;" />
+        <Label text="Sin tareas" styleClass="empty-state-title" />
+        <Label text="Este grupo aún no tiene tareas asignadas." styleClass="empty-state-description" />
+    </VBox>
+
+    <!-- Tareas list -->
+    <ScrollPane fx:id="tareasScrollPane" fitToWidth="true" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS" visible="false" managed="false">
+        <VBox fx:id="tareasContainer" spacing="12" />
+    </ScrollPane>
+
+</VBox>

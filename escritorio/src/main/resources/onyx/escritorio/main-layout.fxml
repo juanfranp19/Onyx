@@ -93,7 +93,7 @@
                     </VBox>
                 </HBox>
 
-                <Button fx:id="btnSettings" styleClass="settings-button-full" text="⚙  Opciones" onAction="#showSettingsMenu" />
+                <Button fx:id="btnSettings" styleClass="settings-button-full" text="⚙" onAction="#showSettingsMenu" />
             </VBox>
         </VBox>
     </left>

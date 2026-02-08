@@ -2,16 +2,22 @@ package onyx.escritorio;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
+import javafx.animation.FadeTransition;
+import javafx.util.Duration;
 import onyx.escritorio.network.ApiClient;
 import onyx.escritorio.utils.DialogUtils;
 import onyx.escritorio.utils.Session;
 import onyx.escritorio.models.Grupo;
+
+import java.io.IOException;
 import java.util.List;
 
 public class GruposController {
@@ -84,8 +90,57 @@ public class GruposController {
         descripcion.setWrapText(true);
 
         card.getChildren().addAll(header, descripcion);
-        
+
+        card.setCursor(javafx.scene.Cursor.HAND);
+        card.setOnMouseClicked(e -> abrirDetalleGrupo(grupo));
+
         return card;
+    }
+
+    private void abrirDetalleGrupo(Grupo grupo) {
+        try {
+            FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource("grupo-detalle-view.fxml"));
+            Node view = loader.load();
+
+            GrupoDetalleController controller = loader.getController();
+            controller.setGrupo(grupo);
+            controller.setOnBack(this::volverAGrupos);
+
+            StackPane contentArea = (StackPane) emptyState.getScene().lookup(".content-area");
+            if (contentArea != null) {
+                view.setOpacity(0);
+                contentArea.getChildren().clear();
+                contentArea.getChildren().add(view);
+
+                FadeTransition fade = new FadeTransition(Duration.millis(300), view);
+                fade.setFromValue(0);
+                fade.setToValue(1);
+                fade.play();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void volverAGrupos() {
+        try {
+            FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource("grupos-view.fxml"));
+            Node view = loader.load();
+
+            StackPane contentArea = (StackPane) emptyState.getScene().lookup(".content-area");
+            if (contentArea != null) {
+                view.setOpacity(0);
+                contentArea.getChildren().clear();
+                contentArea.getChildren().add(view);
+
+                FadeTransition fade = new FadeTransition(Duration.millis(300), view);
+                fade.setFromValue(0);
+                fade.setToValue(1);
+                fade.play();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @FXML
@@ -119,16 +174,10 @@ public class GruposController {
     }
     
     private void showError(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setContentText(message);
-        alert.showAndWait();
+        DialogUtils.showErrorDialog(message);
     }
     
     private void showInfo(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Info");
-        alert.setContentText(message);
-        alert.showAndWait();
+        DialogUtils.showSuccessDialog("Grupo creado", message);
     }
 }

@@ -44,11 +44,13 @@ public class MainLayoutController {
 
     private HBox currentActiveNav;
 
+    private ContextMenu settingsMenu;
+
     @FXML
     public void initialize() {
         currentActiveNav = navGrupos;
         loadView("grupos-view.fxml");
-        
+
         // Cargar datos de sesión
         Session session = Session.getInstance();
         if (session.isLoggedIn()) {
@@ -59,24 +61,36 @@ public class MainLayoutController {
 
     @FXML
     private void showSettingsMenu(ActionEvent event) {
-        ContextMenu contextMenu = new ContextMenu();
-        
-        MenuItem itemSettings = new MenuItem("⚙  Ajustes");
-        itemSettings.getStyleClass().add("menu-item");
-        itemSettings.setOnAction(e -> showSettings());
-        
-        MenuItem itemLogout = new MenuItem("🚪  Cerrar Sesión");
-        itemLogout.getStyleClass().add("menu-item");
-        itemLogout.setOnAction(e -> logout());
-        
-        contextMenu.getItems().addAll(itemSettings, itemLogout);
-        contextMenu.getStyleClass().add("context-menu");
-        
-        // Ajuste: usar btnSettings como nodo ancla, Side.RIGHT, y ajustar offset
-        // Offset X: 10px para separarlo del botón
-        // Offset Y: 0 para centrarlo si JavaFX lo hace bien, o ajustar si sale mal.
-        // Si sale muy abajo, probamos coordenadas de pantalla.
-        contextMenu.show(btnSettings, Side.RIGHT, 10, 0); 
+        if (settingsMenu == null) {
+            settingsMenu = new ContextMenu();
+
+            MenuItem itemSettings = new MenuItem("⚙ Ajustes");
+            itemSettings.getStyleClass().add("menu-item");
+            itemSettings.setOnAction(e -> showSettings());
+
+            MenuItem itemLogout = new MenuItem("🚪 Cerrar Sesión");
+            itemLogout.getStyleClass().add("menu-item");
+            itemLogout.setOnAction(e -> logout());
+
+            settingsMenu.getItems().addAll(itemSettings, itemLogout);
+            settingsMenu.getStyleClass().add("context-menu");
+
+            settingsMenu.setAnchorLocation(javafx.stage.PopupWindow.AnchorLocation.WINDOW_BOTTOM_LEFT);
+
+            settingsMenu.setAutoHide(true);
+        }
+        if (settingsMenu.isShowing()) {
+            settingsMenu.hide();
+        } else {
+            javafx.geometry.Bounds bounds = btnSettings.localToScreen(btnSettings.getBoundsInLocal());
+
+            double xOffset = -6; // Mueve el menú hacia la IZQUIERDA (hacia el sidebar)
+            double yOffset = 25; // Mueve el menú hacia ABAJO (hacia el borde inferior)
+
+            settingsMenu.show(btnSettings,
+                    bounds.getMaxX() + xOffset,
+                    bounds.getMaxY() + yOffset);
+        }
     }
 
     @FXML
@@ -126,17 +140,17 @@ public class MainLayoutController {
         try {
             FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource(fxmlFile));
             Node view = loader.load();
-            
+
             // Animación de entrada
             view.setOpacity(0);
             contentArea.getChildren().clear();
             contentArea.getChildren().add(view);
-            
+
             FadeTransition fade = new FadeTransition(Duration.millis(300), view);
             fade.setFromValue(0);
             fade.setToValue(1);
             fade.play();
-            
+
         } catch (IOException e) {
             e.printStackTrace();
             loadPlaceholder("Error", "No se pudo cargar la vista: " + fxmlFile);
@@ -153,11 +167,11 @@ public class MainLayoutController {
         javafx.scene.layout.VBox placeholder = new javafx.scene.layout.VBox(16, titleLabel, messageLabel);
         placeholder.setAlignment(javafx.geometry.Pos.CENTER);
         placeholder.getStyleClass().add("placeholder-container");
-        
+
         placeholder.setOpacity(0);
         contentArea.getChildren().clear();
         contentArea.getChildren().add(placeholder);
-        
+
         FadeTransition fade = new FadeTransition(Duration.millis(300), placeholder);
         fade.setFromValue(0);
         fade.setToValue(1);

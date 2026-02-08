@@ -156,6 +156,10 @@ public class ApiClient {
         });
     }
 
+    public static CompletableFuture<List<onyx.escritorio.models.Tarea>> getTareasPorGrupoPublic(Integer grupoId) {
+        return getTareasPorGrupo(grupoId);
+    }
+
     private static CompletableFuture<List<onyx.escritorio.models.Tarea>> getTareasPorGrupo(Integer grupoId) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(BASE_URL + "/tareas/grupo/" + grupoId))
