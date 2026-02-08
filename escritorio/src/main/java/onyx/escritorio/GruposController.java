@@ -22,12 +22,10 @@ public class GruposController {
     @FXML
     private ScrollPane contentList;
 
+    @FXML
     private VBox groupsContainer;
 
     public void initialize() {
-        if (contentList.getContent() instanceof VBox) {
-            groupsContainer = (VBox) contentList.getContent();
-        }
         cargarGrupos();
     }
 

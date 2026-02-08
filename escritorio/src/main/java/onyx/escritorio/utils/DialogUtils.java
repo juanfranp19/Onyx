@@ -82,14 +82,147 @@ public class DialogUtils {
         StackPane root = new StackPane(content);
         root.getStyleClass().add("error-dialog-overlay");
         root.setPadding(new javafx.geometry.Insets(20));
-        root.setStyle("-fx-background-color: rgba(0,0,0,0.5);"); // Semi-transparent background
 
         Scene scene = new Scene(root);
         scene.setFill(null);
         scene.getStylesheets().add(DialogUtils.class.getResource("/Main.css").toExternalForm());
 
         dialogStage.setScene(scene);
-        
+
+        // Center
+        Stage owner = MainApplication.getPrimaryStage();
+        if (owner != null) {
+            dialogStage.setOnShown(e -> {
+                dialogStage.setX(owner.getX() + (owner.getWidth() - dialogStage.getWidth()) / 2);
+                dialogStage.setY(owner.getY() + (owner.getHeight() - dialogStage.getHeight()) / 2);
+            });
+        }
+
+        dialogStage.showAndWait();
+
+        return result.get();
+    }
+
+    // ===== CREATE TASK DIALOG =====
+
+    public static class CreateTaskResult {
+        public String titulo;
+        public String descripcion;
+        public java.time.LocalDateTime fechaVencimiento;
+        public Integer grupoId;
+        public boolean confirmed;
+
+        public CreateTaskResult(String titulo, String descripcion, java.time.LocalDateTime fechaVencimiento,
+                Integer grupoId, boolean confirmed) {
+            this.titulo = titulo;
+            this.descripcion = descripcion;
+            this.fechaVencimiento = fechaVencimiento;
+            this.grupoId = grupoId;
+            this.confirmed = confirmed;
+        }
+    }
+
+    public static CreateTaskResult showCreateTaskDialog(java.util.List<onyx.escritorio.models.Grupo> grupos) {
+        Stage dialogStage = new Stage();
+        dialogStage.initModality(Modality.APPLICATION_MODAL);
+        dialogStage.initStyle(StageStyle.TRANSPARENT);
+        dialogStage.initOwner(MainApplication.getPrimaryStage());
+
+        java.util.concurrent.atomic.AtomicReference<CreateTaskResult> result = new java.util.concurrent.atomic.AtomicReference<>(
+                new CreateTaskResult(null, null, null, null, false));
+
+        // Content
+        VBox content = new VBox(16);
+        content.getStyleClass().add("error-dialog-content");
+        content.setMinWidth(400);
+
+        Label titleLabel = new Label("Nueva Tarea");
+        titleLabel.getStyleClass().add("error-dialog-title");
+
+        TextField tituloInput = new TextField();
+        tituloInput.setPromptText("Título de la tarea");
+        tituloInput.getStyleClass().add("modern-input");
+
+        TextArea descInput = new TextArea();
+        descInput.setPromptText("Descripción (opcional)");
+        descInput.setPrefRowCount(3);
+        descInput.getStyleClass().add("modern-input");
+        descInput.setMaxHeight(80);
+
+        // Date Picker
+        javafx.scene.control.DatePicker datePicker = new javafx.scene.control.DatePicker();
+        datePicker.setPromptText("Fecha de vencimiento (opcional)");
+        datePicker.getStyleClass().add("modern-input");
+        datePicker.setMaxWidth(Double.MAX_VALUE);
+
+        // Group ComboBox
+        javafx.scene.control.ComboBox<onyx.escritorio.models.Grupo> grupoCombo = new javafx.scene.control.ComboBox<>();
+        grupoCombo.getItems().addAll(grupos);
+        grupoCombo.setPromptText("Selecciona un grupo");
+        grupoCombo.getStyleClass().add("modern-input");
+        grupoCombo.setMaxWidth(Double.MAX_VALUE);
+
+        // Display group name in combo
+        grupoCombo.setCellFactory(lv -> new javafx.scene.control.ListCell<>() {
+            @Override
+            protected void updateItem(onyx.escritorio.models.Grupo item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : item.getNombre());
+            }
+        });
+        grupoCombo.setButtonCell(new javafx.scene.control.ListCell<>() {
+            @Override
+            protected void updateItem(onyx.escritorio.models.Grupo item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : item.getNombre());
+            }
+        });
+
+        // Buttons
+        Button btnCancel = new Button("Cancelar");
+        btnCancel.getStyleClass().add("ghost-button");
+        btnCancel.setOnAction(e -> dialogStage.close());
+
+        Button btnCreate = new Button("Crear Tarea");
+        btnCreate.getStyleClass().add("primary-button");
+        btnCreate.setOnAction(e -> {
+            if (!tituloInput.getText().isBlank() && grupoCombo.getValue() != null) {
+                java.time.LocalDateTime fechaVenc = datePicker.getValue() != null
+                        ? datePicker.getValue().atStartOfDay()
+                        : null;
+                result.set(new CreateTaskResult(
+                        tituloInput.getText(),
+                        descInput.getText(),
+                        fechaVenc,
+                        grupoCombo.getValue().getId(),
+                        true));
+                dialogStage.close();
+            } else {
+                if (tituloInput.getText().isBlank()) {
+                    tituloInput.getStyleClass().add("input-error");
+                }
+                if (grupoCombo.getValue() == null) {
+                    grupoCombo.getStyleClass().add("input-error");
+                }
+            }
+        });
+
+        HBox buttons = new HBox(12, btnCancel, btnCreate);
+        buttons.setAlignment(Pos.CENTER_RIGHT);
+
+        content.getChildren().addAll(titleLabel, tituloInput, descInput, datePicker, grupoCombo, buttons);
+
+        // Root
+        StackPane root = new StackPane(content);
+        root.getStyleClass().add("error-dialog-overlay");
+        root.setPadding(new javafx.geometry.Insets(20));
+
+        Scene scene = new Scene(root);
+        scene.setFill(null);
+        scene.getStylesheets().add(DialogUtils.class.getResource("/Main.css").toExternalForm());
+
+        dialogStage.setScene(scene);
+
         // Center
         Stage owner = MainApplication.getPrimaryStage();
         if (owner != null) {

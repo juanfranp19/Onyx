@@ -1,17 +1,24 @@
 package onyx.escritorio;
 
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import onyx.escritorio.network.ApiClient;
 
 import java.io.IOException;
@@ -39,6 +46,7 @@ public class RegisterController {
 
     private final SimpleBooleanProperty isRegistering = new SimpleBooleanProperty(false);
 
+    private static final String INPUT_ERROR_CLASS = "input-error";
     private static final Pattern EMAIL_PATTERN = Pattern.compile(
             "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
 
@@ -48,35 +56,14 @@ public class RegisterController {
 
     @FXML
     private void handleRegister(ActionEvent event) {
-        boolean isValid = true;
-
-        resetStyle(inputName);
-        resetStyle(inputEmail);
-        resetStyle(inputPassword);
-        resetStyle(inputRepeatPassword);
-
-        if (inputName.getText().isBlank()) {
-            addErrorStyle(inputName);
-            isValid = false;
-        }
-
-        if (!EMAIL_PATTERN.matcher(inputEmail.getText()).matches()) {
-            addErrorStyle(inputEmail);
-            isValid = false;
-        }
-
+        String name = inputName.getText();
+        String email = inputEmail.getText();
         String pass = inputPassword.getText();
         String repeatPass = inputRepeatPassword.getText();
 
-        if (pass.isEmpty() || !pass.equals(repeatPass)) {
-            addErrorStyle(inputPassword);
-            addErrorStyle(inputRepeatPassword);
-            isValid = false;
-        }
-
-        if (isValid) {
+        if (validateInputs(name, email, pass, repeatPass)) {
             isRegistering.set(true);
-            ApiClient.register(inputName.getText(), inputEmail.getText(), pass)
+            ApiClient.register(name, email, pass)
                 .thenAccept(success -> {
                     Platform.runLater(() -> {
                         isRegistering.set(false);
@@ -111,111 +98,143 @@ public class RegisterController {
     }
 
     private void addErrorStyle(Node node) {
-        if (!node.getStyleClass().contains("input-error")) {
-            node.getStyleClass().add("input-error");
+        if (!node.getStyleClass().contains(INPUT_ERROR_CLASS)) {
+            node.getStyleClass().add(INPUT_ERROR_CLASS);
         }
     }
 
     private void resetStyle(Node node) {
-        node.getStyleClass().remove("input-error");
+        node.getStyleClass().remove(INPUT_ERROR_CLASS);
     }
 
     private void showError(String message) {
-        showDialog("Error", "⚠", message, "error-dialog-icon");
+        showDialog(
+            "Error",
+            "Error",
+            "⚠",
+            message,
+            "error-dialog-icon",
+            null,
+            "Entendido",
+            null
+        );
     }
 
     private void showSuccess(String message, ActionEvent event) {
-        Stage dialogStage = new Stage();
-        dialogStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
-        dialogStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
-        dialogStage.initOwner(MainApplication.getPrimaryStage());
-        dialogStage.setTitle("Éxito");
+        showDialog(
+            "Éxito",
+            "Registro Exitoso",
+            "✔",
+            message,
+            null,
+            "-fx-font-size: 42px; -fx-text-fill: #4ade80;",
+            "Ir al Login",
+            () -> handleBack(event)
+        );
+    }
 
-        javafx.scene.layout.VBox content = new javafx.scene.layout.VBox(16);
-        content.setAlignment(javafx.geometry.Pos.CENTER);
-        content.getStyleClass().add("error-dialog-content"); // Reusing style for now
+    private void showDialog(
+        String windowTitle,
+        String titleText,
+        String iconText,
+        String message,
+        String iconClass,
+        String iconStyle,
+        String buttonText,
+        Runnable onConfirm
+    ) {
+        Stage dialogStage = createDialogStage(windowTitle);
 
-        javafx.scene.control.Label iconLabel = new javafx.scene.control.Label("✔");
-        iconLabel.setStyle("-fx-font-size: 42px; -fx-text-fill: #4ade80;"); // Green check
+        VBox content = new VBox(16);
+        content.setAlignment(Pos.CENTER);
+        content.getStyleClass().add("error-dialog-content");
 
-        javafx.scene.control.Label titleLabel = new javafx.scene.control.Label("Registro Exitoso");
+        Label iconLabel = new Label(iconText);
+        if (iconClass != null && !iconClass.isBlank()) {
+            iconLabel.getStyleClass().add(iconClass);
+        }
+        if (iconStyle != null && !iconStyle.isBlank()) {
+            iconLabel.setStyle(iconStyle);
+        }
+
+        Label titleLabel = new Label(titleText);
         titleLabel.getStyleClass().add("error-dialog-title");
 
-        javafx.scene.control.Label messageLabel = new javafx.scene.control.Label(message);
+        Label messageLabel = new Label(message);
         messageLabel.getStyleClass().add("error-dialog-message");
         messageLabel.setMaxWidth(280);
         messageLabel.setWrapText(true);
 
-        javafx.scene.control.Button okButton = new javafx.scene.control.Button("Ir al Login");
+        Button okButton = new Button(buttonText);
         okButton.getStyleClass().add("error-dialog-button");
         okButton.setOnAction(e -> {
             dialogStage.close();
-            handleBack(event);
+            if (onConfirm != null) {
+                onConfirm.run();
+            }
         });
 
         content.getChildren().addAll(iconLabel, titleLabel, messageLabel, okButton);
-        javafx.scene.layout.VBox.setMargin(okButton, new javafx.geometry.Insets(8, 0, 0, 0));
+        VBox.setMargin(okButton, new Insets(8, 0, 0, 0));
 
-        javafx.scene.layout.StackPane root = new javafx.scene.layout.StackPane(content);
-        root.getStyleClass().add("error-dialog-overlay");
-        root.setPadding(new javafx.geometry.Insets(20));
-
-        Scene dialogScene = new Scene(root);
-        dialogScene.setFill(javafx.scene.paint.Color.TRANSPARENT);
-        dialogScene.getStylesheets().add(getClass().getResource("/Main.css").toExternalForm());
+        Scene dialogScene = createDialogScene(content);
         dialogStage.setScene(dialogScene);
-
-        // Center
-        Stage owner = MainApplication.getPrimaryStage();
-        if (owner != null) {
-            dialogStage.setOnShown(e -> {
-                dialogStage.setX(owner.getX() + (owner.getWidth() - dialogStage.getWidth()) / 2);
-                dialogStage.setY(owner.getY() + (owner.getHeight() - dialogStage.getHeight()) / 2);
-            });
-        }
+        centerDialogOnOwner(dialogStage);
 
         dialogStage.showAndWait();
     }
 
-    private void showDialog(String title, String icon, String message, String iconClass) {
+    private boolean validateInputs(String name, String email, String pass, String repeatPass) {
+        clearInputErrorStyles();
+
+        boolean isValid = true;
+        if (name.isBlank()) {
+            addErrorStyle(inputName);
+            isValid = false;
+        }
+
+        if (!EMAIL_PATTERN.matcher(email).matches()) {
+            addErrorStyle(inputEmail);
+            isValid = false;
+        }
+
+        if (pass.isEmpty() || !pass.equals(repeatPass)) {
+            addErrorStyle(inputPassword);
+            addErrorStyle(inputRepeatPassword);
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    private void clearInputErrorStyles() {
+        resetStyle(inputName);
+        resetStyle(inputEmail);
+        resetStyle(inputPassword);
+        resetStyle(inputRepeatPassword);
+    }
+
+    private Stage createDialogStage(String title) {
         Stage dialogStage = new Stage();
-        dialogStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
-        dialogStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
+        dialogStage.initModality(Modality.APPLICATION_MODAL);
+        dialogStage.initStyle(StageStyle.TRANSPARENT);
         dialogStage.initOwner(MainApplication.getPrimaryStage());
         dialogStage.setTitle(title);
+        return dialogStage;
+    }
 
-        javafx.scene.layout.VBox content = new javafx.scene.layout.VBox(16);
-        content.setAlignment(javafx.geometry.Pos.CENTER);
-        content.getStyleClass().add("error-dialog-content");
-
-        javafx.scene.control.Label iconLabel = new javafx.scene.control.Label(icon);
-        iconLabel.getStyleClass().add(iconClass);
-
-        javafx.scene.control.Label titleLabel = new javafx.scene.control.Label(title);
-        titleLabel.getStyleClass().add("error-dialog-title");
-
-        javafx.scene.control.Label messageLabel = new javafx.scene.control.Label(message);
-        messageLabel.getStyleClass().add("error-dialog-message");
-        messageLabel.setMaxWidth(280);
-        messageLabel.setWrapText(true);
-
-        javafx.scene.control.Button okButton = new javafx.scene.control.Button("Entendido");
-        okButton.getStyleClass().add("error-dialog-button");
-        okButton.setOnAction(e -> dialogStage.close());
-
-        content.getChildren().addAll(iconLabel, titleLabel, messageLabel, okButton);
-        javafx.scene.layout.VBox.setMargin(okButton, new javafx.geometry.Insets(8, 0, 0, 0));
-
-        javafx.scene.layout.StackPane root = new javafx.scene.layout.StackPane(content);
+    private Scene createDialogScene(VBox content) {
+        StackPane root = new StackPane(content);
         root.getStyleClass().add("error-dialog-overlay");
-        root.setPadding(new javafx.geometry.Insets(20));
+        root.setPadding(new Insets(20));
 
         Scene dialogScene = new Scene(root);
-        dialogScene.setFill(javafx.scene.paint.Color.TRANSPARENT);
+        dialogScene.setFill(Color.TRANSPARENT);
         dialogScene.getStylesheets().add(getClass().getResource("/Main.css").toExternalForm());
-        dialogStage.setScene(dialogScene);
+        return dialogScene;
+    }
 
-        // Center
+    private void centerDialogOnOwner(Stage dialogStage) {
         Stage owner = MainApplication.getPrimaryStage();
         if (owner != null) {
             dialogStage.setOnShown(e -> {
@@ -223,7 +242,5 @@ public class RegisterController {
                 dialogStage.setY(owner.getY() + (owner.getHeight() - dialogStage.getHeight()) / 2);
             });
         }
-
-        dialogStage.showAndWait();
     }
 }

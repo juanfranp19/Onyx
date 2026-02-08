@@ -28,8 +28,8 @@
         </VBox>
 
         <!-- Content List (Hidden by default) -->
-        <ScrollPane fx:id="contentList" fitToWidth="true" style="-fx-background-color: transparent;" visible="false" managed="false">
-            <VBox spacing="16">
+        <ScrollPane fx:id="contentList" fitToWidth="true" style="-fx-background-color: transparent;" visible="false" managed="false" maxHeight="425">
+            <VBox fx:id="groupsContainer" spacing="16">
                 <!-- Items will be added here dynamically -->
             </VBox>
         </ScrollPane>
