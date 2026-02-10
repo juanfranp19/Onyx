@@ -23,10 +23,6 @@ public class Tarea {
 
     private LocalDateTime fechaVencimiento;
 
-    @ManyToOne
-    @JoinColumn(name = "lista_id")
-    private Lista lista;
-
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "grupo_id", nullable = false)
