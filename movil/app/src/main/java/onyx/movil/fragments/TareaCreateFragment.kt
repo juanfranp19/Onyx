@@ -12,6 +12,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import onyx.movil.R
@@ -103,11 +104,12 @@ class TareaCreateFragment : Fragment() {
                                 // tarea creada
                                 val tarea = state.tarea
 
-                                Snackbar.make(
-                                    binding.root,
-                                    tarea.titulo,
-                                    Snackbar.LENGTH_LONG
-                                ).show()
+                                // argumentos del fragment
+                                val bundle = Bundle().apply {
+                                    putLong("tareaId", tarea.id)
+                                }
+
+                                findNavController().navigate(R.id.action_tareaCreateFragment_to_tareaDetailsFragment, bundle)
 
                                 // habilita el btn
                                 binding.btnCrearTarea.isEnabled = true

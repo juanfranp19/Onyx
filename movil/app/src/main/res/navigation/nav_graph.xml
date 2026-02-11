@@ -62,6 +62,9 @@
         android:name="onyx.movil.fragments.TareaCreateFragment"
         android:label="fragment_tarea_create"
         tools:layout="@layout/fragment_tarea_create">
+        <action
+            android:id="@+id/action_tareaCreateFragment_to_tareaDetailsFragment"
+            app:destination="@id/tareaDetailsFragment" />
         <argument
             android:name="idGrupo"
             app:argType="long" />
