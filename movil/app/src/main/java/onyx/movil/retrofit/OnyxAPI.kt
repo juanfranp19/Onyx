@@ -16,11 +16,17 @@ interface OnyxAPI {
     @POST("usuarios")
     suspend fun register(@Body body: Map<String, String>): User
 
+    @GET("grupos/{grupoId}")
+    suspend fun getGrupo(@Path("grupoId") grupoId: Long?): Grupo
+
     @GET("grupos/usuario/{id}")
     suspend fun getGrupos(@Path("id") id: Long?): Response<List<Grupo>>
 
     @GET("tareas/grupo/{grupoId}")
     suspend fun getTareasByGrupo(@Path("grupoId") grupoId: Long?): Response<List<Tarea>>
+
+    @GET("tareas/{tareaId}")
+    suspend fun getTarea(@Path("tareaId") tareaId: Long?): Tarea
 
     @GET("usuarios/{id}")
     suspend fun getUsuario(@Path("id") id: Long?): User

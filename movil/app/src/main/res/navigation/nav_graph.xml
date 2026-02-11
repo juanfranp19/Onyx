@@ -36,6 +36,9 @@
         <action
             android:id="@+id/action_tareasFragment_to_tareaCreateFragment"
             app:destination="@id/tareaCreateFragment" />
+        <action
+            android:id="@+id/action_tareasFragment_to_tareaDetailsFragment"
+            app:destination="@id/tareaDetailsFragment" />
     </fragment>
 
     <fragment
@@ -72,6 +75,9 @@
         <action
             android:id="@+id/action_grupoDetailsFragment_to_tareaCreateFragment"
             app:destination="@id/tareaCreateFragment" />
+        <action
+            android:id="@+id/action_grupoDetailsFragment_to_tareaDetailsFragment"
+            app:destination="@id/tareaDetailsFragment" />
         <argument
             android:name="idGrupo"
             app:argType="long" />
@@ -89,4 +95,9 @@
             app:argType="string" />
     </fragment>
 
+    <fragment
+        android:id="@+id/tareaDetailsFragment"
+        android:name="onyx.movil.fragments.TareaDetailsFragment"
+        android:label="fragment_tarea_details"
+        tools:layout="@layout/fragment_tarea_details" />
 </navigation>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.TareaDetailsFragment">
+
+    <!-- contenedor -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contenido"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- nombre tarea -->
+        <TextView
+            android:id="@+id/textViewNombreTarea"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_with_screen"
+            android:layout_marginTop="@dimen/spacing_between_fields"
+            android:layout_marginEnd="@dimen/spacing_with_screen"
+            android:text="nombre_tarea"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:typeface="sans"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- nombre grupo -->
+        <TextView
+            android:id="@+id/textViewNombreGrupo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_with_screen"
+            android:layout_marginTop="@dimen/spacing_between_fields"
+            android:layout_marginEnd="@dimen/spacing_with_screen"
+            android:text="nombre grupo"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewNombreTarea" />
+
+        <!-- creador y fecha creación -->
+        <TextView
+            android:id="@+id/textViewCreadorFechaTarea"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_with_screen"
+            android:layout_marginTop="@dimen/spacing_between_fields"
+            android:layout_marginEnd="@dimen/spacing_with_screen"
+            android:text="creador_fechaCreacion"
+            android:textAlignment="center"
+            android:textColor="#ABABAB"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewNombreGrupo" />
+
+        <!-- vencimiento -->
+        <TextView
+            android:id="@+id/textViewVencimiento"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_with_screen"
+            android:layout_marginTop="@dimen/spacing_between_fields"
+            android:layout_marginEnd="@dimen/spacing_with_screen"
+            android:text="vencimiento"
+            android:textAlignment="center"
+            android:textColor="#FF0000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewCreadorFechaTarea" />
+
+        <!-- desc -->
+        <TextView
+            android:id="@+id/textViewDescTarea"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_with_screen"
+            android:layout_marginTop="@dimen/spacing_with_screen"
+            android:layout_marginEnd="@dimen/spacing_with_screen"
+            android:text="descipcion"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewVencimiento" />
+
+        <!-- floating button -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButtonCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_floating_button"
+            android:layout_marginBottom="@dimen/margin_floating_button"
+            android:clickable="true"
+            android:contentDescription="TODO"
+            android:src="@drawable/ic_assignment_done"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- floating button -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButtonEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="TODO"
+            app:fabCustomSize="@dimen/size_secondary_floating_button"
+            android:layout_marginEnd="@dimen/margin_floating_button"
+            android:layout_marginBottom="@dimen/margin_floating_button"
+            android:clickable="true"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintBottom_toTopOf="@+id/floatingActionButtonCheck"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- progressbar -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/progressbar_margin_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

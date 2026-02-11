@@ -89,6 +89,20 @@ class TareasFragment : Fragment() {
                                 binding.rv.layoutManager = LinearLayoutManager(requireContext())
                                 binding.rv.adapter = adapter
 
+                                // cada tarea
+                                adapter.setOnItemClickListener(object: TareaAdapter.OnItemClickListener {
+                                    override fun onItemClick(position: Int) {
+
+                                        val tarea = tareas[position]
+
+                                        // argumentos del fragment
+                                        val bundle = Bundle().apply {
+                                            putLong("tareaId", tarea.id)
+                                        }
+
+                                        findNavController().navigate(R.id.action_tareasFragment_to_tareaDetailsFragment, bundle)
+                                    }
+                                })
 
                                 // aparece el rv
                                 binding.rv.visibility = View.VISIBLE

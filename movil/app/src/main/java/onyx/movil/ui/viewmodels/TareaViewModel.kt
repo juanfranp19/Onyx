@@ -29,6 +29,20 @@ class TareaViewModel(private val provider: TareaProvider) : ViewModel() {
         }
     }
 
+    fun getTarea(tareaId: Long?) {
+        viewModelScope.launch {
+            // cambia el estado
+            _uiState.value = TareaUiState.Loading
+
+            // llama al la función del provider y cambia de estado
+            provider.getTarea(tareaId)
+                .onSuccess { tarea ->
+                    _uiState.value = TareaUiState.SuccessGetTarea(tarea)
+                }
+                .onFailure { _ -> _uiState.value = TareaUiState.Error("Error al obtener la tarea") }
+        }
+    }
+
     fun postTarea(titulo: String?, descripcion: String?, creadorId: Long?, grupoId: Long?) {
         viewModelScope.launch {
             // cambia el estado

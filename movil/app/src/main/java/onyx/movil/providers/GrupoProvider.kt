@@ -29,6 +29,21 @@ class GrupoProvider(private val api: OnyxAPI) {
         }
     }
 
+    suspend fun getGrupo(id: Long?): Result<Grupo> {
+        try {
+
+            // llama a la api
+            val grupo = api.getGrupo(id)
+
+            // obtiene respuesta de la api
+            return Result.success(grupo)
+
+        } catch (e: Exception) {
+            Log.e("GET_GRUPO_ERROR", "Exception: ", e)
+            return Result.failure(e)
+        }
+    }
+
     suspend fun postGrupo(nombre: String, desc: String, creadorId: Long?): Result<Grupo> {
         try {
 

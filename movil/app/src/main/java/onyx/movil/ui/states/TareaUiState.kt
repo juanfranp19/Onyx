@@ -7,6 +7,7 @@ sealed class TareaUiState {
     object Loading: TareaUiState()
     object Empty: TareaUiState()
     data class SuccessGetTareasByGrupo(val tareas: List<Tarea>): TareaUiState()
+    data class SuccessGetTarea(val tarea: Tarea): TareaUiState()
     data class SuccessPostTarea(val tarea: Tarea): TareaUiState()
     data class Error(val message: String): TareaUiState()
 }

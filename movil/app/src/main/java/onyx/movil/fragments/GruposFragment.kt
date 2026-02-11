@@ -73,6 +73,8 @@ class GruposFragment : Fragment() {
                         GrupoUiState.Empty -> {
                             // aparece mensaje empty
                             binding.mensajeEmpty.visibility = View.VISIBLE
+                            // desaparece progressbar
+                            binding.progressBar.visibility = View.GONE
                         }
 
                         is GrupoUiState.SuccessGetGrupos -> {

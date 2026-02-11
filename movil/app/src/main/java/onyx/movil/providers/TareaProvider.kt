@@ -27,6 +27,21 @@ class TareaProvider(private val api: OnyxAPI) {
         }
     }
 
+    suspend fun getTarea(tareaId: Long?): Result<Tarea> {
+        try {
+
+            //llama a la api
+            val tarea = api.getTarea(tareaId)
+
+            // obtiene la tarea
+            return Result.success(tarea)
+
+        } catch (e: Exception) {
+            Log.e("GET_TAREA_ERROR", "Exception: ", e)
+            return Result.failure(e)
+        }
+    }
+
     suspend fun postTarea(titulo: String?, descripcion: String?, creadorId: Long?, grupoId: Long?): Result<Tarea> {
         try {
 

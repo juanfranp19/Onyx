@@ -3,6 +3,9 @@
     <!-- height -->
     <dimen name="height_bottom_nav_menu">80dp</dimen>
 
+    <!-- size -->
+    <dimen name="size_secondary_floating_button">45dp</dimen>
+
     <!-- spacing -->
     <dimen name="spacing_with_screen">50dp</dimen>
     <dimen name="spacing_between_field_button">30dp</dimen>
