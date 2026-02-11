@@ -81,21 +81,6 @@
         <action
             android:id="@+id/action_grupoDetailsFragment_to_tareaDetailsFragment"
             app:destination="@id/tareaDetailsFragment" />
-        <argument
-            android:name="idGrupo"
-            app:argType="long" />
-        <argument
-            android:name="nombreGrupo"
-            app:argType="string" />
-        <argument
-            android:name="descGrupo"
-            app:argType="string" />
-        <argument
-            android:name="fechaCreacionGrupo"
-            app:argType="string" />
-        <argument
-            android:name="creadorGrupo"
-            app:argType="string" />
     </fragment>
 
     <fragment

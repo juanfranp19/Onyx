@@ -7,62 +7,94 @@
     android:layout_height="match_parent"
     tools:context=".fragments.GrupoDetailsFragment">
 
-    <!-- nombre grupo -->
-    <TextView
-        android:id="@+id/textViewNombreGrupo"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_with_screen"
-        android:layout_marginTop="@dimen/spacing_between_fields"
-        android:layout_marginEnd="@dimen/spacing_with_screen"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:typeface="sans"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!-- contenedor -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contenedor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <!-- creador y fecha creación -->
-    <TextView
-        android:id="@+id/textViewCreadorFechaGrupo"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_with_screen"
-        android:layout_marginTop="@dimen/spacing_between_fields"
-        android:layout_marginEnd="@dimen/spacing_with_screen"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textColor="#ABABAB"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewNombreGrupo" />
+        <!-- nombre grupo -->
+        <TextView
+            android:id="@+id/textViewNombreGrupo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_with_screen"
+            android:layout_marginTop="@dimen/spacing_between_fields"
+            android:layout_marginEnd="@dimen/spacing_with_screen"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:typeface="sans"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- desc -->
-    <TextView
-        android:id="@+id/textViewDescGrupo"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_with_screen"
-        android:layout_marginTop="@dimen/spacing_with_screen"
-        android:layout_marginEnd="@dimen/spacing_with_screen"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCreadorFechaGrupo" />
+        <!-- creador y fecha creación -->
+        <TextView
+            android:id="@+id/textViewCreadorFechaGrupo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_with_screen"
+            android:layout_marginTop="@dimen/spacing_between_fields"
+            android:layout_marginEnd="@dimen/spacing_with_screen"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textColor="#ABABAB"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewNombreGrupo" />
 
-    <!-- rv -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv"
-        tools:listitem="@layout/item_tarea"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/spacing_between_fields"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDescGrupo" />
+        <!-- desc -->
+        <TextView
+            android:id="@+id/textViewDescGrupo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_with_screen"
+            android:layout_marginTop="@dimen/spacing_with_screen"
+            android:layout_marginEnd="@dimen/spacing_with_screen"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewCreadorFechaGrupo" />
+
+        <!-- rv -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            tools:listitem="@layout/item_tarea"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/spacing_between_fields"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewDescGrupo" />
+
+        <!-- mensaje tareas vacias -->
+        <TextView
+            android:id="@+id/tareasEmpty"
+            android:visibility="gone"
+            android:text="@string/msg_empty_tareas"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/mensaje_empty_margin_top"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewDescGrupo" />
+
+        <!-- floating button -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_floating_button"
+            android:layout_marginBottom="@dimen/margin_floating_button"
+            android:clickable="true"
+            android:src="@drawable/ic_assigment_add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- progressbar -->
     <ProgressBar
@@ -71,33 +103,8 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_with_screen"
+        android:layout_marginTop="@dimen/progressbar_margin_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDescGrupo" />
-
-    <!-- mensaje tareas vacias -->
-    <TextView
-        android:id="@+id/tareasEmpty"
-        android:visibility="gone"
-        android:text="@string/msg_empty_tareas"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/mensaje_empty_margin_top"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDescGrupo" />
-
-    <!-- floating button -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_floating_button"
-        android:layout_marginBottom="@dimen/margin_floating_button"
-        android:clickable="true"
-        android:src="@drawable/ic_assigment_add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

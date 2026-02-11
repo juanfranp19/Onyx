@@ -96,11 +96,6 @@ class GruposFragment : Fragment() {
                                         // argumentos del fragment
                                         val bundle = Bundle().apply {
                                             putLong("idGrupo", grupo.id)
-                                            putString("nombreGrupo", grupo.nombre)
-                                            putString("descGrupo", grupo.descripcion)
-                                            putString("fechaCreacionGrupo", grupo.fechaCreacion)
-                                            //todo obtener el nombre de usuario
-                                            //putString("creadorGrupo", grupo.creador.nombreUsuario)
                                         }
 
                                         findNavController().navigate(R.id.action_gruposFragment_to_grupoDetailsFragment, bundle)

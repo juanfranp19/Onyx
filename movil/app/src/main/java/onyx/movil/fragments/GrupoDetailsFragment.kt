@@ -15,12 +15,20 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import onyx.movil.R
 import onyx.movil.databinding.FragmentGrupoDetailsBinding
+import onyx.movil.providers.GrupoProvider
 import onyx.movil.providers.TareaProvider
+import onyx.movil.providers.UserProvider
 import onyx.movil.retrofit.RetrofitInstance
 import onyx.movil.ui.recyclerview.TareaAdapter
+import onyx.movil.ui.states.GrupoUiState
 import onyx.movil.ui.states.TareaUiState
+import onyx.movil.ui.states.UserUiState
+import onyx.movil.ui.viewmodels.GrupoViewModel
 import onyx.movil.ui.viewmodels.TareaViewModel
+import onyx.movil.ui.viewmodels.UserViewModel
+import onyx.movil.ui.viewmodels.factories.GrupoViewModelFactory
 import onyx.movil.ui.viewmodels.factories.TareaViewModelFactory
+import onyx.movil.ui.viewmodels.factories.UserViewModelFactory
 import onyx.movil.utils.formatearFechaHora
 
 class GrupoDetailsFragment : Fragment() {
@@ -32,8 +40,25 @@ class GrupoDetailsFragment : Fragment() {
         ViewModelProvider(this, factory)[TareaViewModel::class.java]
     }
 
+    private val grupoViewModel: GrupoViewModel by lazy {
+        val provider = GrupoProvider(RetrofitInstance.api)
+        val factory = GrupoViewModelFactory(provider)
+        ViewModelProvider(this, factory)[GrupoViewModel::class.java]
+    }
+
+    private val userViewModel: UserViewModel by lazy {
+        val provider = UserProvider(RetrofitInstance.api)
+        val factory = UserViewModelFactory(provider)
+        ViewModelProvider(this, factory)[UserViewModel::class.java]
+    }
+
+    private var idGrupo: Long? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        arguments?.let {
+            idGrupo = it.getLong("idGrupo")
+        }
     }
 
     override fun onCreateView(
@@ -47,82 +72,110 @@ class GrupoDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // datos del budle
-        val idGrupo = arguments?.getLong("idGrupo")
-        val nombreGrupo = arguments?.getString("nombreGrupo") ?: "Vacío"
-        val descGrupo = arguments?.getString("descGrupo") ?: "Vacío"
-        val fechaCreacionGrupo = arguments?.getString("fechaCreacionGrupo") ?: "Vacío"
-        val creadorGrupo = arguments?.getString("creadorGrupo") ?: "Vacío"
-        val creadorFecha = "Creado por $creadorGrupo el " + formatearFechaHora(fechaCreacionGrupo)
+        var creadorId: Long?
 
-        // textviews
-        binding.textViewNombreGrupo.text = nombreGrupo
-        binding.textViewDescGrupo.text = descGrupo
-        binding.textViewCreadorFechaGrupo.text = creadorFecha
-
-        // get tareas por grupo
-        tareaViewModel.getTareasByGrupo(idGrupo)
+        // get grupo
+        grupoViewModel.getGrupo(idGrupo)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                tareaViewModel.uiState.collect { state ->
-                    when (state) {
+                launch {
+                    grupoViewModel.uiState.collect { state ->
+                        when (state) {
+                            GrupoUiState.Idle -> Unit
+                            GrupoUiState.Loading -> {
+                                cargando()
+                            }
+                            is GrupoUiState.SuccessGetGrupo -> {
+                                val grupo = state.grupo
 
-                        TareaUiState.Idle -> Unit
+                                // obtiene datos
 
-                        TareaUiState.Loading -> {
-                            // aparece la progressbar y desaparece el rv
-                            binding.progressBar.visibility = View.VISIBLE
-                            binding.rv.visibility = View.GONE
+                                binding.textViewNombreGrupo.text = grupo.nombre
+                                binding.textViewDescGrupo.text = grupo.descripcion
+
+                                val fechaCreacion = formatearFechaHora(grupo.fechaCreacion)
+                                binding.textViewCreadorFechaGrupo.text = "Creado el $fechaCreacion"
+
+                                // get tareas por grupo
+                                tareaViewModel.getTareasByGrupo(idGrupo)
+
+                                // get creador
+                                creadorId = grupo.creadorId
+                                userViewModel.getUsuario(creadorId)
+                            }
+                            is GrupoUiState.Error -> {
+                                mostrarError(state.message)
+                            }
+                            else -> {}
                         }
-
-                        TareaUiState.Empty -> {
-                            // aparece el texto empty
-                            binding.progressBar.visibility = View.GONE
-                            binding.tareasEmpty.visibility = View.VISIBLE
+                    }
+                }
+                launch {
+                    userViewModel.uiState.collect { state ->
+                        when (state) {
+                            UserUiState.Idle -> Unit
+                            UserUiState.Loading -> {
+                                //
+                            }
+                            is UserUiState.SuccessGetUsuario -> {
+                                val creador = state.usuario
+                                // actualiza el text view
+                                binding.textViewCreadorFechaGrupo.text = "${binding.textViewCreadorFechaGrupo.text} por ${creador.nombreUsuario}"
+                            }
+                            is UserUiState.Error -> {
+                                mostrarError(state.message)
+                            }
+                            else -> {}
                         }
+                    }
+                }
+                launch {
+                    tareaViewModel.uiState.collect { state ->
+                        when (state) {
+                            TareaUiState.Idle -> Unit
+                            TareaUiState.Loading -> {
+                                //
+                            }
+                            TareaUiState.Empty -> {
+                                // aparece el texto empty
+                                cargado()
+                                binding.rv.visibility = View.GONE
+                                binding.tareasEmpty.visibility = View.VISIBLE
+                            }
+                            is TareaUiState.SuccessGetTareasByGrupo -> {
 
-                        is TareaUiState.SuccessGetTareasByGrupo -> {
+                                val tareas = state.tareas
 
-                            val tareas = state.tareas
+                                val adapter = TareaAdapter(requireContext(), tareas)
+                                // layout manager
+                                binding.rv.layoutManager = LinearLayoutManager(requireContext())
+                                binding.rv.adapter = adapter
 
-                            val adapter = TareaAdapter(requireContext(), tareas)
-                            // layout manager
-                            binding.rv.layoutManager = LinearLayoutManager(requireContext())
-                            binding.rv.adapter = adapter
+                                // cada tarea
+                                adapter.setOnItemClickListener(object: TareaAdapter.OnItemClickListener {
+                                    override fun onItemClick(position: Int) {
 
-                            // cada tarea
-                            adapter.setOnItemClickListener(object: TareaAdapter.OnItemClickListener {
-                                override fun onItemClick(position: Int) {
+                                        val tarea = tareas[position]
 
-                                    val tarea = tareas[position]
+                                        // argumentos del fragment
+                                        val bundle = Bundle().apply {
+                                            putLong("tareaId", tarea.id)
+                                        }
 
-                                    // argumentos del fragment
-                                    val bundle = Bundle().apply {
-                                        putLong("tareaId", tarea.id)
+                                        findNavController().navigate(R.id.action_grupoDetailsFragment_to_tareaDetailsFragment, bundle)
                                     }
+                                })
 
-                                    findNavController().navigate(R.id.action_grupoDetailsFragment_to_tareaDetailsFragment, bundle)
-                                }
-                            })
+                                cargado()
+                            }
+                            is TareaUiState.Error -> {
+                                cargando()
 
-                            // aparece el rv
-                            binding.progressBar.visibility = View.GONE
-                            binding.rv.visibility = View.VISIBLE
+                                mostrarError(state.message)
+                            }
+                            else -> {}
                         }
-
-                        is TareaUiState.Error -> {
-                            binding.progressBar.visibility = View.GONE
-                            binding.rv.visibility = View.VISIBLE
-
-                            Snackbar.make(
-                                binding.root,
-                                state.message,
-                                Snackbar.LENGTH_LONG
-                            ).show()
-                        }
-
-                        else -> {}
                     }
                 }
             }
@@ -132,11 +185,31 @@ class GrupoDetailsFragment : Fragment() {
 
             if (idGrupo != null) {
                 val bundle = Bundle().apply {
-                    putLong("idGrupo", idGrupo)
+                    putLong("idGrupo", idGrupo!!)
                 }
 
                 findNavController().navigate(R.id.action_grupoDetailsFragment_to_tareaCreateFragment, bundle)
             }
         }
+    }
+
+    private fun cargando() {
+        // aparece la progressbar y desaparece el rv
+        binding.progressBar.visibility = View.VISIBLE
+        binding.contenedor.visibility = View.GONE
+    }
+
+    private fun cargado() {
+        // aparece la progressbar y desaparece el rv
+        binding.progressBar.visibility = View.GONE
+        binding.contenedor.visibility = View.VISIBLE
+    }
+
+    private fun mostrarError(message: String) {
+        Snackbar.make(
+            binding.root,
+            message,
+            Snackbar.LENGTH_LONG
+        ).show()
     }
 }
