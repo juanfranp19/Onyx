@@ -56,4 +56,17 @@ class TareaViewModel(private val provider: TareaProvider) : ViewModel() {
                 .onFailure { _ -> _uiState.value = TareaUiState.Error("Error al crear la tarea") }
         }
     }
+
+    fun deleteTarea(tareaId: Long?) {
+        viewModelScope.launch {
+
+            // cambia el estado
+            _uiState.value = TareaUiState.Loading
+
+            // llama al la función del provider y cambia de estado
+            provider.deleteTarea(tareaId)
+                .onSuccess { _ -> _uiState.value = TareaUiState.SuccessDeleteTarea }
+                .onFailure { _ -> _uiState.value = TareaUiState.Error("Error al eliminar la tarea") }
+        }
+    }
 }

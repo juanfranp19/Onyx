@@ -5,12 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import onyx.movil.R
 import onyx.movil.databinding.FragmentTareaDetailsBinding
 import onyx.movil.providers.GrupoProvider
 import onyx.movil.providers.TareaProvider
@@ -68,11 +72,24 @@ class TareaDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var grupoId: Long?
+        var grupoId: Long = 0
         var userId: Long?
 
         // get tarea
         tareaViewModel.getTarea(tareaId)
+
+        binding.floatingActionButtonDelete.setOnClickListener {
+            // alert
+            AlertDialog.Builder(requireContext())
+                .setTitle("Eliminar tarea")
+                .setMessage("¿Seguro que quieres eliminar esta tarea?")
+                .setPositiveButton("Sí") { _, _ ->
+                    // delete tarea
+                    tareaViewModel.deleteTarea(tareaId)
+                }
+                .setNegativeButton("Cancelar", null)
+                .show()
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -84,6 +101,22 @@ class TareaDetailsFragment : Fragment() {
                             TareaUiState.Idle -> Unit
                             TareaUiState.Loading -> {
                                 cargando()
+                            }
+                            TareaUiState.SuccessDeleteTarea -> {
+                                // arguementos
+                                val bundle = Bundle().apply {
+                                    putLong("idGrupo", grupoId)
+                                }
+
+                                // navega al detail fragment del grupo de la tarea eliminada
+                                findNavController().navigate(
+                                    R.id.grupoDetailsFragment,
+                                    bundle,
+                                    NavOptions.Builder()
+                                        // borra de la navegación los fragments que van por encima para que no crashée por info que no existe
+                                        .setPopUpTo(R.id.grupoDetailsFragment, false)
+                                        .build()
+                                )
                             }
                             is TareaUiState.SuccessGetTarea -> {
                                 val tarea = state.tarea

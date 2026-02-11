@@ -6,6 +6,7 @@ sealed class TareaUiState {
     object Idle: TareaUiState()
     object Loading: TareaUiState()
     object Empty: TareaUiState()
+    object SuccessDeleteTarea: TareaUiState()
     data class SuccessGetTareasByGrupo(val tareas: List<Tarea>): TareaUiState()
     data class SuccessGetTarea(val tarea: Tarea): TareaUiState()
     data class SuccessPostTarea(val tarea: Tarea): TareaUiState()

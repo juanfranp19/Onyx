@@ -5,6 +5,7 @@ import onyx.movil.models.Tarea
 import onyx.movil.models.User
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -36,4 +37,7 @@ interface OnyxAPI {
 
     @POST("tareas")
     suspend fun postTarea(@Body body: Map<String, @JvmSuppressWildcards Any>): Tarea
+
+    @DELETE("tareas/{tareaId}")
+    suspend fun deleteTarea(@Path("tareaId") tareaId: Long?)
 }

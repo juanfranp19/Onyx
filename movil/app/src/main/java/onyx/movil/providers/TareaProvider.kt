@@ -63,4 +63,16 @@ class TareaProvider(private val api: OnyxAPI) {
             return Result.failure(e)
         }
     }
+
+    suspend fun deleteTarea(tareaId: Long?): Result<Unit> {
+        try {
+
+            api.deleteTarea(tareaId)
+            return Result.success(Unit)
+
+        } catch (e: Exception) {
+            Log.e("DELETE_TAREA_ERROR", "Exception: ", e)
+            return Result.failure(e)
+        }
+    }
 }
