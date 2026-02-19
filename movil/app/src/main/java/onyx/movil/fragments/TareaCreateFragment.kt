@@ -13,7 +13,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointForward
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import kotlinx.coroutines.launch
 import onyx.movil.R
 import onyx.movil.databinding.FragmentTareaCreateBinding
@@ -28,6 +33,9 @@ import onyx.movil.ui.viewmodels.GrupoViewModel
 import onyx.movil.ui.viewmodels.TareaViewModel
 import onyx.movil.ui.viewmodels.factories.GrupoViewModelFactory
 import onyx.movil.ui.viewmodels.factories.TareaViewModelFactory
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class TareaCreateFragment : Fragment() {
     private lateinit var binding: FragmentTareaCreateBinding
@@ -81,9 +89,10 @@ class TareaCreateFragment : Fragment() {
                 val titulo = binding.tituloEditText.text.toString()
                 val desc = binding.descEditText.text.toString()
                 val grupoSeleccionado = binding.spinnerGrupo.selectedItem as Grupo
+                val fechaVenc = binding.fechaVencEditText.text.toString()
 
                 // crea la tarea
-                tareaViewModel.postTarea(titulo, desc, userId, grupoSeleccionado.id)
+                tareaViewModel.postTarea(titulo, desc, fechaVenc, userId, grupoSeleccionado.id)
             }
         }
 
@@ -185,6 +194,51 @@ class TareaCreateFragment : Fragment() {
                     }
                 }
             }
+        }
+
+        /* DateTimePicker */
+        binding.fechaVencEditText.setOnClickListener {
+
+            // no permitir fecha anterior a hoy
+            val constraints = CalendarConstraints.Builder()
+                .setValidator(DateValidatorPointForward.now())
+                .build()
+
+            // fecha
+            val datePicker = MaterialDatePicker
+                .Builder
+                .datePicker()
+                .setCalendarConstraints(constraints)
+                .setTitleText("Seleccionar fecha")
+                .build()
+
+            datePicker.addOnPositiveButtonClickListener { timestamp ->
+
+                // hora
+                val timePicker = MaterialTimePicker.Builder()
+                    .setTimeFormat(TimeFormat.CLOCK_24H)
+                    .setTitleText("Seleccionar hora")
+                    .build()
+
+                timePicker.addOnPositiveButtonClickListener {
+                    val hour = timePicker.hour
+                    val minute = timePicker.minute
+
+                    // combinar fecha y hora
+                    val calendar = Calendar.getInstance().apply {
+                        timeInMillis = timestamp
+                        set(Calendar.HOUR_OF_DAY, hour)
+                        set(Calendar.MINUTE, minute)
+                    }
+
+                    val formato = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+                    binding.fechaVencEditText.setText(formato.format(calendar.time))
+                }
+
+                timePicker.show(parentFragmentManager, "time_picker")
+            }
+
+            datePicker.show(parentFragmentManager, "date_picker")
         }
 
         /* manejar el estado el btn */

@@ -24,6 +24,7 @@
     <string name="field_titulo">Título</string>
     <string name="field_desc">Descripción</string>
     <string name="field_grupo_asociado">Grupo asociado</string>
+    <string name="field_fecha_vencimiento">Fecha de vencimiento</string>
 
     <string name="btn_login">Iniciar sesión</string>
     <string name="btn_crear_cuenta">Crear cuenta</string>

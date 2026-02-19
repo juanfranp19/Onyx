@@ -42,7 +42,7 @@ class TareaProvider(private val api: OnyxAPI) {
         }
     }
 
-    suspend fun postTarea(titulo: String?, descripcion: String?, creadorId: Long?, grupoId: Long?): Result<Tarea> {
+    suspend fun postTarea(titulo: String?, descripcion: String?, fechaVenc: String?, creadorId: Long?, grupoId: Long?): Result<Tarea> {
         try {
 
             // llama a la api
@@ -50,6 +50,7 @@ class TareaProvider(private val api: OnyxAPI) {
                 mapOf(
                     "titulo" to titulo,
                     "descripcion" to descripcion,
+                    "fechaVencimiento" to fechaVenc,
                     "creador_id" to creadorId,
                     "grupo_id" to grupoId
                 ) as Map<String, @JvmSuppressWildcards Any>

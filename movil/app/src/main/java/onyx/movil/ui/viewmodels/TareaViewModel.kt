@@ -43,13 +43,13 @@ class TareaViewModel(private val provider: TareaProvider) : ViewModel() {
         }
     }
 
-    fun postTarea(titulo: String?, descripcion: String?, creadorId: Long?, grupoId: Long?) {
+    fun postTarea(titulo: String?, descripcion: String?, fechaVenc: String?, creadorId: Long?, grupoId: Long?) {
         viewModelScope.launch {
             // cambia el estado
             _uiState.value = TareaUiState.Loading
 
             // llama al la función del provider y cambia de estado
-            provider.postTarea(titulo, descripcion, creadorId, grupoId)
+            provider.postTarea(titulo, descripcion, fechaVenc, creadorId, grupoId)
                 .onSuccess { tarea ->
                     _uiState.value = TareaUiState.SuccessPostTarea(tarea)
                 }
