@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -59,10 +61,18 @@ public class TareaController {
         Grupo grupo = grupoRepository.findById(tarea.getGrupo_id())
                 .orElseThrow(() -> new RuntimeException("Grupo no encontrado"));
 
+        LocalDateTime fechaVencimientoFormateada = null;
+
+        // pasa a LocalDateTime el String de fecha
+        if (!tarea.getFechaVencimiento().isEmpty()) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            fechaVencimientoFormateada = LocalDateTime.parse(tarea.getFechaVencimiento(), formatter);
+        }
+
         Tarea newTarea = new Tarea();
         newTarea.setTitulo(tarea.getTitulo());
         newTarea.setDescripcion(tarea.getDescripcion());
-        newTarea.setFechaVencimiento(tarea.getFechaVencimiento());
+        newTarea.setFechaVencimiento(fechaVencimientoFormateada);
         newTarea.setCreador(creador);
         newTarea.setGrupo(grupo);
 
