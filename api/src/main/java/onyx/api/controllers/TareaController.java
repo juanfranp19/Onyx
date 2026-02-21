@@ -82,11 +82,31 @@ public class TareaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Tarea> update(@PathVariable Integer id, @RequestBody Tarea tarea) {
+    public ResponseEntity<Tarea> update(@PathVariable Integer id, @RequestBody TareaRequestDTO tarea) {
         return tareaRepository.findById(id)
                 .map(existing -> {
-                    tarea.setId(id);
-                    return ResponseEntity.ok(tareaRepository.save(tarea));
+
+                    Grupo grupo = grupoRepository.findById(tarea.getGrupo_id())
+                            .orElseThrow(() -> new RuntimeException("Grupo no encontrado"));
+
+                    LocalDateTime fechaVencimientoFormateada = null;
+
+                    // pasa a LocalDateTime el String de fecha
+                    if (!tarea.getFechaVencimiento().isEmpty()) {
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+                        fechaVencimientoFormateada = LocalDateTime.parse(tarea.getFechaVencimiento(), formatter);
+                    }
+
+                    Tarea newTarea = new Tarea();
+                    newTarea.setId(id);
+                    newTarea.setTitulo(tarea.getTitulo());
+                    newTarea.setDescripcion(tarea.getDescripcion());
+                    newTarea.setFechaCreacion(existing.getFechaCreacion());
+                    newTarea.setFechaVencimiento(fechaVencimientoFormateada);
+                    newTarea.setCreador(existing.getCreador());
+                    newTarea.setGrupo(grupo);
+
+                    return ResponseEntity.ok(tareaRepository.save(newTarea));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
