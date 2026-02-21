@@ -57,6 +57,20 @@ class TareaViewModel(private val provider: TareaProvider) : ViewModel() {
         }
     }
 
+    fun putTarea(tareaId: Long?, titulo: String?, descripcion: String?, fechaVenc: String?, grupoId: Long?) {
+        viewModelScope.launch {
+            // cambia el estado
+            _uiState.value = TareaUiState.Loading
+
+            // llama al la función del provider y cambia de estado
+            provider.putTarea(tareaId, titulo, descripcion, fechaVenc, grupoId)
+                .onSuccess { tarea ->
+                    _uiState.value = TareaUiState.SuccessPutTarea(tarea)
+                }
+                .onFailure { _ -> _uiState.value = TareaUiState.Error("Error al guardar la tarea") }
+        }
+    }
+
     fun deleteTarea(tareaId: Long?) {
         viewModelScope.launch {
 

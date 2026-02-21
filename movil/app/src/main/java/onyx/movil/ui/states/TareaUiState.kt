@@ -10,5 +10,6 @@ sealed class TareaUiState {
     data class SuccessGetTareasByGrupo(val tareas: List<Tarea>): TareaUiState()
     data class SuccessGetTarea(val tarea: Tarea): TareaUiState()
     data class SuccessPostTarea(val tarea: Tarea): TareaUiState()
+    data class SuccessPutTarea(val tarea: Tarea): TareaUiState()
     data class Error(val message: String): TareaUiState()
 }

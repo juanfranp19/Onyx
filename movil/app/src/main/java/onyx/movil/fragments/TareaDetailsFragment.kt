@@ -81,13 +81,13 @@ class TareaDetailsFragment : Fragment() {
         binding.floatingActionButtonDelete.setOnClickListener {
             // alert
             AlertDialog.Builder(requireContext())
-                .setTitle("Eliminar tarea")
-                .setMessage("¿Seguro que quieres eliminar esta tarea?")
-                .setPositiveButton("Sí") { _, _ ->
+                .setTitle(getString(R.string.dialog_eliminar_tarea))
+                .setMessage(getString(R.string.dialog_pregunta_eliminar_esta_tarea))
+                .setPositiveButton(getString(R.string.btn_si)) { _, _ ->
                     // delete tarea
                     tareaViewModel.deleteTarea(tareaId)
                 }
-                .setNegativeButton("Cancelar", null)
+                .setNegativeButton(getString(R.string.btn_cancelar), null)
                 .show()
         }
 
@@ -133,19 +133,33 @@ class TareaDetailsFragment : Fragment() {
 
                                 // fecha de vencimiento
                                 if (tarea.fechaVencimiento.isNullOrEmpty()) {
-                                    binding.textViewVencimiento.text = "Sin fecha de vencimiento"
+                                    binding.textViewVencimiento.text = getString(R.string.data_sin_fecha_vencimiento)
                                 } else {
                                     val fechaVencimiento = formatearFechaHora(tarea.fechaVencimiento)
-                                    binding.textViewVencimiento.text = "Vence el $fechaVencimiento"
+                                    binding.textViewVencimiento.text = getString(R.string.data_vence_el) + " " + fechaVencimiento
                                 }
 
                                 // creador y grupo
-                                binding.textViewCreadorFechaTarea.text = "Creado el $fechaCreacion"
+                                binding.textViewCreadorFechaTarea.text = getString(R.string.data_creado_el) + " " + fechaCreacion
                                 binding.textViewNombreGrupo.text = "..."
 
                                 // get grupo y user
                                 grupoViewModel.getGrupo(grupoId)
                                 userViewModel.getUsuario(userId)
+
+                                // floating button que lleva al fragment para editar
+                                binding.floatingActionButtonEdit.setOnClickListener {
+                                    // argumentos del fragment
+                                    val bundle = Bundle().apply {
+                                        putLong("id", tarea.id)
+                                        putString("titulo", tarea.titulo)
+                                        putString("descripcion", tarea.descripcion)
+                                        putLong("grupoId", tarea.grupoId)
+                                        putString("fechaVencimiento", tarea.fechaVencimiento)
+                                    }
+
+                                    findNavController().navigate(R.id.action_tareaDetailsFragment_to_tareaEditFragment, bundle)
+                                }
 
                                 cargado()
                             }

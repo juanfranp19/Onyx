@@ -30,6 +30,18 @@
     <string name="btn_crear_cuenta">Crear cuenta</string>
     <string name="btn_crear_grupo">Crear grupo</string>
     <string name="btn_crear_tarea">Crear tarea</string>
+    <string name="btn_guardar_cambios">Guardar cambios</string>
+    <string name="btn_si">Sí</string>
+    <string name="btn_cancelar">Cancelar</string>
+
+    <string name="dialog_eliminar_tarea">Eliminar tarea</string>
+    <string name="dialog_pregunta_eliminar_esta_tarea">¿Seguro que quieres eliminar esta tarea?</string>
+
+    <!-- DATOS -->
+    <string name="data_sin_fecha_vencimiento">Sin fecha de vencimiento</string>
+    <string name="data_vence_el">Vence el</string>
+    <string name="data_creado_el">Creado el</string>
+
     <!-- IMGS -->
     <string name="img_logo">Logo Onyx</string>
 

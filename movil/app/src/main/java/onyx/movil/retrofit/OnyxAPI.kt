@@ -8,6 +8,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface OnyxAPI {
@@ -37,6 +38,8 @@ interface OnyxAPI {
 
     @POST("tareas")
     suspend fun postTarea(@Body body: Map<String, @JvmSuppressWildcards Any>): Tarea
+    @PUT("tareas/{id}")
+    suspend fun putTarea(@Path("id") tareaId: Long?, @Body body: Map<String, @JvmSuppressWildcards Any>): Tarea
 
     @DELETE("tareas/{tareaId}")
     suspend fun deleteTarea(@Path("tareaId") tareaId: Long?)

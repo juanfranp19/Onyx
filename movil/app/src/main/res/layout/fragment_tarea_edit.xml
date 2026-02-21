@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.TareaEditFragment">
+
+    <!-- contenedor -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contenido"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- titulo -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputTitulo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_with_screen"
+            android:layout_marginTop="@dimen/spacing_between_fields"
+            android:layout_marginEnd="@dimen/spacing_with_screen"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tituloEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/field_titulo" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- descripcion -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_with_screen"
+            android:layout_marginTop="@dimen/spacing_between_fields"
+            android:layout_marginEnd="@dimen/spacing_with_screen"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/inputTitulo">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/descEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/field_descripcion" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- grupos label -->
+        <TextView
+            android:id="@+id/textViewGrupoAsociado"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_with_screen"
+            android:layout_marginTop="@dimen/spacing_between_fields"
+            android:layout_marginEnd="@dimen/spacing_with_screen"
+            android:text="@string/field_grupo_asociado"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/inputDesc" />
+
+        <!-- grupos spinner -->
+        <Spinner
+            android:id="@+id/spinnerGrupo"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="@dimen/spacing_with_screen"
+            android:layout_marginEnd="@dimen/spacing_with_screen"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewGrupoAsociado" />
+
+        <!-- fecha vencimiento -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputFechaVenc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_with_screen"
+            android:layout_marginTop="@dimen/spacing_between_fields"
+            android:layout_marginEnd="@dimen/spacing_with_screen"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerGrupo">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fechaVencEditText"
+                android:focusable="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/field_fecha_vencimiento" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- crear tarea -->
+        <Button
+            android:id="@+id/btnGuardarTarea"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_with_screen"
+            android:layout_marginTop="@dimen/spacing_between_field_button"
+            android:layout_marginEnd="@dimen/spacing_with_screen"
+            android:text="@string/btn_guardar_cambios"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/inputFechaVenc" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- progress bar -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/progressbar_margin_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

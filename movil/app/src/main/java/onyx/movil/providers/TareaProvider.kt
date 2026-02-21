@@ -65,6 +65,29 @@ class TareaProvider(private val api: OnyxAPI) {
         }
     }
 
+    suspend fun putTarea(tareaId: Long?, titulo: String?, descripcion: String?, fechaVenc: String?, grupoId: Long?): Result<Tarea> {
+        try {
+
+            // llama a la api
+            val tarea = api.putTarea(
+                tareaId,
+                mapOf(
+                    "titulo" to titulo,
+                    "descripcion" to descripcion,
+                    "fechaVencimiento" to fechaVenc,
+                    "grupo_id" to grupoId
+                ) as Map<String, @JvmSuppressWildcards Any>
+            )
+
+            // obtiene respuesta de la api
+            return Result.success(tarea)
+
+        } catch (e: Exception) {
+            Log.e("PUT_TAREA_ERROR", "Exception: ", e)
+            return Result.failure(e)
+        }
+    }
+
     suspend fun deleteTarea(tareaId: Long?): Result<Unit> {
         try {
 

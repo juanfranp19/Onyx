@@ -87,5 +87,20 @@
         android:id="@+id/tareaDetailsFragment"
         android:name="onyx.movil.fragments.TareaDetailsFragment"
         android:label="fragment_tarea_details"
-        tools:layout="@layout/fragment_tarea_details" />
+        tools:layout="@layout/fragment_tarea_details" >
+        <action
+            android:id="@+id/action_tareaDetailsFragment_to_tareaEditFragment"
+            app:destination="@id/tareaEditFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/tareaEditFragment"
+        android:name="onyx.movil.fragments.TareaEditFragment"
+        android:label="fragment_tarea_edit"
+        tools:layout="@layout/fragment_tarea_edit" >
+        <action
+            android:id="@+id/action_tareaEditFragment_to_tareaDetailsFragment"
+            app:destination="@id/tareaDetailsFragment" />
+    </fragment>
+
 </navigation>
