@@ -2,6 +2,7 @@ package onyx.api.controllers;
 
 import onyx.api.dto.LoginRequestDTO;
 import onyx.api.dto.RegisterRequestDTO;
+import onyx.api.dto.UsuarioRequestDTO;
 import onyx.api.entities.Usuario;
 import onyx.api.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,16 +49,21 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> update(@PathVariable Integer id, @RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> update(@PathVariable Integer id, @RequestBody UsuarioRequestDTO usuarioRequest) {
         return usuarioRepository.findById(id)
                 .map(existing -> {
-                    usuario.setId(id);
-                    if (usuario.getPasswordHash() != null && !usuario.getPasswordHash().isEmpty()) {
-                        usuario.setPasswordHash(passwordEncoder.encode(usuario.getPasswordHash()));
-                    } else {
-                        usuario.setPasswordHash(existing.getPasswordHash());
+
+                    Usuario newUsuario = new Usuario();
+                    newUsuario.setId(id);
+                    newUsuario.setNombreUsuario(usuarioRequest.getNombreUsuario());
+                    newUsuario.setEmail(usuarioRequest.getEmail());
+                    newUsuario.setFechaRegistro(existing.getFechaRegistro());
+
+                    if (!usuarioRequest.getPasswordHash().isEmpty()) {
+                        newUsuario.setPasswordHash(passwordEncoder.encode(usuarioRequest.getPasswordHash()));
                     }
-                    return ResponseEntity.ok(usuarioRepository.save(usuario));
+
+                    return ResponseEntity.ok(usuarioRepository.save(newUsuario));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }

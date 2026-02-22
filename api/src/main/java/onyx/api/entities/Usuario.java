@@ -19,9 +19,16 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(unique = true, nullable = false)
     private String nombreUsuario;
+
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private String passwordHash;
+
+    @Column(nullable = false)
     private LocalDateTime fechaRegistro;
 
     @ManyToMany(mappedBy = "usuarios")
