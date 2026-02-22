@@ -19,6 +19,7 @@
     <string name="field_email">Email</string>
     <string name="field_passwd">Contraseña</string>
     <string name="field_confirm_passwd">Confirmar contraseña</string>
+    <string name="field_cambiar_passwd">Cambiar contraseña</string>
     <string name="field_descripcion">Descripción</string>
     <string name="field_nombre">Nombre</string>
     <string name="field_titulo">Título</string>
@@ -32,9 +33,12 @@
     <string name="btn_crear_tarea">Crear tarea</string>
     <string name="btn_guardar_cambios">Guardar cambios</string>
     <string name="btn_si">Sí</string>
+    <string name="btn_ok">OK</string>
     <string name="btn_cancelar">Cancelar</string>
 
+    <string name="dialog_cerrar_sesion">Cerrar sesión</string>
     <string name="dialog_eliminar_tarea">Eliminar tarea</string>
+    <string name="dialog_actualizado_correctamente">Actualizado correctamente</string>
     <string name="dialog_pregunta_eliminar_esta_tarea">¿Seguro que quieres eliminar esta tarea?</string>
 
     <!-- DATOS -->

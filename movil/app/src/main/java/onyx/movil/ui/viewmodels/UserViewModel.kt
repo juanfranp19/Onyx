@@ -36,6 +36,18 @@ class UserViewModel(private val provider: UserProvider) : ViewModel() {
         }
     }
 
+    fun putUser(userId: Long?, nombreUsuario: String, email: String, passwordHash: String) {
+        viewModelScope.launch {
+            // cambia el estado
+            _uiState.value = UserUiState.Loading
+
+            // llama al la función del provider y cambia de estado
+            provider.putUser(userId, nombreUsuario, email, passwordHash)
+                .onSuccess { user -> _uiState.value = UserUiState.SuccessPutUser(user) }
+                .onFailure { _ -> _uiState.value = UserUiState.Error("Error al actualizar usuario") }
+        }
+    }
+
     fun getUsuario(id: Long?) {
         viewModelScope.launch {
             // cambia el estado

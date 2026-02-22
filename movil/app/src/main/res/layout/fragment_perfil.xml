@@ -7,15 +7,120 @@
     android:layout_height="match_parent"
     tools:context=".fragments.PerfilFragment">
 
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="0dp"
+    <!-- container -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contenido"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/registro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_with_screen"
+            android:layout_marginTop="@dimen/spacing_with_screen"
+            android:layout_marginEnd="@dimen/spacing_with_screen"
+            android:text="Creado el"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- user -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayoutNombre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_with_screen"
+            android:layout_marginTop="@dimen/spacing_between_fields"
+            android:layout_marginEnd="@dimen/spacing_with_screen"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/registro">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/field_user" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- email -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayoutEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_with_screen"
+            android:layout_marginTop="@dimen/spacing_between_fields"
+            android:layout_marginEnd="@dimen/spacing_with_screen"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/inputLayoutNombre">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/field_email" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- cambiar contraseña -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayoutCambiarPasswd"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_with_screen"
+            android:layout_marginTop="@dimen/spacing_between_fields"
+            android:layout_marginEnd="@dimen/spacing_with_screen"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/inputLayoutEmail">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputCambiarPasswd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="@string/field_cambiar_passwd" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- guardar cambios -->
+        <Button
+            android:id="@+id/btnGuardarCambios"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_with_screen"
+            android:layout_marginTop="@dimen/spacing_between_field_button"
+            android:layout_marginEnd="@dimen/spacing_with_screen"
+            android:text="@string/btn_guardar_cambios"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/inputLayoutCambiarPasswd" />
+
+        <!-- cerrar sesión -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButtonLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_floating_button"
+            android:layout_marginBottom="@dimen/margin_floating_button"
+            android:clickable="true"
+            android:contentDescription="TODO"
+            android:src="@drawable/ic_logout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- progress bar -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_with_screen"
-        android:layout_marginTop="@dimen/spacing_with_screen"
-        android:layout_marginEnd="@dimen/spacing_with_screen"
-        android:text="Cerrar sesion"
+        android:layout_marginTop="@dimen/progressbar_margin_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

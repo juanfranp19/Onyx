@@ -17,6 +17,8 @@ interface OnyxAPI {
 
     @POST("usuarios")
     suspend fun register(@Body body: Map<String, String>): User
+    @PUT("usuarios/{id}")
+    suspend fun putUser(@Path("id") userId: Long?, @Body body: Map<String, String>): User
 
     @GET("grupos/{grupoId}")
     suspend fun getGrupo(@Path("grupoId") grupoId: Long?): Grupo
