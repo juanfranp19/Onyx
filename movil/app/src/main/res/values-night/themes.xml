@@ -1,7 +1,29 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.Onyx" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+
+        <item name="colorPrimary">@color/primario_oscuro</item>
+        <item name="colorOnPrimary">@color/claro</item>
+
+        <!-- floating action button-->
+        <item name="colorPrimaryContainer">@color/primario_oscuro</item>
+        <item name="colorOnPrimaryContainer">@color/primario</item>
+
+        <item name="colorSecondary">@color/primario</item>
+        <item name="colorOnSecondary">@color/oscuro</item>
+
+        <item name="colorSurface">@color/primario_oscuro</item>
+        <item name="colorOnSurface">@color/claro</item>
+
+        <item name="colorSurfaceVariant">@color/primario</item>
+        <item name="colorOnSurfaceVariant">@color/primario_oscuro</item>
+
+        <item name="android:statusBarColor">?attr/colorSurface</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
+
+        <item name="android:windowBackground">@color/oscuro</item>
+        <item name="android:focusable">@color/primario_oscuro</item>
+
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/ic_launcher_background</item>
     </style>
 </resources>

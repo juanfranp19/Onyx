@@ -2,4 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="oscuro">#151617</color>
+    <color name="primario_oscuro">#4B3D51</color>
+    <color name="primario">#9D65B0</color>
+    <color name="primario_claro">#C29BD0</color>
+    <color name="claro">#DCDCDC</color>
+
+    <color name="fondo_grupo">#C29BD0</color>
+    <color name="fondo_tarea">#DCDCDC</color>
 </resources>
