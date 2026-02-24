@@ -192,7 +192,11 @@ public class ApiClient {
         data.put("grupo_id", grupoId);
         data.put("creador_id", creadorId);
         if (fechaVencimiento != null) {
-            data.put("fechaVencimiento", fechaVencimiento.toString());
+            java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter
+                    .ofPattern("dd/MM/yyyy HH:mm");
+            data.put("fechaVencimiento", fechaVencimiento.format(formatter));
+        } else {
+            data.put("fechaVencimiento", "");
         }
 
         try {

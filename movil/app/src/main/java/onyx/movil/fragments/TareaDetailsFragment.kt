@@ -137,11 +137,11 @@ class TareaDetailsFragment : Fragment() {
                                     binding.textViewVencimiento.text = getString(R.string.data_sin_fecha_vencimiento)
                                 } else {
                                     val fechaVencimiento = formatearFechaHora(tarea.fechaVencimiento)
-                                    binding.textViewVencimiento.text = getString(R.string.data_vence_el) + " " + fechaVencimiento
+                                    binding.textViewVencimiento.text = getString(R.string.data_vence_el) + fechaVencimiento
                                 }
 
                                 // creador y grupo
-                                binding.textViewCreadorFechaTarea.text = getString(R.string.data_creado_el) + " " + fechaCreacion
+                                binding.textViewCreadorFechaTarea.text = getString(R.string.data_creado_el) + fechaCreacion
                                 binding.textViewNombreGrupo.text = "..."
 
                                 // get grupo y user
