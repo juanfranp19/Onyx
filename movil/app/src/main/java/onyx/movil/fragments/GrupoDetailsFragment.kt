@@ -29,6 +29,7 @@ import onyx.movil.ui.viewmodels.UserViewModel
 import onyx.movil.ui.viewmodels.factories.GrupoViewModelFactory
 import onyx.movil.ui.viewmodels.factories.TareaViewModelFactory
 import onyx.movil.ui.viewmodels.factories.UserViewModelFactory
+import onyx.movil.utils.alertDialog
 import onyx.movil.utils.formatearFechaHora
 
 class GrupoDetailsFragment : Fragment() {
@@ -72,6 +73,18 @@ class GrupoDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_eliminar -> {
+                    alertDialog(requireContext(), getString(R.string.dialog_eliminar_grupo), getString(R.string.dialog_pregunta_eliminar_este_grupo), getString(R.string.btn_si), {
+                        grupoViewModel.deleteGrupo(idGrupo)
+                    }, getString(R.string.btn_cancelar))
+                    true
+                }
+                else -> false
+            }
+        }
+
         var creadorId: Long?
 
         // get grupo
@@ -86,6 +99,9 @@ class GrupoDetailsFragment : Fragment() {
                             GrupoUiState.Loading -> {
                                 cargando()
                             }
+                            GrupoUiState.SuccessDeleteGrupo -> {
+                                findNavController().navigate(R.id.action_grupoDetailsFragment_to_gruposFragment)
+                            }
                             is GrupoUiState.SuccessGetGrupo -> {
                                 val grupo = state.grupo
 
@@ -95,7 +111,7 @@ class GrupoDetailsFragment : Fragment() {
                                 binding.textViewDescGrupo.text = grupo.descripcion
 
                                 val fechaCreacion = formatearFechaHora(grupo.fechaCreacion)
-                                binding.textViewCreadorFechaGrupo.text = "Creado el $fechaCreacion"
+                                binding.textViewCreadorFechaGrupo.text = getString(R.string.data_creado_el) + fechaCreacion
 
                                 // get tareas por grupo
                                 tareaViewModel.getTareasByGrupo(idGrupo)

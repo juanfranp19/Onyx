@@ -52,4 +52,16 @@ class GrupoViewModel(private val provider: GrupoProvider) : ViewModel() {
                 .onFailure { _ -> _uiState.value = GrupoUiState.Error("Error al crear grupo") }
         }
     }
+
+    fun deleteGrupo(grupoId: Long?) {
+        viewModelScope.launch {
+            // cambia estado
+            _uiState.value = GrupoUiState.Loading
+
+            // llama al la función del provider y cambia de estado
+            provider.deleteGrupo(grupoId)
+                .onSuccess { _ -> _uiState.value = GrupoUiState.SuccessDeleteGrupo }
+                .onFailure { _ -> _uiState.value = GrupoUiState.Error("Error al eliminar el grupo") }
+        }
+    }
 }

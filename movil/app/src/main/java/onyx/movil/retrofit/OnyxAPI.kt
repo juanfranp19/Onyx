@@ -37,6 +37,8 @@ interface OnyxAPI {
 
     @POST("grupos")
     suspend fun postGrupo(@Body body: Map<String, @JvmSuppressWildcards Any>): Grupo
+    @DELETE("grupos/{grupoId}")
+    suspend fun deleteGrupo(@Path("grupoId") grupoId: Long?)
 
     @POST("tareas")
     suspend fun postTarea(@Body body: Map<String, @JvmSuppressWildcards Any>): Tarea

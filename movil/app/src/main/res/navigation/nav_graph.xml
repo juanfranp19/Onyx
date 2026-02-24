@@ -81,6 +81,9 @@
         <action
             android:id="@+id/action_grupoDetailsFragment_to_tareaDetailsFragment"
             app:destination="@id/tareaDetailsFragment" />
+        <action
+            android:id="@+id/action_grupoDetailsFragment_to_gruposFragment"
+            app:destination="@id/gruposFragment" />
     </fragment>
 
     <fragment

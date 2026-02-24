@@ -3,11 +3,12 @@
 
     <!-- MENU -->
     <string name="menu_grupos">Grupos</string>
-    <string name="menu_grupo_detalles">Detalles</string>
+    <string name="menu_grupo_detalles">Detalles grupo</string>
     <string name="menu_grupo_crear">Nuevo grupo</string>
     <string name="menu_tareas">Tareas</string>
-    <string name="menu_tareas_detalles">Detalles</string>
+    <string name="menu_tarea_detalles">Detalles tarea</string>
     <string name="menu_tarea_crear">Nueva tarea</string>
+    <string name="menu_tarea_edit">Editar tarea</string>
     <string name="menu_perfil">Perfil</string>
 
     <!-- TABS -->
@@ -38,8 +39,10 @@
 
     <string name="dialog_cerrar_sesion">Cerrar sesión</string>
     <string name="dialog_eliminar_tarea">Eliminar tarea</string>
+    <string name="dialog_eliminar_grupo">Eliminar grupo</string>
     <string name="dialog_actualizado_correctamente">Actualizado correctamente</string>
     <string name="dialog_pregunta_eliminar_esta_tarea">¿Seguro que quieres eliminar esta tarea?</string>
+    <string name="dialog_pregunta_eliminar_este_grupo">¿Seguro que quieres eliminar este grupo? Se eliminarán todas las tareas que hay en él</string>
 
     <!-- DATOS -->
     <string name="data_sin_fecha_vencimiento">Sin fecha de vencimiento</string>

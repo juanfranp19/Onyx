@@ -64,4 +64,16 @@ class GrupoProvider(private val api: OnyxAPI) {
             return Result.failure(e)
         }
     }
+
+    suspend fun deleteGrupo(grupoId: Long?): Result<Unit> {
+        try {
+
+            api.deleteGrupo(grupoId)
+            return Result.success(Unit)
+
+        } catch (e: Exception) {
+            Log.e("DELETE_GRUPO_ERROR", "Exception: ", e)
+            return Result.failure(e)
+        }
+    }
 }
