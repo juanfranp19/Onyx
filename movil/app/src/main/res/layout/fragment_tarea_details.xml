@@ -28,7 +28,7 @@
                 app:title="@string/menu_tarea_detalles"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                />  <!--app:menu="@menu/toolbar"-->
+                app:menu="@menu/toolbar_tarea_details" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <!-- nombre tarea -->
@@ -132,18 +132,6 @@
             app:layout_constraintBottom_toTopOf="@+id/floatingActionButtonCheck"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- floating button delete -->
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButtonDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabCustomSize="@dimen/size_secondary_floating_button"
-            android:layout_marginEnd="@dimen/margin_floating_button"
-            android:layout_marginBottom="@dimen/margin_floating_button"
-            android:clickable="true"
-            android:src="@drawable/ic_delete"
-            app:layout_constraintBottom_toTopOf="@+id/floatingActionButtonEdit"
-            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- progressbar -->

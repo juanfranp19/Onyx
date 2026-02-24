@@ -3,6 +3,6 @@
 
     <item
         android:id="@+id/action_eliminar"
-        android:title="@string/dialog_eliminar_grupo" />
+        android:title="@string/dialog_eliminar_tarea" />
 
 </menu>

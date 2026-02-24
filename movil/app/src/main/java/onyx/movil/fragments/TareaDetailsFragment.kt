@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -29,6 +28,7 @@ import onyx.movil.ui.viewmodels.UserViewModel
 import onyx.movil.ui.viewmodels.factories.GrupoViewModelFactory
 import onyx.movil.ui.viewmodels.factories.TareaViewModelFactory
 import onyx.movil.ui.viewmodels.factories.UserViewModelFactory
+import onyx.movil.utils.alertDialog
 import onyx.movil.utils.formatearFechaHora
 
 class TareaDetailsFragment : Fragment() {
@@ -78,17 +78,18 @@ class TareaDetailsFragment : Fragment() {
         // get tarea
         tareaViewModel.getTarea(tareaId)
 
-        binding.floatingActionButtonDelete.setOnClickListener {
-            // alert
-            AlertDialog.Builder(requireContext())
-                .setTitle(getString(R.string.dialog_eliminar_tarea))
-                .setMessage(getString(R.string.dialog_pregunta_eliminar_esta_tarea))
-                .setPositiveButton(getString(R.string.btn_si)) { _, _ ->
-                    // delete tarea
-                    tareaViewModel.deleteTarea(tareaId)
+        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_eliminar -> {
+                    // alert
+                    alertDialog(requireContext(), getString(R.string.dialog_eliminar_tarea), getString(R.string.dialog_pregunta_eliminar_esta_tarea), getString(R.string.btn_si), {
+                        // delete tarea
+                        tareaViewModel.deleteTarea(tareaId)
+                    }, getString(R.string.btn_cancelar))
+                    true
                 }
-                .setNegativeButton(getString(R.string.btn_cancelar), null)
-                .show()
+                else -> false
+            }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
