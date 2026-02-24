@@ -64,6 +64,7 @@
 
     <!-- MENSAJES -->
     <string name="msg_empty_grupos">Sin grupos</string>
+    <string name="msg_necesitas_grupos">Necesitas crear al menos un grupo</string>
     <string name="msg_empty_tareas">Sin tareas</string>
     <string name="msg_tarea_marcada_completada">Tarea marcada como completada</string>
     <string name="msg_tarea_marcada_no_completada">Tarea marcada como NO completada</string>

@@ -33,6 +33,7 @@ import onyx.movil.ui.viewmodels.GrupoViewModel
 import onyx.movil.ui.viewmodels.TareaViewModel
 import onyx.movil.ui.viewmodels.factories.GrupoViewModelFactory
 import onyx.movil.ui.viewmodels.factories.TareaViewModelFactory
+import onyx.movil.utils.longSnack
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -145,6 +146,13 @@ class TareaCreateFragment : Fragment() {
                                 // desaparece el contenido
                                 binding.progressBar.visibility = View.VISIBLE
                                 binding.contenido.visibility = View.GONE
+                            }
+
+                            GrupoUiState.Empty -> {
+                                binding.progressBar.visibility = View.GONE
+
+                                // mensaje
+                                longSnack(binding.root, getString(R.string.msg_necesitas_grupos))
                             }
 
                             is GrupoUiState.SuccessGetGrupos -> {

@@ -2,6 +2,7 @@ package onyx.movil.ui.recyclerview
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import onyx.movil.databinding.ItemTareaBinding
@@ -60,8 +61,14 @@ class TareaAdapter(
 
             binding.tareaNombre.text = tarea.titulo
 
+            // fecha y hora de vencimiento
             if (!tarea.fechaVencimiento.isNullOrEmpty()) {
                 binding.tareaFechaVenc.text = formatearFechaHora(tarea.fechaVencimiento)
+            }
+
+            // icono de completada
+            if (tarea.completada) {
+                binding.imageViewTareaDone.visibility = View.VISIBLE
             }
         }
     }
