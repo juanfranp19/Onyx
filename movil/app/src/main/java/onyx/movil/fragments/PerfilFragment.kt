@@ -5,13 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import onyx.movil.R
 import onyx.movil.databinding.FragmentPerfilBinding
@@ -21,7 +19,9 @@ import onyx.movil.retrofit.RetrofitInstance
 import onyx.movil.ui.states.UserUiState
 import onyx.movil.ui.viewmodels.UserViewModel
 import onyx.movil.ui.viewmodels.factories.UserViewModelFactory
+import onyx.movil.utils.alertDialog
 import onyx.movil.utils.formatearFechaHora
+import onyx.movil.utils.longSnack
 
 class PerfilFragment : Fragment() {
     private lateinit var binding: FragmentPerfilBinding
@@ -58,17 +58,13 @@ class PerfilFragment : Fragment() {
 
         binding.floatingActionButtonLogout.setOnClickListener {
             // alert
-            AlertDialog.Builder(requireContext())
-                .setTitle(getString(R.string.dialog_cerrar_sesion))
-                .setPositiveButton(getString(R.string.btn_si)) { _, _ ->
-                    // elimina la sesión y navega al login
-                    lifecycleScope.launch {
-                        sessionManager.clearSession()
-                        findNavController().navigate(R.id.tabLoginRegisterFragment)
-                    }
+            alertDialog(requireContext(), getString(R.string.dialog_cerrar_sesion), "", getString(R.string.btn_si), {
+                // elimina la sesión y navega al login
+                lifecycleScope.launch {
+                    sessionManager.clearSession()
+                    findNavController().navigate(R.id.tabLoginRegisterFragment)
                 }
-                .setNegativeButton(getString(R.string.btn_cancelar), null)
-                .show()
+            }, getString(R.string.btn_cancelar))
         }
 
         binding.btnGuardarCambios.setOnClickListener {
@@ -109,22 +105,15 @@ class PerfilFragment : Fragment() {
                             cargado()
 
                             // alert
-                            AlertDialog.Builder(requireContext())
-                                .setTitle(getString(R.string.dialog_actualizado_correctamente))
-                                .setPositiveButton(getString(R.string.btn_ok)){ _, _ ->
-                                    //
-                                }
-                                .show()
+                            alertDialog(requireContext(), getString(R.string.dialog_actualizado_correctamente), "", getString(R.string.btn_ok), {
+                                //
+                            }, "")
                         }
 
                         is UserUiState.Error -> {
                             cargado()
 
-                            Snackbar.make(
-                                binding.root,
-                                state.message,
-                                Snackbar.LENGTH_LONG
-                            ).show()
+                            longSnack(binding.root, getString(state.message.toInt()))
                         }
 
                         else -> {}

@@ -4,6 +4,23 @@
     <!-- ERRORS -->
     <string name="err_user_already_add">El usuario ya está añadido al grupo</string>
 
+    <string name="err_cargar_grupos">Error al cargar grupos</string>
+    <string name="err_cargar_grupo">Error al cargar grupo</string>
+    <string name="err_crear_grupo">Error al crear grupo</string>
+    <string name="err_eliminar_grupo">Error al eliminar el grupo</string>
+
+    <string name="err_cargar_tareas_por_grupo">Error al cargar las tareas por grupo</string>
+    <string name="err_obtener_tarea">Error al obtener la tarea</string>
+    <string name="err_crear_tarea">Error al crear la tarea</string>
+    <string name="err_guardar_tarea">Error al guardar la tarea</string>
+    <string name="err_actualizar_tarea">Error al actualizar la tarea</string>
+    <string name="err_eliminar_tarea">Error al eliminar la tarea</string>
+
+    <string name="err_crear_usuario">Error al crear usuario</string>
+    <string name="err_login">Error en el login</string>
+    <string name="err_actualizar_usuario">Error al actualizar usuario</string>
+    <string name="err_obtener_datos_usuario">Error al obtener datos del usuario</string>
+
     <!-- MENU -->
     <string name="menu_grupos">Grupos</string>
     <string name="menu_grupo_detalles">Detalles grupo</string>
@@ -13,6 +30,10 @@
     <string name="menu_tarea_crear">Nueva tarea</string>
     <string name="menu_tarea_edit">Editar tarea</string>
     <string name="menu_perfil">Perfil</string>
+
+    <!-- labels -->
+    <string name="label_grupo">Grupo:</string>
+    <string name="label_tareas">Tareas:</string>
 
     <!-- TABS -->
     <string name="tab_login">Iniciar sesión</string>
@@ -56,8 +77,9 @@
     <!-- DATOS -->
     <string name="data_sin_fecha_vencimiento">Sin fecha de vencimiento</string>
     <string name="data_sin_descripcion">Sin descripción</string>
-    <string name="data_vence_el">Vence el </string>
-    <string name="data_creado_el">Creado el </string>
+    <string name="data_vence_el">Vence el</string>
+    <string name="data_creado_el">Creado el</string>
+    <string name="data_by">por</string>
 
     <!-- IMGS -->
     <string name="img_logo">Logo Onyx</string>

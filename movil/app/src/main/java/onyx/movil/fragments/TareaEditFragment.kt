@@ -16,7 +16,6 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import kotlinx.coroutines.launch
@@ -34,6 +33,7 @@ import onyx.movil.ui.viewmodels.TareaViewModel
 import onyx.movil.ui.viewmodels.factories.GrupoViewModelFactory
 import onyx.movil.ui.viewmodels.factories.TareaViewModelFactory
 import onyx.movil.utils.formatearFechaHora
+import onyx.movil.utils.longSnack
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -143,11 +143,7 @@ class TareaEditFragment : Fragment() {
                             }
 
                             is TareaUiState.Error -> {
-                                Snackbar.make(
-                                    binding.root,
-                                    state.message,
-                                    Snackbar.LENGTH_LONG
-                                ).show()
+                                longSnack(binding.root, getString(state.message.toInt()))
                             }
 
                             else -> {}
@@ -193,11 +189,7 @@ class TareaEditFragment : Fragment() {
                             }
 
                             is GrupoUiState.Error -> {
-                                Snackbar.make(
-                                    binding.root,
-                                    state.message,
-                                    Snackbar.LENGTH_LONG
-                                ).show()
+                                longSnack(binding.root, getString(state.message.toInt()))
                             }
 
                             else -> {}

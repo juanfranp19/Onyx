@@ -11,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import onyx.movil.R
 import onyx.movil.databinding.FragmentGrupoCreateBinding
@@ -27,6 +26,7 @@ import onyx.movil.ui.viewmodels.GrupoViewModel
 import onyx.movil.ui.viewmodels.UserViewModel
 import onyx.movil.ui.viewmodels.factories.GrupoViewModelFactory
 import onyx.movil.ui.viewmodels.factories.UserViewModelFactory
+import onyx.movil.utils.longSnack
 
 class GrupoCreateFragment : Fragment() {
     private lateinit var binding: FragmentGrupoCreateBinding
@@ -89,11 +89,7 @@ class GrupoCreateFragment : Fragment() {
 
                             is GrupoUiState.Error -> {
                                 binding.btnCrearGrupo.isEnabled = true
-                                Snackbar.make(
-                                    binding.root,
-                                    state.message,
-                                    Snackbar.LENGTH_LONG
-                                ).show()
+                                longSnack(binding.root, getString(state.message.toInt()))
                             }
 
                             else -> {}
@@ -114,11 +110,7 @@ class GrupoCreateFragment : Fragment() {
                                     users.add(usuarioAdd)
                                 } else {
                                     // notifica al usuario que ya está añadido
-                                    Snackbar.make(
-                                        binding.root,
-                                        getString(R.string.err_user_already_add),
-                                        Snackbar.LENGTH_LONG
-                                    ).show()
+                                    longSnack(binding.root, getString(R.string.err_user_already_add))
                                 }
 
                                 // actualiza rv
@@ -128,11 +120,7 @@ class GrupoCreateFragment : Fragment() {
                                 binding.btnAddUser.isEnabled = true
                             }
                             is UserUiState.Error -> {
-                                Snackbar.make(
-                                    binding.root,
-                                    state.message,
-                                    Snackbar.LENGTH_LONG
-                                ).show()
+                                longSnack(binding.root, getString(state.message.toInt()))
                                 binding.btnAddUser.isEnabled = true
                             }
                             else -> {}

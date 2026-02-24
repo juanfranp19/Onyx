@@ -11,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import onyx.movil.R
 import onyx.movil.databinding.FragmentGrupoDetailsBinding
@@ -31,6 +30,7 @@ import onyx.movil.ui.viewmodels.factories.TareaViewModelFactory
 import onyx.movil.ui.viewmodels.factories.UserViewModelFactory
 import onyx.movil.utils.alertDialog
 import onyx.movil.utils.formatearFechaHora
+import onyx.movil.utils.longSnack
 
 class GrupoDetailsFragment : Fragment() {
     private lateinit var binding: FragmentGrupoDetailsBinding
@@ -111,7 +111,7 @@ class GrupoDetailsFragment : Fragment() {
                                 binding.textViewDescGrupo.text = grupo.descripcion
 
                                 val fechaCreacion = formatearFechaHora(grupo.fechaCreacion)
-                                binding.textViewCreadorFechaGrupo.text = getString(R.string.data_creado_el) + fechaCreacion
+                                binding.textViewCreadorFechaGrupo.text = getString(R.string.data_creado_el) + " " + fechaCreacion
 
                                 // get tareas por grupo
                                 tareaViewModel.getTareasByGrupo(idGrupo)
@@ -121,7 +121,7 @@ class GrupoDetailsFragment : Fragment() {
                                 userViewModel.getUsuario(creadorId)
                             }
                             is GrupoUiState.Error -> {
-                                mostrarError(state.message)
+                                mostrarError(getString(state.message.toInt()))
                             }
                             else -> {}
                         }
@@ -137,10 +137,10 @@ class GrupoDetailsFragment : Fragment() {
                             is UserUiState.SuccessGetUsuario -> {
                                 val creador = state.usuario
                                 // actualiza el text view
-                                binding.textViewCreadorFechaGrupo.text = "${binding.textViewCreadorFechaGrupo.text} por ${creador.nombreUsuario}"
+                                binding.textViewCreadorFechaGrupo.text = "${binding.textViewCreadorFechaGrupo.text}" + " " + getString(R.string.data_by) + " " + creador.nombreUsuario
                             }
                             is UserUiState.Error -> {
-                                mostrarError(state.message)
+                                mostrarError(getString(state.message.toInt()))
                             }
                             else -> {}
                         }
@@ -188,7 +188,7 @@ class GrupoDetailsFragment : Fragment() {
                             is TareaUiState.Error -> {
                                 cargando()
 
-                                mostrarError(state.message)
+                                mostrarError(getString(state.message.toInt()))
                             }
                             else -> {}
                         }
@@ -222,10 +222,6 @@ class GrupoDetailsFragment : Fragment() {
     }
 
     private fun mostrarError(message: String) {
-        Snackbar.make(
-            binding.root,
-            message,
-            Snackbar.LENGTH_LONG
-        ).show()
+        longSnack(binding.root, message)
     }
 }

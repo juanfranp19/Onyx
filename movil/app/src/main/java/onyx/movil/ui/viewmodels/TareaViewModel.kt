@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import onyx.movil.R
 import onyx.movil.providers.TareaProvider
 import onyx.movil.ui.states.TareaUiState
 
@@ -25,7 +26,7 @@ class TareaViewModel(private val provider: TareaProvider) : ViewModel() {
                     // con datos
                     else _uiState.value = TareaUiState.SuccessGetTareasByGrupo(tareas)
                 }
-                .onFailure { _ -> _uiState.value = TareaUiState.Error("Error al cargar las tareas por grupo") }
+                .onFailure { _ -> _uiState.value = TareaUiState.Error(R.string.err_cargar_tareas_por_grupo.toString()) }
         }
     }
 
@@ -39,7 +40,7 @@ class TareaViewModel(private val provider: TareaProvider) : ViewModel() {
                 .onSuccess { tarea ->
                     _uiState.value = TareaUiState.SuccessGetTarea(tarea)
                 }
-                .onFailure { _ -> _uiState.value = TareaUiState.Error("Error al obtener la tarea") }
+                .onFailure { _ -> _uiState.value = TareaUiState.Error(R.string.err_obtener_tarea.toString()) }
         }
     }
 
@@ -53,7 +54,7 @@ class TareaViewModel(private val provider: TareaProvider) : ViewModel() {
                 .onSuccess { tarea ->
                     _uiState.value = TareaUiState.SuccessPostTarea(tarea)
                 }
-                .onFailure { _ -> _uiState.value = TareaUiState.Error("Error al crear la tarea") }
+                .onFailure { _ -> _uiState.value = TareaUiState.Error(R.string.err_crear_tarea.toString()) }
         }
     }
 
@@ -67,7 +68,7 @@ class TareaViewModel(private val provider: TareaProvider) : ViewModel() {
                 .onSuccess { tarea ->
                     _uiState.value = TareaUiState.SuccessPutTarea(tarea)
                 }
-                .onFailure { _ -> _uiState.value = TareaUiState.Error("Error al guardar la tarea") }
+                .onFailure { _ -> _uiState.value = TareaUiState.Error(R.string.err_guardar_tarea.toString()) }
         }
     }
 
@@ -80,7 +81,7 @@ class TareaViewModel(private val provider: TareaProvider) : ViewModel() {
             // llama al la función del provider y cambia de estado
             provider.putTareaCompletada(tareaId, completada)
                 .onSuccess { tarea -> _uiState.value = TareaUiState.SuccessPutTarea(tarea) }
-                .onFailure { _ -> _uiState.value = TareaUiState.Error("Error al actualizar la tarea") }
+                .onFailure { _ -> _uiState.value = TareaUiState.Error(R.string.err_actualizar_tarea.toString()) }
         }
     }
 
@@ -93,7 +94,7 @@ class TareaViewModel(private val provider: TareaProvider) : ViewModel() {
             // llama al la función del provider y cambia de estado
             provider.deleteTarea(tareaId)
                 .onSuccess { _ -> _uiState.value = TareaUiState.SuccessDeleteTarea }
-                .onFailure { _ -> _uiState.value = TareaUiState.Error("Error al eliminar la tarea") }
+                .onFailure { _ -> _uiState.value = TareaUiState.Error(R.string.err_eliminar_tarea.toString()) }
         }
     }
 }

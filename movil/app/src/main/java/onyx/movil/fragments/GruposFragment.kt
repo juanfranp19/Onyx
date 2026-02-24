@@ -11,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import onyx.movil.R
 import onyx.movil.databinding.FragmentGruposBinding
@@ -22,6 +21,7 @@ import onyx.movil.ui.recyclerview.GrupoAdapter
 import onyx.movil.ui.states.GrupoUiState
 import onyx.movil.ui.viewmodels.GrupoViewModel
 import onyx.movil.ui.viewmodels.factories.GrupoViewModelFactory
+import onyx.movil.utils.longSnack
 
 class GruposFragment : Fragment() {
     private lateinit var binding: FragmentGruposBinding
@@ -115,11 +115,7 @@ class GruposFragment : Fragment() {
                             binding.progressBar.visibility = View.GONE
                             binding.rv.visibility = View.VISIBLE
 
-                            Snackbar.make(
-                                binding.root,
-                                state.message,
-                                Snackbar.LENGTH_LONG
-                            ).show()
+                            longSnack(binding.root, getString(state.message.toInt()))
                         }
 
                         else -> {}

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import onyx.movil.R
 import onyx.movil.providers.GrupoProvider
 import onyx.movil.ui.states.GrupoUiState
 
@@ -23,7 +24,7 @@ class GrupoViewModel(private val provider: GrupoProvider) : ViewModel() {
                     if (grupos.isEmpty()) _uiState.value = GrupoUiState.Empty
                     else _uiState.value = GrupoUiState.SuccessGetGrupos(grupos)
                 }
-                .onFailure { _ -> _uiState.value = GrupoUiState.Error("Error al cargar grupos") }
+                .onFailure { _ -> _uiState.value = GrupoUiState.Error(R.string.err_cargar_grupos.toString()) }
         }
     }
 
@@ -35,7 +36,7 @@ class GrupoViewModel(private val provider: GrupoProvider) : ViewModel() {
             // llama al la función del provider y cambia de estado
             provider.getGrupo(id)
                 .onSuccess { grupo -> _uiState.value = GrupoUiState.SuccessGetGrupo(grupo) }
-                .onFailure { _ -> _uiState.value = GrupoUiState.Error("Error al cargar grupo") }
+                .onFailure { _ -> _uiState.value = GrupoUiState.Error(R.string.err_cargar_grupo.toString()) }
         }
     }
 
@@ -49,7 +50,7 @@ class GrupoViewModel(private val provider: GrupoProvider) : ViewModel() {
                 .onSuccess { grupo ->
                     _uiState.value = GrupoUiState.SuccessPostGrupo(grupo)
                 }
-                .onFailure { _ -> _uiState.value = GrupoUiState.Error("Error al crear grupo") }
+                .onFailure { _ -> _uiState.value = GrupoUiState.Error(R.string.err_crear_grupo.toString()) }
         }
     }
 
@@ -61,7 +62,7 @@ class GrupoViewModel(private val provider: GrupoProvider) : ViewModel() {
             // llama al la función del provider y cambia de estado
             provider.deleteGrupo(grupoId)
                 .onSuccess { _ -> _uiState.value = GrupoUiState.SuccessDeleteGrupo }
-                .onFailure { _ -> _uiState.value = GrupoUiState.Error("Error al eliminar el grupo") }
+                .onFailure { _ -> _uiState.value = GrupoUiState.Error(R.string.err_eliminar_grupo.toString()) }
         }
     }
 }

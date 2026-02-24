@@ -11,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import onyx.movil.R
 import onyx.movil.databinding.FragmentTareasBinding
@@ -23,6 +22,7 @@ import onyx.movil.ui.recyclerview.TareaAdapter
 import onyx.movil.ui.states.UserUiState
 import onyx.movil.ui.viewmodels.UserViewModel
 import onyx.movil.ui.viewmodels.factories.UserViewModelFactory
+import onyx.movil.utils.longSnack
 
 class TareasFragment : Fragment() {
     private lateinit var binding: FragmentTareasBinding
@@ -120,11 +120,7 @@ class TareasFragment : Fragment() {
                             binding.progressBar.visibility = View.GONE
                             binding.rv.visibility = View.VISIBLE
 
-                            Snackbar.make(
-                                binding.root,
-                                state.message,
-                                Snackbar.LENGTH_LONG
-                            ).show()
+                            longSnack(binding.root, getString(state.message.toInt()))
                         }
 
                         else -> {}

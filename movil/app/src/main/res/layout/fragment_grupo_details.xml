@@ -72,23 +72,37 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_with_screen"
-            android:layout_marginTop="@dimen/spacing_with_screen"
+            android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginEnd="@dimen/spacing_with_screen"
             android:text="TextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewCreadorFechaGrupo" />
 
+        <!-- tareas -->
+        <TextView
+            android:id="@+id/textViewTareas"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_with_screen"
+            android:layout_marginTop="@dimen/spacing_between_fields"
+            android:layout_marginEnd="@dimen/spacing_with_screen"
+            android:text="@string/label_tareas"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewDescGrupo" />
+
         <!-- rv -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/spacing_between_fields"
+            android:layout_marginTop="@dimen/spacing_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewDescGrupo"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTareas"
             tools:listitem="@layout/item_tarea" />
 
         <!-- mensaje tareas vacias -->

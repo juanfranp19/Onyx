@@ -16,7 +16,6 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import kotlinx.coroutines.launch
@@ -126,11 +125,7 @@ class TareaCreateFragment : Fragment() {
                             }
 
                             is TareaUiState.Error -> {
-                                Snackbar.make(
-                                    binding.root,
-                                    state.message,
-                                    Snackbar.LENGTH_LONG
-                                ).show()
+                                longSnack(binding.root, getString(state.message.toInt()))
                             }
 
                             else -> {}
@@ -190,11 +185,7 @@ class TareaCreateFragment : Fragment() {
                             }
 
                             is GrupoUiState.Error -> {
-                                Snackbar.make(
-                                    binding.root,
-                                    state.message,
-                                    Snackbar.LENGTH_LONG
-                                ).show()
+                                longSnack(binding.root, getString(state.message.toInt()))
                             }
 
                             else -> {}

@@ -60,6 +60,7 @@ class TareaAdapter(
         fun bind(tarea: Tarea) {
 
             binding.tareaNombre.text = tarea.titulo
+            binding.tareaDescripcion.text = tarea.descripcion
 
             // fecha y hora de vencimiento
             if (!tarea.fechaVencimiento.isNullOrEmpty()) {
@@ -69,6 +70,8 @@ class TareaAdapter(
             // icono de completada
             if (tarea.completada) {
                 binding.imageViewTareaDone.visibility = View.VISIBLE
+            } else {
+                binding.imageViewTareaDone.visibility = View.GONE
             }
         }
     }

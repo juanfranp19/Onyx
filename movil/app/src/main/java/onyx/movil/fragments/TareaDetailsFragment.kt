@@ -11,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import onyx.movil.R
 import onyx.movil.databinding.FragmentTareaDetailsBinding
@@ -30,6 +29,7 @@ import onyx.movil.ui.viewmodels.factories.TareaViewModelFactory
 import onyx.movil.ui.viewmodels.factories.UserViewModelFactory
 import onyx.movil.utils.alertDialog
 import onyx.movil.utils.formatearFechaHora
+import onyx.movil.utils.longSnack
 
 class TareaDetailsFragment : Fragment() {
     private lateinit var binding: FragmentTareaDetailsBinding
@@ -94,7 +94,6 @@ class TareaDetailsFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-
                 // TAREA
                 launch {
                     tareaViewModel.uiState.collect { state ->
@@ -150,12 +149,12 @@ class TareaDetailsFragment : Fragment() {
                                     binding.textViewVencimiento.text = getString(R.string.data_sin_fecha_vencimiento)
                                 } else {
                                     val fechaVencimiento = formatearFechaHora(tarea.fechaVencimiento)
-                                    binding.textViewVencimiento.text = getString(R.string.data_vence_el) + fechaVencimiento
+                                    binding.textViewVencimiento.text = getString(R.string.data_vence_el) + " " + fechaVencimiento
                                 }
 
                                 // creador y grupo
-                                binding.textViewCreadorFechaTarea.text = getString(R.string.data_creado_el) + fechaCreacion
-                                binding.textViewNombreGrupo.text = "..."
+                                binding.textViewCreadorFechaTarea.text = getString(R.string.data_creado_el) + " " + fechaCreacion
+                                binding.textViewNombreGrupo.text = getString(R.string.label_grupo) + " ..."
 
                                 // get grupo y user
                                 grupoViewModel.getGrupo(grupoId)
@@ -197,7 +196,7 @@ class TareaDetailsFragment : Fragment() {
                             }
                             is TareaUiState.Error -> {
                                 cargado()
-                                snackbar(state.message)
+                                snackbar(getString(state.message.toInt()))
                             }
                             else -> {}
                         }
@@ -214,11 +213,11 @@ class TareaDetailsFragment : Fragment() {
                             }
                             is GrupoUiState.SuccessGetGrupo -> {
                                 val grupo = state.grupo
-                                binding.textViewNombreGrupo.text = grupo.nombre
+                                binding.textViewNombreGrupo.text = getString(R.string.label_grupo) + " " + grupo.nombre
                             }
                             is GrupoUiState.Error -> {
                                 //cargado()
-                                snackbar(state.message)
+                                snackbar(getString(state.message.toInt()))
                             }
                             else -> {}
                         }
@@ -235,11 +234,11 @@ class TareaDetailsFragment : Fragment() {
                             }
                             is UserUiState.SuccessGetUsuario -> {
                                 val user = state.usuario
-                                binding.textViewCreadorFechaTarea.text = "${binding.textViewCreadorFechaTarea.text} por ${user.nombreUsuario}"
+                                binding.textViewCreadorFechaTarea.text = "${binding.textViewCreadorFechaTarea.text}" + " " + getString(R.string.data_by) + " " + user.nombreUsuario
                             }
                             is UserUiState.Error -> {
                                 //cargado()
-                                snackbar(state.message)
+                                snackbar(getString(state.message.toInt()))
                             }
                             else -> {}
                         }
@@ -260,10 +259,6 @@ class TareaDetailsFragment : Fragment() {
     }
 
     private fun snackbar(message: String) {
-        Snackbar.make(
-            binding.root,
-            message,
-            Snackbar.LENGTH_LONG
-        ).show()
+        longSnack(binding.root, message)
     }
 }

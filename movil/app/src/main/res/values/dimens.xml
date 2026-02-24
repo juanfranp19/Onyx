@@ -10,6 +10,7 @@
     <dimen name="spacing_with_screen">50dp</dimen>
     <dimen name="spacing_between_field_button">30dp</dimen>
     <dimen name="spacing_between_fields">20dp</dimen>
+    <dimen name="spacing_small">10dp</dimen>
 
     <!-- margin/padding -->
     <dimen name="margin_floating_button">16dp</dimen>
