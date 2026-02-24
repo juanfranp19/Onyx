@@ -171,7 +171,6 @@ public class DialogUtils {
             }
         });
 
-
         // Group ComboBox
         javafx.scene.control.ComboBox<onyx.escritorio.models.Grupo> grupoCombo = new javafx.scene.control.ComboBox<>();
         grupoCombo.getItems().addAll(grupos);
@@ -254,6 +253,254 @@ public class DialogUtils {
         return result.get();
     }
 
+    public static CreateGroupResult showEditGroupDialog(String currentName, String currentDesc) {
+        Stage dialogStage = new Stage();
+        dialogStage.initModality(Modality.APPLICATION_MODAL);
+        dialogStage.initStyle(StageStyle.TRANSPARENT);
+        dialogStage.initOwner(MainApplication.getPrimaryStage());
+
+        AtomicReference<CreateGroupResult> result = new AtomicReference<>(new CreateGroupResult(null, null, false));
+
+        VBox content = new VBox(16);
+        content.getStyleClass().add("error-dialog-content");
+        content.setMinWidth(400);
+
+        Label titleLabel = new Label("Editar Grupo");
+        titleLabel.getStyleClass().add("error-dialog-title");
+
+        TextField nameInput = new TextField(currentName != null ? currentName : "");
+        nameInput.setPromptText("Nombre del grupo");
+        nameInput.getStyleClass().add("modern-input");
+
+        TextArea descInput = new TextArea(currentDesc != null ? currentDesc : "");
+        descInput.setPromptText("Descripción (opcional)");
+        descInput.setPrefRowCount(3);
+        descInput.getStyleClass().add("modern-input");
+        descInput.setMaxHeight(80);
+
+        Button btnCancel = new Button("Cancelar");
+        btnCancel.getStyleClass().add("ghost-button");
+        btnCancel.setOnAction(e -> dialogStage.close());
+
+        Button btnSave = new Button("Guardar");
+        btnSave.getStyleClass().add("primary-button");
+        btnSave.setOnAction(e -> {
+            if (!nameInput.getText().isBlank()) {
+                result.set(new CreateGroupResult(nameInput.getText(), descInput.getText(), true));
+                dialogStage.close();
+            } else {
+                nameInput.getStyleClass().add("input-error");
+            }
+        });
+
+        HBox buttons = new HBox(12, btnCancel, btnSave);
+        buttons.setAlignment(Pos.CENTER_RIGHT);
+
+        content.getChildren().addAll(titleLabel, nameInput, descInput, buttons);
+
+        StackPane root = new StackPane(content);
+        root.getStyleClass().add("error-dialog-overlay");
+        root.setPadding(new javafx.geometry.Insets(20));
+
+        Scene scene = new Scene(root);
+        scene.setFill(Color.TRANSPARENT);
+        scene.getStylesheets().add(DialogUtils.class.getResource("/Main.css").toExternalForm());
+
+        dialogStage.setScene(scene);
+
+        Stage owner = MainApplication.getPrimaryStage();
+        if (owner != null) {
+            dialogStage.setOnShown(e -> {
+                dialogStage.setX(owner.getX() + (owner.getWidth() - dialogStage.getWidth()) / 2);
+                dialogStage.setY(owner.getY() + (owner.getHeight() - dialogStage.getHeight()) / 2);
+            });
+        }
+
+        dialogStage.showAndWait();
+
+        return result.get();
+    }
+
+    public static CreateTaskResult showEditTaskDialog(String currentTitle, String currentDesc,
+            java.time.LocalDateTime currentDate, Integer currentGrupoId,
+            java.util.List<onyx.escritorio.models.Grupo> grupos) {
+        Stage dialogStage = new Stage();
+        dialogStage.initModality(Modality.APPLICATION_MODAL);
+        dialogStage.initStyle(StageStyle.TRANSPARENT);
+        dialogStage.initOwner(MainApplication.getPrimaryStage());
+
+        java.util.concurrent.atomic.AtomicReference<CreateTaskResult> result = new java.util.concurrent.atomic.AtomicReference<>(
+                new CreateTaskResult(null, null, null, null, false));
+
+        VBox content = new VBox(16);
+        content.getStyleClass().add("error-dialog-content");
+        content.setMinWidth(400);
+
+        Label titleLabel = new Label("Editar Tarea");
+        titleLabel.getStyleClass().add("error-dialog-title");
+
+        TextField tituloInput = new TextField(currentTitle != null ? currentTitle : "");
+        tituloInput.setPromptText("Título de la tarea");
+        tituloInput.getStyleClass().add("modern-input");
+
+        TextArea descInput = new TextArea(currentDesc != null ? currentDesc : "");
+        descInput.setPromptText("Descripción (opcional)");
+        descInput.setPrefRowCount(3);
+        descInput.getStyleClass().add("modern-input");
+        descInput.setMaxHeight(80);
+
+        javafx.scene.control.DatePicker datePicker = new javafx.scene.control.DatePicker();
+        if (currentDate != null)
+            datePicker.setValue(currentDate.toLocalDate());
+        datePicker.setPromptText("Fecha de vencimiento (opcional)");
+        datePicker.getStyleClass().add("modern-input");
+        datePicker.setMaxWidth(Double.MAX_VALUE);
+        datePicker.setEditable(false);
+        datePicker.getEditor().setStyle("-fx-opacity: 1;");
+        datePicker.getEditor().setCursor(javafx.scene.Cursor.HAND);
+        datePicker.setCursor(javafx.scene.Cursor.HAND);
+
+        datePicker.getEditor().setOnMouseClicked(e -> {
+            if (!datePicker.isShowing())
+                datePicker.show();
+        });
+        datePicker.setOnMouseClicked(e -> {
+            if (!datePicker.isShowing())
+                datePicker.show();
+        });
+
+        javafx.scene.control.ComboBox<onyx.escritorio.models.Grupo> grupoCombo = new javafx.scene.control.ComboBox<>();
+        grupoCombo.getItems().addAll(grupos);
+        grupoCombo.setPromptText("Selecciona un grupo");
+        grupoCombo.getStyleClass().add("modern-input");
+        grupoCombo.setMaxWidth(Double.MAX_VALUE);
+
+        if (currentGrupoId != null) {
+            for (onyx.escritorio.models.Grupo g : grupos) {
+                if (g.getId().equals(currentGrupoId)) {
+                    grupoCombo.setValue(g);
+                    break;
+                }
+            }
+        }
+
+        grupoCombo.setCellFactory(lv -> new javafx.scene.control.ListCell<>() {
+            @Override
+            protected void updateItem(onyx.escritorio.models.Grupo item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : item.getNombre());
+            }
+        });
+        grupoCombo.setButtonCell(new javafx.scene.control.ListCell<>() {
+            @Override
+            protected void updateItem(onyx.escritorio.models.Grupo item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : item.getNombre());
+            }
+        });
+
+        Button btnCancel = new Button("Cancelar");
+        btnCancel.getStyleClass().add("ghost-button");
+        btnCancel.setOnAction(e -> dialogStage.close());
+
+        Button btnSave = new Button("Guardar");
+        btnSave.getStyleClass().add("primary-button");
+        btnSave.setOnAction(e -> {
+            if (!tituloInput.getText().isBlank() && grupoCombo.getValue() != null) {
+                java.time.LocalDateTime fechaVenc = datePicker.getValue() != null
+                        ? datePicker.getValue().atStartOfDay()
+                        : null;
+                result.set(new CreateTaskResult(
+                        tituloInput.getText(),
+                        descInput.getText(),
+                        fechaVenc,
+                        grupoCombo.getValue().getId(),
+                        true));
+                dialogStage.close();
+            } else {
+                if (tituloInput.getText().isBlank())
+                    tituloInput.getStyleClass().add("input-error");
+                if (grupoCombo.getValue() == null)
+                    grupoCombo.getStyleClass().add("input-error");
+            }
+        });
+
+        HBox buttons = new HBox(12, btnCancel, btnSave);
+        buttons.setAlignment(Pos.CENTER_RIGHT);
+
+        content.getChildren().addAll(titleLabel, tituloInput, descInput, datePicker, grupoCombo, buttons);
+
+        StackPane root = new StackPane(content);
+        root.getStyleClass().add("error-dialog-overlay");
+        root.setPadding(new javafx.geometry.Insets(20));
+
+        Scene scene = new Scene(root);
+        scene.setFill(Color.TRANSPARENT);
+        scene.getStylesheets().add(DialogUtils.class.getResource("/Main.css").toExternalForm());
+
+        dialogStage.setScene(scene);
+
+        Stage owner = MainApplication.getPrimaryStage();
+        if (owner != null) {
+            dialogStage.setOnShown(e -> {
+                dialogStage.setX(owner.getX() + (owner.getWidth() - dialogStage.getWidth()) / 2);
+                dialogStage.setY(owner.getY() + (owner.getHeight() - dialogStage.getHeight()) / 2);
+            });
+        }
+
+        dialogStage.showAndWait();
+
+        return result.get();
+    }
+
+    public static boolean showDeleteConfirmationDialog(String itemType) {
+        Stage dialogStage = createDialogStage("Confirmar Eliminación");
+
+        VBox content = new VBox(16);
+        content.setAlignment(Pos.CENTER);
+        content.getStyleClass().add("error-dialog-content");
+
+        Label iconLabel = new Label("🗑");
+        iconLabel.setStyle("-fx-font-size: 42px; -fx-text-fill: #ef4444;");
+
+        Label titleLabel = new Label("Eliminar " + itemType);
+        titleLabel.getStyleClass().add("error-dialog-title");
+
+        Label messageLabel = new Label(
+                "¿Estás seguro de que deseas eliminar este " + itemType + "? Esta acción no se puede deshacer.");
+        messageLabel.getStyleClass().add("error-dialog-message");
+        messageLabel.setMaxWidth(280);
+        messageLabel.setWrapText(true);
+
+        java.util.concurrent.atomic.AtomicBoolean result = new java.util.concurrent.atomic.AtomicBoolean(false);
+
+        Button btnCancel = new Button("Cancelar");
+        btnCancel.getStyleClass().add("ghost-button");
+        btnCancel.setOnAction(e -> dialogStage.close());
+
+        Button btnDelete = new Button("Eliminar");
+        btnDelete.setStyle(
+                "-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #ef4444 0%, #b91c1c 100%); -fx-text-fill: white; -fx-background-radius: 12px; -fx-padding: 10px 32px; -fx-cursor: hand;");
+        btnDelete.setOnAction(e -> {
+            result.set(true);
+            dialogStage.close();
+        });
+
+        HBox buttons = new HBox(12, btnCancel, btnDelete);
+        buttons.setAlignment(Pos.CENTER);
+        VBox.setMargin(buttons, new javafx.geometry.Insets(8, 0, 0, 0));
+
+        content.getChildren().addAll(iconLabel, titleLabel, messageLabel, buttons);
+
+        Scene dialogScene = createDialogScene(content);
+        dialogStage.setScene(dialogScene);
+        centerDialogOnOwner(dialogStage);
+
+        dialogStage.showAndWait();
+
+        return result.get();
+    }
+
     public static void showSuccessDialog(String titleText, String message) {
         showDialog(
                 "Éxito",
@@ -263,8 +510,7 @@ public class DialogUtils {
                 null,
                 "-fx-font-size: 28px; -fx-text-fill: #22c55e;",
                 "Aceptar",
-                null
-        );
+                null);
     }
 
     public static void showErrorDialog(String message) {
@@ -276,8 +522,7 @@ public class DialogUtils {
                 "error-dialog-icon",
                 null,
                 "Entendido",
-                null
-        );
+                null);
     }
 
     private static void showDialog(
@@ -288,8 +533,7 @@ public class DialogUtils {
             String iconClass,
             String iconStyle,
             String buttonText,
-            Runnable onConfirm
-    ) {
+            Runnable onConfirm) {
         Stage dialogStage = createDialogStage(windowTitle);
 
         VBox content = new VBox(16);

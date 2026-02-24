@@ -80,7 +80,8 @@ public class GrupoDetalleController {
     }
 
     private void cargarTareasGrupo() {
-        if (grupo == null || grupo.getId() == null) return;
+        if (grupo == null || grupo.getId() == null)
+            return;
 
         ApiClient.getTareasPorGrupoPublic(grupo.getId()).thenAccept(tareas -> {
             Platform.runLater(() -> {
@@ -151,6 +152,145 @@ public class GrupoDetalleController {
             card.getChildren().add(fecha);
         }
 
+        // Hacer la tarjeta clickacble para ver el detalle de la tarea
+        card.setCursor(javafx.scene.Cursor.HAND);
+        card.setOnMouseClicked(e -> abrirDetalleTarea(tarea));
+
         return card;
+    }
+
+    private void abrirDetalleTarea(Tarea tarea) {
+        // Asegurarnos de que la tarea tenga el grupo asignado si viene null del JSON
+        if (tarea.getGrupo() == null) {
+            tarea.setGrupo(this.grupo);
+        }
+
+        try {
+            java.net.URL fxmlUrl = onyx.escritorio.MainApplication.class
+                    .getResource("/onyx/escritorio/tarea-detalle-view.fxml");
+            if (fxmlUrl == null)
+                throw new java.io.IOException("FXML resource not found: /onyx/escritorio/tarea-detalle-view.fxml");
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(fxmlUrl);
+            javafx.scene.Node view = loader.load();
+
+            TareaDetalleController controller = loader.getController();
+            controller.setTarea(tarea);
+            // Al volver, queremos restaurar la vista actual.
+            controller.setOnBack(this::volverAGrupoDetalle);
+
+            javafx.scene.layout.StackPane contentArea = null;
+            if (onyx.escritorio.MainApplication.getPrimaryStage() != null
+                    && onyx.escritorio.MainApplication.getPrimaryStage().getScene() != null) {
+                contentArea = (javafx.scene.layout.StackPane) onyx.escritorio.MainApplication.getPrimaryStage()
+                        .getScene().lookup(".content-area");
+            }
+            if (contentArea != null) {
+                view.setOpacity(0);
+                contentArea.getChildren().clear();
+                contentArea.getChildren().add(view);
+
+                javafx.animation.FadeTransition fade = new javafx.animation.FadeTransition(
+                        javafx.util.Duration.millis(300), view);
+                fade.setFromValue(0);
+                fade.setToValue(1);
+                fade.play();
+            }
+        } catch (java.io.IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void volverAGrupoDetalle() {
+        try {
+            java.net.URL fxmlUrl = onyx.escritorio.MainApplication.class
+                    .getResource("/onyx/escritorio/grupo-detalle-view.fxml");
+            if (fxmlUrl == null)
+                throw new java.io.IOException("FXML resource not found: /onyx/escritorio/grupo-detalle-view.fxml");
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(fxmlUrl);
+            javafx.scene.Node view = loader.load();
+
+            GrupoDetalleController controller = loader.getController();
+            controller.setGrupo(this.grupo);
+            controller.setOnBack(this.onBack);
+
+            javafx.scene.layout.StackPane contentArea = null;
+            if (onyx.escritorio.MainApplication.getPrimaryStage() != null
+                    && onyx.escritorio.MainApplication.getPrimaryStage().getScene() != null) {
+                contentArea = (javafx.scene.layout.StackPane) onyx.escritorio.MainApplication.getPrimaryStage()
+                        .getScene().lookup(".content-area");
+            }
+            if (contentArea != null) {
+                view.setOpacity(0);
+                contentArea.getChildren().clear();
+                contentArea.getChildren().add(view);
+
+                javafx.animation.FadeTransition fade = new javafx.animation.FadeTransition(
+                        javafx.util.Duration.millis(300), view);
+                fade.setFromValue(0);
+                fade.setToValue(1);
+                fade.play();
+            }
+        } catch (java.io.IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleEditGroup() {
+        if (grupo == null)
+            return;
+        onyx.escritorio.utils.DialogUtils.CreateGroupResult result = onyx.escritorio.utils.DialogUtils
+                .showEditGroupDialog(grupo.getNombre(), grupo.getDescripcion());
+        if (result.confirmed) {
+            ApiClient.updateGrupo(grupo.getId(), result.name, result.description)
+                    .thenAccept(success -> {
+                        Platform.runLater(() -> {
+                            if (success) {
+                                onyx.escritorio.utils.DialogUtils.showSuccessDialog("Grupo actualizado",
+                                        "Los datos del grupo se han actualizado correctamente.");
+                                grupo.setNombre(result.name);
+                                grupo.setDescripcion(result.description);
+                                mostrarDatosGrupo();
+                            } else {
+                                onyx.escritorio.utils.DialogUtils.showErrorDialog("Error al actualizar el grupo.");
+                            }
+                        });
+                    })
+                    .exceptionally(ex -> {
+                        Platform.runLater(() -> {
+                            String msg = ex.getCause() != null ? ex.getCause().getMessage() : ex.getMessage();
+                            onyx.escritorio.utils.DialogUtils.showErrorDialog("Error al editar el grupo:\n" + msg);
+                        });
+                        return null;
+                    });
+        }
+    }
+
+    @FXML
+    private void handleDeleteGroup() {
+        if (grupo == null)
+            return;
+
+        boolean confirmed = onyx.escritorio.utils.DialogUtils.showDeleteConfirmationDialog("grupo");
+        if (confirmed) {
+            ApiClient.deleteGrupo(grupo.getId()).thenAccept(success -> {
+                Platform.runLater(() -> {
+                    if (success) {
+                        onyx.escritorio.utils.DialogUtils.showSuccessDialog("Eliminado",
+                                "El grupo ha sido eliminado correctamente.");
+                        if (onBack != null) {
+                            onBack.run();
+                        }
+                    } else {
+                        onyx.escritorio.utils.DialogUtils.showErrorDialog("No se pudo eliminar el grupo.");
+                    }
+                });
+            }).exceptionally(ex -> {
+                Platform.runLater(() -> {
+                    onyx.escritorio.utils.DialogUtils.showErrorDialog("Error de conexión al eliminar.");
+                });
+                return null;
+            });
+        }
     }
 }

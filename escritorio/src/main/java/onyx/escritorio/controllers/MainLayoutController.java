@@ -28,9 +28,6 @@ public class MainLayoutController {
     private HBox navTareas;
 
     @FXML
-    private HBox navPendientes;
-
-    @FXML
     private StackPane contentArea;
 
     @FXML
@@ -57,6 +54,13 @@ public class MainLayoutController {
             lblUsername.setText(session.getUsername());
             lblEmail.setText(session.getEmail());
         }
+
+        session.setOnUserUpdated(() -> {
+            javafx.application.Platform.runLater(() -> {
+                lblUsername.setText(session.getUsername());
+                lblEmail.setText(session.getEmail());
+            });
+        });
     }
 
     @FXML
@@ -105,14 +109,12 @@ public class MainLayoutController {
         loadView("tareas-view.fxml");
     }
 
-    @FXML
-    private void showPendientes() {
-        setActiveNav(navPendientes);
-        loadPlaceholder("Pendientes", "Vista de pendientes - Próximamente");
-    }
-
     private void showSettings() {
-        loadPlaceholder("Ajustes", "Configuración de la aplicación - Próximamente");
+        if (currentActiveNav != null) {
+            currentActiveNav.getStyleClass().remove("active");
+            currentActiveNav = null;
+        }
+        loadView("ajustes-view.fxml");
     }
 
     private void logout() {

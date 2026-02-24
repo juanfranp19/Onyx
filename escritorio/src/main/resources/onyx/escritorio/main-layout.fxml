@@ -62,19 +62,6 @@
                     </Label>
                 </HBox>
 
-                <!-- Pendientes -->
-                <HBox fx:id="navPendientes" styleClass="nav-item" alignment="CENTER_LEFT"
-                    onMouseClicked="#showPendientes">
-                    <padding>
-                        <Insets top="12" bottom="12" left="12" right="12" />
-                    </padding>
-                    <Label styleClass="nav-icon" text="⏱" />
-                    <Label styleClass="nav-label" text="Pendientes">
-                        <HBox.margin>
-                            <Insets left="10" />
-                        </HBox.margin>
-                    </Label>
-                </HBox>
             </VBox>
 
             <!-- Bottom Settings Menu -->
@@ -82,9 +69,9 @@
                 <padding>
                     <Insets top="12" bottom="16" left="16" right="16" />
                 </padding>
-                
+
                 <Separator styleClass="sidebar-separator" />
-                
+
                 <!-- User Info -->
                 <HBox alignment="CENTER_LEFT" spacing="10">
                     <VBox>
@@ -93,7 +80,8 @@
                     </VBox>
                 </HBox>
 
-                <Button fx:id="btnSettings" styleClass="settings-button-full" text="⚙" onAction="#showSettingsMenu" />
+                <Button fx:id="btnSettings" styleClass="settings-button-full" text="⚙"
+                    onAction="#showSettingsMenu" />
             </VBox>
         </VBox>
     </left>

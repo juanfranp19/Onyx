@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.12"
+    xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="onyx.escritorio.controllers.AjustesController"
+    spacing="24" alignment="TOP_CENTER">
+
+    <padding>
+        <Insets top="32" right="32" bottom="32" left="32" />
+    </padding>
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" prefWidth="1000">
+        <Label text="Ajustes de Perfil" styleClass="view-title" />
+    </HBox>
+
+    <!-- User Icon -->
+    <VBox alignment="CENTER" spacing="12">
+        <Label fx:id="lblUserIcon" styleClass="user-profile-icon" />
+    </VBox>
+
+    <!-- Form container -->
+    <VBox styleClass="ajustes-card" spacing="16" maxWidth="600" alignment="TOP_LEFT">
+        <padding>
+            <Insets top="24" right="24" bottom="24" left="24" />
+        </padding>
+
+        <!-- Username -->
+        <VBox spacing="8">
+            <Label text="Nombre de usuario" styleClass="detail-section-title" />
+            <TextField fx:id="txtUsername" promptText="Tu nombre de usuario"
+                styleClass="modern-input" />
+        </VBox>
+
+        <!-- Email -->
+        <VBox spacing="8">
+            <Label text="Correo electrónico" styleClass="detail-section-title" />
+            <TextField fx:id="txtEmail" promptText="tuemail@ejemplo.com" styleClass="modern-input" />
+        </VBox>
+
+        <!-- Password -->
+        <VBox spacing="8">
+            <Label text="Nueva Contraseña"
+                styleClass="detail-section-title" />
+            <PasswordField fx:id="txtPassword" promptText="Nueva contraseña secreta"
+                styleClass="modern-input" />
+        </VBox>
+
+        <!-- Save Button -->
+        <HBox alignment="CENTER_RIGHT">
+            <VBox.margin>
+                <Insets top="16" />
+            </VBox.margin>
+            <Button text="Guardar Cambios" styleClass="primary-button" onAction="#handleSaveChanges" />
+        </HBox>
+    </VBox>
+
+</VBox>

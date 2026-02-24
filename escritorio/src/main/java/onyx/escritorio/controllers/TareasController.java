@@ -104,7 +104,76 @@ public class TareasController {
             card.getChildren().add(fecha);
         }
 
+        card.setCursor(javafx.scene.Cursor.HAND);
+        card.setOnMouseClicked(e -> abrirDetalleTarea(tarea));
+
         return card;
+    }
+
+    private void abrirDetalleTarea(Tarea tarea) {
+        try {
+            java.net.URL fxmlUrl = onyx.escritorio.MainApplication.class
+                    .getResource("/onyx/escritorio/tarea-detalle-view.fxml");
+            if (fxmlUrl == null)
+                throw new java.io.IOException("FXML resource not found: /onyx/escritorio/tarea-detalle-view.fxml");
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(fxmlUrl);
+            javafx.scene.Node view = loader.load();
+
+            TareaDetalleController controller = loader.getController();
+            controller.setTarea(tarea);
+            controller.setOnBack(this::volverATareas);
+
+            javafx.scene.layout.StackPane contentArea = null;
+            if (onyx.escritorio.MainApplication.getPrimaryStage() != null
+                    && onyx.escritorio.MainApplication.getPrimaryStage().getScene() != null) {
+                contentArea = (javafx.scene.layout.StackPane) onyx.escritorio.MainApplication.getPrimaryStage()
+                        .getScene().lookup(".content-area");
+            }
+            if (contentArea != null) {
+                view.setOpacity(0);
+                contentArea.getChildren().clear();
+                contentArea.getChildren().add(view);
+
+                javafx.animation.FadeTransition fade = new javafx.animation.FadeTransition(
+                        javafx.util.Duration.millis(300), view);
+                fade.setFromValue(0);
+                fade.setToValue(1);
+                fade.play();
+            }
+        } catch (java.io.IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void volverATareas() {
+        try {
+            java.net.URL fxmlUrl = onyx.escritorio.MainApplication.class
+                    .getResource("/onyx/escritorio/tareas-view.fxml");
+            if (fxmlUrl == null)
+                throw new java.io.IOException("FXML resource not found: /onyx/escritorio/tareas-view.fxml");
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(fxmlUrl);
+            javafx.scene.Node view = loader.load();
+
+            javafx.scene.layout.StackPane contentArea = null;
+            if (onyx.escritorio.MainApplication.getPrimaryStage() != null
+                    && onyx.escritorio.MainApplication.getPrimaryStage().getScene() != null) {
+                contentArea = (javafx.scene.layout.StackPane) onyx.escritorio.MainApplication.getPrimaryStage()
+                        .getScene().lookup(".content-area");
+            }
+            if (contentArea != null) {
+                view.setOpacity(0);
+                contentArea.getChildren().clear();
+                contentArea.getChildren().add(view);
+
+                javafx.animation.FadeTransition fade = new javafx.animation.FadeTransition(
+                        javafx.util.Duration.millis(300), view);
+                fade.setFromValue(0);
+                fade.setToValue(1);
+                fade.play();
+            }
+        } catch (java.io.IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @FXML

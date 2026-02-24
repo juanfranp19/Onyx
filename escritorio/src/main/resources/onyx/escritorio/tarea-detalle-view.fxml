@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx/17.0.12"
+    xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="onyx.escritorio.controllers.TareaDetalleController"
+    alignment="TOP_LEFT">
+
+    <VBox spacing="20" alignment="TOP_LEFT">
+        <padding>
+            <Insets top="24" right="24" bottom="24" left="24" />
+        </padding>
+
+        <!-- Back button + Title -->
+        <HBox alignment="CENTER_LEFT" spacing="12">
+            <Button text="←" styleClass="back-button" onAction="#handleBack" />
+            <Label fx:id="lblTaskName" text="Tarea" styleClass="view-title" />
+        </HBox>
+
+        <!-- Task info card -->
+        <VBox styleClass="detail-info-card" spacing="8">
+            <padding>
+                <Insets top="20" right="24" bottom="20" left="24" />
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label text="📋" style="-fx-font-size: 22px;" />
+                <Label text="Información de la tarea" styleClass="detail-section-title" />
+            </HBox>
+
+            <Label fx:id="lblTaskDescription" styleClass="detail-info-text" wrapText="true" />
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="📅" styleClass="detail-info-text" />
+                <Label fx:id="lblTaskDueDate" styleClass="detail-info-date" />
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <VBox.margin>
+                    <Insets top="10" />
+                </VBox.margin>
+                <Label text="📂" styleClass="detail-info-text" />
+                <Label fx:id="lblTaskGroup" styleClass="detail-info-date" />
+            </HBox>
+        </VBox>
+    </VBox>
+
+    <VBox spacing="16" alignment="BOTTOM_RIGHT" StackPane.alignment="BOTTOM_RIGHT"
+        pickOnBounds="false">
+        <StackPane.margin>
+            <Insets right="32" bottom="32" />
+        </StackPane.margin>
+        <Button text="🗑" styleClass="fab-button, fab-delete" onAction="#handleDeleteTask">
+            <tooltip>
+                <Tooltip text="Eliminar tarea" />
+            </tooltip>
+        </Button>
+        <Button text="✏" styleClass="fab-button" onAction="#handleEditTask">
+            <tooltip>
+                <Tooltip text="Editar tarea" />
+            </tooltip>
+        </Button>
+    </VBox>
+</StackPane>

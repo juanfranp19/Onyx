@@ -6,7 +6,8 @@ public class Session {
     private String email;
     private Integer userId;
 
-    private Session() {}
+    private Session() {
+    }
 
     public static Session getInstance() {
         if (instance == null) {
@@ -19,6 +20,9 @@ public class Session {
         this.userId = id;
         this.username = username;
         this.email = email;
+        if (this.onUserUpdated != null) {
+            this.onUserUpdated.run();
+        }
     }
 
     public void clear() {
@@ -41,5 +45,11 @@ public class Session {
 
     public boolean isLoggedIn() {
         return userId != null;
+    }
+
+    private Runnable onUserUpdated;
+
+    public void setOnUserUpdated(Runnable callback) {
+        this.onUserUpdated = callback;
     }
 }

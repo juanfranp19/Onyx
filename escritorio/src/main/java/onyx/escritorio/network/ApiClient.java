@@ -148,9 +148,16 @@ public class ApiClient {
             return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
                     .thenApply(v -> {
                         List<Tarea> allTareas = new ArrayList<>();
-                        for (CompletableFuture<List<Tarea>> f : futures) {
+                        for (int i = 0; i < futures.size(); i++) {
                             try {
-                                allTareas.addAll(f.get());
+                                List<Tarea> tareasDelGrupo = futures.get(i).get();
+                                Grupo grupoPadre = grupos.get(i);
+                                for (Tarea t : tareasDelGrupo) {
+                                    if (t.getGrupo() == null) {
+                                        t.setGrupo(grupoPadre);
+                                    }
+                                }
+                                allTareas.addAll(tareasDelGrupo);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -187,7 +194,8 @@ public class ApiClient {
                 });
     }
 
-    public static CompletableFuture<Boolean> createTarea(String titulo, String descripcion, LocalDateTime fechaVencimiento, Integer grupoId, Integer creadorId) {
+    public static CompletableFuture<Boolean> createTarea(String titulo, String descripcion,
+            LocalDateTime fechaVencimiento, Integer grupoId, Integer creadorId) {
 
         Map<String, Object> data = new HashMap<>();
         data.put("titulo", titulo);
@@ -224,5 +232,98 @@ public class ApiClient {
         } catch (Exception e) {
             return CompletableFuture.failedFuture(e);
         }
+    }
+
+    public static CompletableFuture<Boolean> updateGrupo(Integer grupoId, String nombre, String descripcion) {
+        Map<String, Object> data = Map.of(
+                "nombre", nombre,
+                "descripcion", descripcion);
+        try {
+            String json = mapper.writeValueAsString(data);
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(BASE_URL + "/grupos/" + grupoId))
+                    .header("Content-Type", "application/json")
+                    .PUT(HttpRequest.BodyPublishers.ofString(json))
+                    .build();
+            return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(response -> response.statusCode() == 200 || response.statusCode() == 204);
+        } catch (Exception e) {
+            return CompletableFuture.failedFuture(e);
+        }
+    }
+
+    public static CompletableFuture<Boolean> updateTarea(Integer tareaId, String titulo, String descripcion,
+            LocalDateTime fechaVencimiento, Integer grupoId) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("titulo", titulo);
+        data.put("descripcion", descripcion);
+        data.put("grupo_id", grupoId);
+
+        if (fechaVencimiento != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            data.put("fechaVencimiento", fechaVencimiento.format(formatter));
+        } else {
+            data.put("fechaVencimiento", "");
+        }
+
+        try {
+            String json = mapper.writeValueAsString(data);
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(BASE_URL + "/tareas/" + tareaId))
+                    .header("Content-Type", "application/json")
+                    .PUT(HttpRequest.BodyPublishers.ofString(json))
+                    .build();
+            return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(response -> response.statusCode() == 200 || response.statusCode() == 204);
+        } catch (Exception e) {
+            return CompletableFuture.failedFuture(e);
+        }
+    }
+
+    public static CompletableFuture<Boolean> updateUsuario(Integer id, String nombreUsuario, String email,
+            String password) {
+        Map<String, String> data = new HashMap<>();
+        data.put("nombreUsuario", nombreUsuario);
+        data.put("email", email);
+        if (password != null && !password.isEmpty()) {
+            data.put("passwordHash", password);
+        } else {
+            data.put("passwordHash", "");
+        }
+
+        try {
+            String json = mapper.writeValueAsString(data);
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(BASE_URL + "/usuarios/" + id))
+                    .header("Content-Type", "application/json")
+                    .PUT(HttpRequest.BodyPublishers.ofString(json))
+                    .build();
+
+            return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(response -> response.statusCode() == 200 || response.statusCode() == 201
+                            || response.statusCode() == 204);
+        } catch (Exception e) {
+            return CompletableFuture.failedFuture(e);
+        }
+    }
+
+    public static CompletableFuture<Boolean> deleteTarea(Integer id) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(BASE_URL + "/tareas/" + id))
+                .DELETE()
+                .build();
+
+        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(response -> response.statusCode() == 204 || response.statusCode() == 200);
+    }
+
+    public static CompletableFuture<Boolean> deleteGrupo(Integer id) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(BASE_URL + "/grupos/" + id))
+                .DELETE()
+                .build();
+
+        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(response -> response.statusCode() == 204 || response.statusCode() == 200);
     }
 }
