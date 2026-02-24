@@ -71,6 +71,19 @@ class TareaViewModel(private val provider: TareaProvider) : ViewModel() {
         }
     }
 
+    fun putTareaCompletada(tareaId: Long?, completada: Boolean?) {
+        viewModelScope.launch {
+
+            // cambia el estado
+            _uiState.value = TareaUiState.Loading
+
+            // llama al la función del provider y cambia de estado
+            provider.putTareaCompletada(tareaId, completada)
+                .onSuccess { tarea -> _uiState.value = TareaUiState.SuccessPutTarea(tarea) }
+                .onFailure { _ -> _uiState.value = TareaUiState.Error("Error al actualizar la tarea") }
+        }
+    }
+
     fun deleteTarea(tareaId: Long?) {
         viewModelScope.launch {
 

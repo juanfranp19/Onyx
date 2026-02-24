@@ -88,6 +88,18 @@ class TareaProvider(private val api: OnyxAPI) {
         }
     }
 
+    suspend fun putTareaCompletada(tareaId: Long?, completada: Boolean?): Result<Tarea> {
+        try {
+
+            val tarea = api.putTareaCompletada(tareaId, completada)
+            return Result.success(tarea)
+
+        } catch (e: Exception) {
+            Log.e("PUT_TAREA_COMPLETADA_ERROR", "Exception: ", e)
+            return Result.failure(e)
+        }
+    }
+
     suspend fun deleteTarea(tareaId: Long?): Result<Unit> {
         try {
 

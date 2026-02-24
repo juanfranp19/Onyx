@@ -8,5 +8,6 @@ data class Tarea(
     val fechaVencimiento: String,
     val lista: String,
     val grupoId: Long,
-    val creadorId: Long
+    val creadorId: Long,
+    val completada: Boolean
 )

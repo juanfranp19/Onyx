@@ -119,6 +119,19 @@ class TareaDetailsFragment : Fragment() {
                                         .build()
                                 )
                             }
+                            is TareaUiState.SuccessPutTarea -> {
+                                val tarea = state.tarea
+
+                                // mensaje dependiendo de si está completada o no
+                                if (tarea.completada) {
+                                    snackbar(getString(R.string.msg_tarea_marcada_completada))
+                                } else {
+                                    snackbar(getString(R.string.msg_tarea_marcada_no_completada))
+                                }
+
+                                // actualiza contenido
+                                tareaViewModel.getTarea(tareaId)
+                            }
                             is TareaUiState.SuccessGetTarea -> {
                                 val tarea = state.tarea
 
@@ -162,11 +175,29 @@ class TareaDetailsFragment : Fragment() {
                                     findNavController().navigate(R.id.action_tareaDetailsFragment_to_tareaEditFragment, bundle)
                                 }
 
+                                binding.floatingActionButtonCheck.setOnClickListener {
+
+                                    if (tarea.completada) {
+
+                                        alertDialog(requireContext(), getString(R.string.dialog_tarea_no_completada), getString(R.string.dialog_pregunta_tarea_no_completada), getString(R.string.btn_si), {
+                                            // marcar tarea como no completada
+                                            tareaViewModel.putTareaCompletada(tarea.id, false)
+                                        }, getString(R.string.btn_cancelar))
+
+                                    } else {
+
+                                        alertDialog(requireContext(), getString(R.string.dialog_tarea_completada), getString(R.string.dialog_pregunta_tarea_completada), getString(R.string.btn_si), {
+                                            // marcar tarea como completada
+                                            tareaViewModel.putTareaCompletada(tarea.id, true)
+                                        }, getString(R.string.btn_cancelar))
+                                    }
+                                }
+
                                 cargado()
                             }
                             is TareaUiState.Error -> {
                                 cargado()
-                                mostrarError(state.message)
+                                snackbar(state.message)
                             }
                             else -> {}
                         }
@@ -187,7 +218,7 @@ class TareaDetailsFragment : Fragment() {
                             }
                             is GrupoUiState.Error -> {
                                 //cargado()
-                                mostrarError(state.message)
+                                snackbar(state.message)
                             }
                             else -> {}
                         }
@@ -208,7 +239,7 @@ class TareaDetailsFragment : Fragment() {
                             }
                             is UserUiState.Error -> {
                                 //cargado()
-                                mostrarError(state.message)
+                                snackbar(state.message)
                             }
                             else -> {}
                         }
@@ -228,7 +259,7 @@ class TareaDetailsFragment : Fragment() {
         binding.progressBar.visibility = View.GONE
     }
 
-    private fun mostrarError(message: String) {
+    private fun snackbar(message: String) {
         Snackbar.make(
             binding.root,
             message,

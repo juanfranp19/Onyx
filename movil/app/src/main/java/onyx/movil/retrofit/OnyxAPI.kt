@@ -64,6 +64,9 @@ interface OnyxAPI {
     @PUT("tareas/{id}")
     suspend fun putTarea(@Path("id") tareaId: Long?, @Body body: Map<String, @JvmSuppressWildcards Any>): Tarea
 
+    @PUT("tareas/{id}/completada/{completada}")
+    suspend fun putTareaCompletada(@Path("id") tareaId: Long?, @Path("completada") completada: Boolean?): Tarea
+
     @DELETE("tareas/{tareaId}")
     suspend fun deleteTarea(@Path("tareaId") tareaId: Long?)
 }
