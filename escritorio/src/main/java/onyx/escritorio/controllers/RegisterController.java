@@ -1,4 +1,4 @@
-package onyx.escritorio;
+package onyx.escritorio.controllers;
 
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import onyx.escritorio.MainApplication;
 import onyx.escritorio.network.ApiClient;
 
 import java.io.IOException;

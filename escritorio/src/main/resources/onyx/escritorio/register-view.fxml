@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 
 <StackPane styleClass="app-background" xmlns="http://javafx.com/javafx/17.0.12"
-    xmlns:fx="http://javafx.com/fxml/1" fx:controller="onyx.escritorio.RegisterController">
+    xmlns:fx="http://javafx.com/fxml/1" fx:controller="onyx.escritorio.controllers.RegisterController">
     <children>
         <VBox alignment="TOP_CENTER" prefHeight="470.0" prefWidth="633.0" spacing="20.0">
             <padding>

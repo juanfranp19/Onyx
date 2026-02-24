@@ -34,10 +34,10 @@ public class MainApplication extends Application {
         stage.setScene(scene);
 
         // Tamaño mínimo y máximo (solo se puede reducir)
-        stage.setMinWidth(INITIAL_WIDTH / 1.1);
-        stage.setMinHeight(INITIAL_HEIGHT / 1.2);
-        stage.setMaxWidth(INITIAL_WIDTH);
-        stage.setMaxHeight(INITIAL_HEIGHT);
+//        stage.setMinWidth(INITIAL_WIDTH / 1.1);
+//        stage.setMinHeight(INITIAL_HEIGHT / 1.2);
+//        stage.setMaxWidth(INITIAL_WIDTH);
+//        stage.setMaxHeight(INITIAL_HEIGHT);
 
         stage.show();
     }

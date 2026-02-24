@@ -13,5 +13,7 @@ module onyx.escritorio {
     exports onyx.escritorio.network;
     exports onyx.escritorio.models;
     exports onyx.escritorio.utils;
+    exports onyx.escritorio.controllers;
+    opens onyx.escritorio.controllers to javafx.fxml;
 
 }

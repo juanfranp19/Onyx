@@ -5,13 +5,17 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import onyx.escritorio.models.Grupo;
+import onyx.escritorio.models.Tarea;
 import onyx.escritorio.utils.Session;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -129,22 +133,22 @@ public class ApiClient {
         }
     }
 
-    public static CompletableFuture<List<onyx.escritorio.models.Tarea>> getTareasUsuario(Integer userId) {
+    public static CompletableFuture<List<Tarea>> getTareasUsuario(Integer userId) {
         // Primero obtenemos los grupos del usuario, luego las tareas de cada grupo
         return getGruposUsuario(userId).thenCompose(grupos -> {
             if (grupos == null || grupos.isEmpty()) {
                 return CompletableFuture.completedFuture(new ArrayList<>());
             }
 
-            List<CompletableFuture<List<onyx.escritorio.models.Tarea>>> futures = new ArrayList<>();
+            List<CompletableFuture<List<Tarea>>> futures = new ArrayList<>();
             for (Grupo grupo : grupos) {
                 futures.add(getTareasPorGrupo(grupo.getId()));
             }
 
             return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
                     .thenApply(v -> {
-                        List<onyx.escritorio.models.Tarea> allTareas = new ArrayList<>();
-                        for (CompletableFuture<List<onyx.escritorio.models.Tarea>> f : futures) {
+                        List<Tarea> allTareas = new ArrayList<>();
+                        for (CompletableFuture<List<Tarea>> f : futures) {
                             try {
                                 allTareas.addAll(f.get());
                             } catch (Exception e) {
@@ -156,11 +160,11 @@ public class ApiClient {
         });
     }
 
-    public static CompletableFuture<List<onyx.escritorio.models.Tarea>> getTareasPorGrupoPublic(Integer grupoId) {
+    public static CompletableFuture<List<Tarea>> getTareasPorGrupoPublic(Integer grupoId) {
         return getTareasPorGrupo(grupoId);
     }
 
-    private static CompletableFuture<List<onyx.escritorio.models.Tarea>> getTareasPorGrupo(Integer grupoId) {
+    private static CompletableFuture<List<Tarea>> getTareasPorGrupo(Integer grupoId) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(BASE_URL + "/tareas/grupo/" + grupoId))
                 .header("Content-Type", "application/json")
@@ -172,29 +176,30 @@ public class ApiClient {
                     if (response.statusCode() == 200) {
                         try {
                             return mapper.readValue(response.body(),
-                                    new TypeReference<List<onyx.escritorio.models.Tarea>>() {
+                                    new TypeReference<List<Tarea>>() {
                                     });
                         } catch (Exception e) {
                             e.printStackTrace();
-                            return new ArrayList<onyx.escritorio.models.Tarea>();
+                            return new ArrayList<Tarea>();
                         }
                     }
-                    return new ArrayList<onyx.escritorio.models.Tarea>();
+                    return new ArrayList<Tarea>();
                 });
     }
 
-    public static CompletableFuture<Boolean> createTarea(String titulo, String descripcion,
-            java.time.LocalDateTime fechaVencimiento, Integer grupoId, Integer creadorId) {
+    public static CompletableFuture<Boolean> createTarea(String titulo, String descripcion, LocalDateTime fechaVencimiento, Integer grupoId, Integer creadorId) {
 
-        Map<String, Object> data = new java.util.HashMap<>();
+        Map<String, Object> data = new HashMap<>();
         data.put("titulo", titulo);
         data.put("descripcion", descripcion);
         data.put("grupo_id", grupoId);
         data.put("creador_id", creadorId);
+
         if (fechaVencimiento != null) {
-            java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter
+            DateTimeFormatter formatter = DateTimeFormatter
                     .ofPattern("dd/MM/yyyy HH:mm");
             data.put("fechaVencimiento", fechaVencimiento.format(formatter));
+
         } else {
             data.put("fechaVencimiento", "");
         }

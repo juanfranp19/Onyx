@@ -1,4 +1,4 @@
-package onyx.escritorio;
+package onyx.escritorio.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
 import javafx.animation.FadeTransition;
 import javafx.util.Duration;
+import onyx.escritorio.MainApplication;
 import onyx.escritorio.network.ApiClient;
 import onyx.escritorio.utils.DialogUtils;
 import onyx.escritorio.utils.Session;

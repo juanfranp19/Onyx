@@ -65,6 +65,6 @@ public class Tarea {
 
     @Override
     public String toString() {
-        return getTitulo(); // Útil si pones el objeto directamente en un ComboBox
+        return getTitulo();
     }
 }

@@ -1,4 +1,4 @@
-package onyx.escritorio;
+package onyx.escritorio.controllers;
 
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
@@ -13,8 +13,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.geometry.Side;
 import javafx.util.Duration;
+import onyx.escritorio.MainApplication;
 import onyx.escritorio.utils.Session;
 
 import java.io.IOException;

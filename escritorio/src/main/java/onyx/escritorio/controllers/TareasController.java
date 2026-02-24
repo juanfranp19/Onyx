@@ -1,4 +1,4 @@
-package onyx.escritorio;
+package onyx.escritorio.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
