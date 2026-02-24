@@ -18,6 +18,10 @@
         <HBox alignment="CENTER_LEFT" spacing="12">
             <Button text="←" styleClass="back-button" onAction="#handleBack" />
             <Label fx:id="lblTaskName" text="Tarea" styleClass="view-title" />
+            <Region HBox.hgrow="ALWAYS" />
+            <CheckBox fx:id="chkCompletada" text="Completada"
+                style="-fx-font-size: 14px; -fx-text-fill: #555555; -fx-cursor: hand;"
+                onAction="#handleCheckCompletada" />
         </HBox>
 
         <!-- Task info card -->

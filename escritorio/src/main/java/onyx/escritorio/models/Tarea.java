@@ -15,53 +15,117 @@ public class Tarea {
     // Si solo te interesan los IDs, cámbialos a IntegerProperty
     private final ObjectProperty<Usuario> creador;
     private final ObjectProperty<Grupo> grupo;
+    private final BooleanProperty completada;
 
     // Constructor vacío (Necesario para Jackson/Gson al recibir JSON)
     public Tarea() {
-        this(null, "", "", null, null, null);
+        this(null, "", "", null, null, null, false);
     }
 
     // Constructor completo
-    public Tarea(Integer id, String titulo, String descripcion, LocalDate fechaVencimiento, Usuario creador, Grupo grupo) {
+    public Tarea(Integer id, String titulo, String descripcion, LocalDate fechaVencimiento, Usuario creador,
+            Grupo grupo, Boolean completada) {
         this.id = new SimpleIntegerProperty(id != null ? id : 0);
         this.titulo = new SimpleStringProperty(titulo);
         this.descripcion = new SimpleStringProperty(descripcion);
         this.fechaVencimiento = new SimpleObjectProperty<>(fechaVencimiento);
         this.creador = new SimpleObjectProperty<>(creador);
         this.grupo = new SimpleObjectProperty<>(grupo);
+        this.completada = new SimpleBooleanProperty(completada != null ? completada : false);
     }
 
     // --- Getters y Setters (Estilo JavaFX) ---
 
     // ID
-    public Integer getId() { return id.get(); }
-    public void setId(Integer id) { this.id.set(id); }
-    public IntegerProperty idProperty() { return id; }
+    public Integer getId() {
+        return id.get();
+    }
+
+    public void setId(Integer id) {
+        this.id.set(id);
+    }
+
+    public IntegerProperty idProperty() {
+        return id;
+    }
 
     // TITULO
-    public String getTitulo() { return titulo.get(); }
-    public void setTitulo(String titulo) { this.titulo.set(titulo); }
-    public StringProperty tituloProperty() { return titulo; }
+    public String getTitulo() {
+        return titulo.get();
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo.set(titulo);
+    }
+
+    public StringProperty tituloProperty() {
+        return titulo;
+    }
 
     // DESCRIPCION
-    public String getDescripcion() { return descripcion.get(); }
-    public void setDescripcion(String descripcion) { this.descripcion.set(descripcion); }
-    public StringProperty descripcionProperty() { return descripcion; }
+    public String getDescripcion() {
+        return descripcion.get();
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion.set(descripcion);
+    }
+
+    public StringProperty descripcionProperty() {
+        return descripcion;
+    }
 
     // FECHA VENCIMIENTO
-    public LocalDate getFechaVencimiento() { return fechaVencimiento.get(); }
-    public void setFechaVencimiento(LocalDate fechaVencimiento) { this.fechaVencimiento.set(fechaVencimiento); }
-    public ObjectProperty<LocalDate> fechaVencimientoProperty() { return fechaVencimiento; }
+    public LocalDate getFechaVencimiento() {
+        return fechaVencimiento.get();
+    }
+
+    public void setFechaVencimiento(LocalDate fechaVencimiento) {
+        this.fechaVencimiento.set(fechaVencimiento);
+    }
+
+    public ObjectProperty<LocalDate> fechaVencimientoProperty() {
+        return fechaVencimiento;
+    }
 
     // CREADOR
-    public Usuario getCreador() { return creador.get(); }
-    public void setCreador(Usuario creador) { this.creador.set(creador); }
-    public ObjectProperty<Usuario> creadorProperty() { return creador; }
+    public Usuario getCreador() {
+        return creador.get();
+    }
+
+    public void setCreador(Usuario creador) {
+        this.creador.set(creador);
+    }
+
+    public ObjectProperty<Usuario> creadorProperty() {
+        return creador;
+    }
 
     // GRUPO
-    public Grupo getGrupo() { return grupo.get(); }
-    public void setGrupo(Grupo grupo) { this.grupo.set(grupo); }
-    public ObjectProperty<Grupo> grupoProperty() { return grupo; }
+    public Grupo getGrupo() {
+        return grupo.get();
+    }
+
+    public void setGrupo(Grupo grupo) {
+        this.grupo.set(grupo);
+    }
+
+    public ObjectProperty<Grupo> grupoProperty() {
+        return grupo;
+    }
+
+    // COMPLETADA
+    public Boolean getCompletada() {
+        return completada.get();
+    }
+
+    public void setCompletada(Boolean completada) {
+        this.completada.set(completada != null ? completada : false);
+    }
+
+    public BooleanProperty completadaProperty() {
+        return completada;
+    }
 
     @Override
     public String toString() {

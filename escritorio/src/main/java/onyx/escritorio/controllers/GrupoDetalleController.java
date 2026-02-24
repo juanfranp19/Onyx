@@ -126,11 +126,15 @@ public class GrupoDetalleController {
         HBox header = new HBox(10);
         header.setAlignment(Pos.CENTER_LEFT);
 
-        Label icon = new Label("📋");
+        boolean completada = Boolean.TRUE.equals(tarea.getCompletada());
+        Label icon = new Label(completada ? "📋✅" : "📋⬜");
         icon.setStyle("-fx-font-size: 16px;");
 
         Label titulo = new Label(tarea.getTitulo());
         titulo.getStyleClass().add("detail-tarea-title");
+        if (completada) {
+            titulo.setStyle("-fx-text-fill: #9ca3af; -fx-strikethrough: true;");
+        }
 
         header.getChildren().addAll(icon, titulo);
         card.getChildren().add(header);

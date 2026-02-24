@@ -326,4 +326,15 @@ public class ApiClient {
         return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenApply(response -> response.statusCode() == 204 || response.statusCode() == 200);
     }
+
+    public static CompletableFuture<Boolean> updateTareaCompletada(Integer id, Boolean completada) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(BASE_URL + "/tareas/" + id + "/completada/" + completada))
+                .header("Content-Type", "application/json")
+                .PUT(HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(response -> response.statusCode() == 200);
+    }
 }

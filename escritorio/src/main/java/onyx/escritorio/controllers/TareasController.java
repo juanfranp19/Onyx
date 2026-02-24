@@ -86,8 +86,15 @@ public class TareasController {
         // Icono + Título
         HBox header = new HBox(12);
         header.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
-        Label icon = new Label("📋");
+
+        boolean completada = Boolean.TRUE.equals(tarea.getCompletada());
+        Label icon = new Label(completada ? "✅" : "⬜");
         icon.setStyle("-fx-font-size: 20px;");
+
+        if (completada) {
+            titulo.setStyle("-fx-text-fill: #9ca3af; -fx-strikethrough: true;");
+        }
+
         header.getChildren().addAll(icon, titulo);
 
         Label descripcion = new Label(tarea.getDescripcion());

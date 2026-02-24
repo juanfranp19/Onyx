@@ -39,6 +39,9 @@ public class TareaDetalleController {
         }
     }
 
+    @FXML
+    private javafx.scene.control.CheckBox chkCompletada;
+
     private void mostrarDatosTarea() {
         lblTaskName.setText(tarea.getTitulo());
 
@@ -62,6 +65,49 @@ public class TareaDetalleController {
         } else {
             lblTaskGroup.setText("Sin grupo asociado");
         }
+
+        // Avoid firing event during programmatic set
+        chkCompletada.setOnAction(null);
+        chkCompletada.setSelected(Boolean.TRUE.equals(tarea.getCompletada()));
+        chkCompletada.setOnAction(e -> handleCheckCompletada());
+
+        applyCompletedStyle();
+    }
+
+    private void applyCompletedStyle() {
+        if (Boolean.TRUE.equals(tarea.getCompletada())) {
+            lblTaskName.setStyle("-fx-text-fill: #888888; -fx-strikethrough: true;");
+        } else {
+            lblTaskName.setStyle("");
+        }
+    }
+
+    @FXML
+    private void handleCheckCompletada() {
+        if (tarea == null)
+            return;
+        boolean isCompleted = chkCompletada.isSelected();
+
+        onyx.escritorio.network.ApiClient.updateTareaCompletada(tarea.getId(), isCompleted)
+                .thenAccept(success -> {
+                    javafx.application.Platform.runLater(() -> {
+                        if (success) {
+                            tarea.setCompletada(isCompleted);
+                            applyCompletedStyle();
+                        } else {
+                            chkCompletada.setSelected(!isCompleted); // Revert
+                            onyx.escritorio.utils.DialogUtils
+                                    .showErrorDialog("No se pudo actualizar el estado de la tarea.");
+                        }
+                    });
+                })
+                .exceptionally(ex -> {
+                    javafx.application.Platform.runLater(() -> {
+                        chkCompletada.setSelected(!isCompleted); // Revert
+                        onyx.escritorio.utils.DialogUtils.showErrorDialog("Error de conexión al guardar el estado.");
+                    });
+                    return null;
+                });
     }
 
     @FXML
