@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -34,10 +33,6 @@ class MainActivity : AppCompatActivity() {
                 navController.navigate(R.id.gruposFragment)
             }
         }
-
-        /* TOOLBAR */
-
-        this.setSupportActionBar(binding.toolbar)
 
         /* BOTTOM NAVIGATION MENU */
 
@@ -71,42 +66,25 @@ class MainActivity : AppCompatActivity() {
         /* ELEMENTOS MOSTRADOS EN CADA FRAGMENT */
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            mostrarScaffold()
+            // muestra el bnm
+            binding.bottomNavigationView.visibility = View.VISIBLE
             when (destination.id) {
-
                 // grupos
-
                 R.id.gruposFragment -> {
-                    binding.toolbar.title = this.getString(R.string.menu_grupos)
                     binding.bottomNavigationView.selectedItemId = R.id.bnm_grupos
                 }
-                R.id.grupoCreateFragment -> {
-                    binding.toolbar.title = this.getString(R.string.menu_grupo_crear)
-                }
-                R.id.grupoDetailsFragment -> {
-                    binding.toolbar.title = this.getString(R.string.menu_grupo_detalles)
-                }
-
                 // tareas
-
                 R.id.tareasFragment -> {
-                    binding.toolbar.title = this.getString(R.string.menu_tareas)
                     binding.bottomNavigationView.selectedItemId = R.id.bnm_tareas
                 }
-                R.id.tareaCreateFragment -> {
-                    binding.toolbar.title = this.getString(R.string.menu_tarea_crear)
-                }
-
                 // perfil
-
                 R.id.perfilFragment -> {
-                    binding.toolbar.title = this.getString(R.string.menu_perfil)
                     binding.bottomNavigationView.selectedItemId = R.id.bnm_perfil
                 }
-
                 // login register
                 R.id.tabLoginRegisterFragment -> {
-                    esconderScaffold()
+                    // esconde el bnm
+                    binding.bottomNavigationView.visibility = View.GONE
                 }
                 else -> {}
             }
@@ -139,29 +117,5 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    private fun mostrarScaffold() {
-        binding.appBarLayout.visibility = View.VISIBLE
-        binding.bottomNavigationView.visibility = View.VISIBLE
-
-        val params = binding.fragmentContainerView.layoutParams as ConstraintLayout.LayoutParams
-        params.topToTop = ConstraintLayout.LayoutParams.UNSET
-        params.bottomToBottom = ConstraintLayout.LayoutParams.UNSET
-        params.topToBottom = binding.appBarLayout.id
-        params.bottomToTop = binding.bottomNavigationView.id
-        binding.fragmentContainerView.layoutParams = params
-    }
-
-    private fun esconderScaffold() {
-        binding.appBarLayout.visibility = View.GONE
-        binding.bottomNavigationView.visibility = View.GONE
-
-        val params = binding.fragmentContainerView.layoutParams as ConstraintLayout.LayoutParams
-        params.topToBottom = ConstraintLayout.LayoutParams.UNSET
-        params.bottomToTop = ConstraintLayout.LayoutParams.UNSET
-        params.topToTop = ConstraintLayout.LayoutParams.PARENT_ID
-        params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
-        binding.fragmentContainerView.layoutParams = params
     }
 }

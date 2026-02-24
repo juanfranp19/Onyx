@@ -13,6 +13,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!-- APP BAR -->
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!-- TOOLBAR -->
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                app:title="@string/menu_tarea_detalles"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                />  <!--app:menu="@menu/toolbar"-->
+        </com.google.android.material.appbar.AppBarLayout>
+
         <!-- nombre tarea -->
         <TextView
             android:id="@+id/textViewNombreTarea"
@@ -27,7 +45,7 @@
             android:typeface="sans"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
         <!-- nombre grupo -->
         <TextView
