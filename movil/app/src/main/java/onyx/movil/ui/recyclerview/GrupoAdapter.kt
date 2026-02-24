@@ -57,6 +57,10 @@ class GrupoAdapter(val context: Context, var items: List<Grupo>) : RecyclerView.
 
         fun bind(position: Int, grupo: Grupo) {
             binding.grupoNombre.text = grupo.nombre
+
+            if (!grupo.descripcion.isNullOrEmpty()) {
+                binding.grupoDesc.text = grupo.descripcion
+            }
         }
     }
 }

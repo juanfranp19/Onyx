@@ -51,6 +51,7 @@
 
     <!-- DATOS -->
     <string name="data_sin_fecha_vencimiento">Sin fecha de vencimiento</string>
+    <string name="data_sin_descripcion">Sin descripción</string>
     <string name="data_vence_el">Vence el </string>
     <string name="data_creado_el">Creado el </string>
 

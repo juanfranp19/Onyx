@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import onyx.movil.databinding.ItemTareaBinding
 import onyx.movil.models.Tarea
+import onyx.movil.utils.formatearFechaHora
 
 class TareaAdapter(
     val context: Context,
@@ -56,7 +57,12 @@ class TareaAdapter(
         }
 
         fun bind(tarea: Tarea) {
+
             binding.tareaNombre.text = tarea.titulo
+
+            if (!tarea.fechaVencimiento.isNullOrEmpty()) {
+                binding.tareaFechaVenc.text = formatearFechaHora(tarea.fechaVencimiento)
+            }
         }
     }
 }
