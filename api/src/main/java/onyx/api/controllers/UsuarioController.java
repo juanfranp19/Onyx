@@ -34,6 +34,13 @@ public class UsuarioController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/username/{nombreUsuario}")
+    public ResponseEntity<Usuario> getById(@PathVariable String nombreUsuario) {
+        return usuarioRepository.findByNombreUsuario(nombreUsuario)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @PostMapping
     public ResponseEntity<?> create(@RequestBody RegisterRequestDTO registerRequest) {
         if (usuarioRepository.findByNombreUsuario(registerRequest.getNombreUsuario()).isPresent()) {

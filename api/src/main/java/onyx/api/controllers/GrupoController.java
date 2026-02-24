@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/grupos")
@@ -59,6 +60,9 @@ public class GrupoController {
             return ResponseEntity.badRequest().body("El ID del creador es obligatorio");
         }
 
+        // lista de IDs de usuarios del grupo
+        List<Integer> usuariosId = grupo.getUsuariosId();
+
         Usuario creador = usuarioRepository.findById(grupo.getCreadorId())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + grupo.getCreadorId()));
 
@@ -66,7 +70,22 @@ public class GrupoController {
         newGrupo.setNombre(grupo.getNombre());
         newGrupo.setDescripcion(grupo.getDescripcion());
         newGrupo.setCreador(creador);
+
+        // añade al creador a los usuarios del grupo
         newGrupo.getUsuarios().add(creador);
+
+        if (usuariosId != null) {
+            // añade al resto de usuarios
+            usuariosId.forEach(userId -> {
+
+                // objeto usuario
+                Optional<Usuario> user = usuarioRepository.findById(userId);
+
+                // lo añade a la lista de usuarios
+                user.ifPresent(usuario -> newGrupo.getUsuarios().add(usuario));
+
+            });
+        }
 
         grupoRepository.save(newGrupo);
         System.out.println("Grupo creado con éxito: " + newGrupo.getId());
