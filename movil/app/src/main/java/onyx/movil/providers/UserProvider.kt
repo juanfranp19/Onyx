@@ -82,4 +82,18 @@ class UserProvider(private val api: OnyxAPI) {
             return Result.failure(e)
         }
     }
+
+    suspend fun getUserByUsername(username: String?): Result<User> {
+        try {
+
+            // llama a la api
+            val user: User = api.getUsuarioByUsername(username)
+
+            // obtiene los datos del usuario
+            return Result.success(user)
+
+        } catch (e: Exception) {
+            return Result.failure(e)
+        }
+    }
 }

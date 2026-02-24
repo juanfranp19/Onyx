@@ -44,7 +44,7 @@ class GrupoProvider(private val api: OnyxAPI) {
         }
     }
 
-    suspend fun postGrupo(nombre: String, desc: String, creadorId: Long?): Result<Grupo> {
+    suspend fun postGrupo(nombre: String, desc: String, creadorId: Long?, usersId: List<Long>?): Result<Grupo> {
         try {
 
             // llama a la api
@@ -52,7 +52,8 @@ class GrupoProvider(private val api: OnyxAPI) {
                 mapOf(
                     "nombre" to nombre,
                     "descripcion" to desc,
-                    "creadorId" to creadorId
+                    "creadorId" to creadorId,
+                    "usuariosId" to usersId
                 ) as Map<String, @JvmSuppressWildcards Any>
             )
 

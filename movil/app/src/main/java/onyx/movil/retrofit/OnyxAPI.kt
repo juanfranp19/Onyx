@@ -34,6 +34,8 @@ interface OnyxAPI {
 
     @GET("usuarios/{id}")
     suspend fun getUsuario(@Path("id") id: Long?): User
+    @GET("usuarios/username/{username}")
+    suspend fun getUsuarioByUsername(@Path("username") username: String?): User
 
     @POST("grupos")
     suspend fun postGrupo(@Body body: Map<String, @JvmSuppressWildcards Any>): Grupo

@@ -11,4 +11,5 @@
 
     <color name="fondo_grupo">#C29BD0</color>
     <color name="fondo_tarea">#DCDCDC</color>
+    <color name="fondo_user">#C29BD0</color>
 </resources>

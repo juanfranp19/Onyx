@@ -2,4 +2,5 @@
 <resources>
     <color name="fondo_grupo">#643677</color>
     <color name="fondo_tarea">#4B3D51</color>
+    <color name="fondo_user">#643677</color>
 </resources>

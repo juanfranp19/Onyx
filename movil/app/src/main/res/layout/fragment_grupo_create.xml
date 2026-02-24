@@ -25,6 +25,7 @@
             />  <!--app:menu="@menu/toolbar"-->
     </com.google.android.material.appbar.AppBarLayout>
 
+    <!-- input nombre -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputNombre"
         android:layout_width="0dp"
@@ -43,6 +44,7 @@
             android:hint="@string/field_nombre" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- input descripcion -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputDesc"
         android:layout_width="0dp"
@@ -61,6 +63,50 @@
             android:hint="@string/field_descripcion" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- input add user -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputUser"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_with_screen"
+        android:layout_marginTop="@dimen/spacing_between_fields"
+        app:layout_constraintEnd_toStartOf="@+id/btnAddUser"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputDesc">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/field_nombre_usuario" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- btn add user -->
+    <Button
+        android:id="@+id/btnAddUser"
+        android:layout_width="118dp"
+        android:layout_height="62dp"
+        android:layout_marginEnd="@dimen/spacing_with_screen"
+        android:text="@string/btn_add_user"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textInputUser" />
+
+    <!-- recycler view users -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/usersRv"
+        tools:listitem="@layout/item_user"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_default="wrap"
+        app:layout_constraintHeight_max="275dp"
+        android:layout_marginStart="@dimen/spacing_with_screen"
+        android:layout_marginTop="@dimen/spacing_between_fields"
+        android:layout_marginEnd="@dimen/spacing_with_screen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputUser" />
+
+    <!-- btn crear grupo -->
     <Button
         android:id="@+id/btnCrearGrupo"
         android:layout_width="0dp"
@@ -71,6 +117,6 @@
         android:text="@string/btn_crear_grupo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputDesc" />
+        app:layout_constraintTop_toBottomOf="@+id/usersRv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

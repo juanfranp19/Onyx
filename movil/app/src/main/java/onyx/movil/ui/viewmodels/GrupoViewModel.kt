@@ -39,13 +39,13 @@ class GrupoViewModel(private val provider: GrupoProvider) : ViewModel() {
         }
     }
 
-    fun postGrupo(nombre: String, desc: String, creadorId: Long?) {
+    fun postGrupo(nombre: String, desc: String, creadorId: Long?, usersId: List<Long>?) {
         viewModelScope.launch {
             // cambia el estado
             _uiState.value = GrupoUiState.Loading
 
             // llama al la función del provider y cambia de estado
-            provider.postGrupo(nombre, desc, creadorId)
+            provider.postGrupo(nombre, desc, creadorId, usersId)
                 .onSuccess { grupo ->
                     _uiState.value = GrupoUiState.SuccessPostGrupo(grupo)
                 }

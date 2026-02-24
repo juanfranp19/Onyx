@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Onyx</string>
 
+    <!-- ERRORS -->
+    <string name="err_user_already_add">El usuario ya está añadido al grupo</string>
+
     <!-- MENU -->
     <string name="menu_grupos">Grupos</string>
     <string name="menu_grupo_detalles">Detalles grupo</string>
@@ -17,6 +20,7 @@
 
     <!-- FORMS -->
     <string name="field_user">User</string>
+    <string name="field_nombre_usuario">Nombre de usuario</string>
     <string name="field_email">Email</string>
     <string name="field_passwd">Contraseña</string>
     <string name="field_confirm_passwd">Confirmar contraseña</string>
@@ -33,6 +37,7 @@
     <string name="btn_crear_grupo">Crear grupo</string>
     <string name="btn_crear_tarea">Crear tarea</string>
     <string name="btn_guardar_cambios">Guardar cambios</string>
+    <string name="btn_add_user">Añadir usuario</string>
     <string name="btn_si">Sí</string>
     <string name="btn_ok">OK</string>
     <string name="btn_cancelar">Cancelar</string>
