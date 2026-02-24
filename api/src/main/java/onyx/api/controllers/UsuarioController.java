@@ -68,6 +68,8 @@ public class UsuarioController {
 
                     if (!usuarioRequest.getPasswordHash().isEmpty()) {
                         newUsuario.setPasswordHash(passwordEncoder.encode(usuarioRequest.getPasswordHash()));
+                    } else {
+                        newUsuario.setPasswordHash(existing.getPasswordHash());
                     }
 
                     return ResponseEntity.ok(usuarioRepository.save(newUsuario));

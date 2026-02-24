@@ -1,5 +1,8 @@
 package onyx.api.controllers;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import onyx.api.dto.GrupoRequestDTO;
 import onyx.api.entities.Grupo;
 import onyx.api.entities.Tarea;
@@ -104,20 +107,13 @@ public class GrupoController {
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
+
         if (grupoRepository.existsById(id)) {
 
-            // grupo con id del path
-            Grupo grupo = grupoRepository.findById(id).isPresent() ? grupoRepository.findById(id).get() : null;
-
-            // lanza excepción si grupo es null
-            assert grupo != null;
-
-            // tareas del grupo
-            List<Tarea> tareas = grupo.getTareas();
-
-            // elimina cada tarea de la lista
-            tareaRepository.deleteAll(tareas);
+            // elimina todas las tareas del grupo con una sola consulta
+            tareaRepository.deleteByGrupoId(id);
 
             // elimina el grupo
             grupoRepository.deleteById(id);
