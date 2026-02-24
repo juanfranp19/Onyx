@@ -81,6 +81,28 @@ public class TareaController {
         return ResponseEntity.ok(newTarea);
     }
 
+    @PutMapping("/{id}/completada/{completada}")
+    public ResponseEntity<Tarea> updateCompletada(@PathVariable Integer id, @PathVariable Boolean completada) {
+
+        return tareaRepository.findById(id)
+                .map(existing -> {
+
+                    Tarea newTarea = new Tarea();
+                    newTarea.setId(id);
+                    newTarea.setTitulo(existing.getTitulo());
+                    newTarea.setDescripcion(existing.getDescripcion());
+                    newTarea.setFechaCreacion(existing.getFechaCreacion());
+                    newTarea.setFechaVencimiento(existing.getFechaVencimiento());
+                    newTarea.setCreador(existing.getCreador());
+                    newTarea.setGrupo(existing.getGrupo());
+                    newTarea.setCompletada(completada);
+
+                    return ResponseEntity.ok(tareaRepository.save(newTarea));
+
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Tarea> update(@PathVariable Integer id, @RequestBody TareaRequestDTO tarea) {
         return tareaRepository.findById(id)
@@ -105,6 +127,7 @@ public class TareaController {
                     newTarea.setFechaVencimiento(fechaVencimientoFormateada);
                     newTarea.setCreador(existing.getCreador());
                     newTarea.setGrupo(grupo);
+                    newTarea.setCompletada(existing.getCompletada());
 
                     return ResponseEntity.ok(tareaRepository.save(newTarea));
                 })

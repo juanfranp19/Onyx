@@ -36,6 +36,9 @@ public class Tarea {
     @Column(name = "fecha_creacion", nullable = false)
     private LocalDateTime fechaCreacion;
 
+    @Column(nullable = false)
+    private Boolean completada;
+
     @JsonProperty("grupoId")
     public Integer getGrupoId() {
         return grupo != null ? grupo.getId() : null;
@@ -49,5 +52,6 @@ public class Tarea {
     @PrePersist
     protected void onCreate() {
         this.fechaCreacion = LocalDateTime.now();
+        this.completada = false;
     }
 }

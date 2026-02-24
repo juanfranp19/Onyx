@@ -9,4 +9,5 @@ public class TareaRequestDTO {
     private String fechaVencimiento;
     private Integer creador_id;
     private Integer grupo_id;
+    private Boolean completada = false;
 }
