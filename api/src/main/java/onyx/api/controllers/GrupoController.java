@@ -2,8 +2,10 @@ package onyx.api.controllers;
 
 import onyx.api.dto.GrupoRequestDTO;
 import onyx.api.entities.Grupo;
+import onyx.api.entities.Tarea;
 import onyx.api.entities.Usuario;
 import onyx.api.repositories.GrupoRepository;
+import onyx.api.repositories.TareaRepository;
 import onyx.api.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,9 @@ public class GrupoController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private TareaRepository tareaRepository;
 
     @GetMapping
     public List<Grupo> getAll() {
@@ -82,7 +87,22 @@ public class GrupoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         if (grupoRepository.existsById(id)) {
+
+            // grupo con id del path
+            Grupo grupo = grupoRepository.findById(id).isPresent() ? grupoRepository.findById(id).get() : null;
+
+            // lanza excepción si grupo es null
+            assert grupo != null;
+
+            // tareas del grupo
+            List<Tarea> tareas = grupo.getTareas();
+
+            // elimina cada tarea de la lista
+            tareaRepository.deleteAll(tareas);
+
+            // elimina el grupo
             grupoRepository.deleteById(id);
+
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
