@@ -1,0 +1,93 @@
+<resources>
+    <string name="app_name">Onyx</string>
+
+    <!-- ERRORS -->
+    <string name="err_user_already_add">User is already added to the group</string>
+
+    <string name="err_cargar_grupos">Error loading groups</string>
+    <string name="err_cargar_grupo">Error loading group</string>
+    <string name="err_crear_grupo">Error creating group</string>
+    <string name="err_eliminar_grupo">Error deleting group</string>
+
+    <string name="err_cargar_tareas_por_grupo">Error loading tasks by group</string>
+    <string name="err_obtener_tarea">Error retrieving task</string>
+    <string name="err_crear_tarea">Error creating task</string>
+    <string name="err_guardar_tarea">Error saving task</string>
+    <string name="err_actualizar_tarea">Error updating task</string>
+    <string name="err_eliminar_tarea">Error deleting task</string>
+
+    <string name="err_crear_usuario">Error creating user</string>
+    <string name="err_login">Login error</string>
+    <string name="err_actualizar_usuario">Error updating user</string>
+    <string name="err_obtener_datos_usuario">Error retrieving user data</string>
+
+    <!-- MENU -->
+    <string name="menu_grupos">Groups</string>
+    <string name="menu_grupo_detalles">Group details</string>
+    <string name="menu_grupo_crear">New group</string>
+    <string name="menu_tareas">Tasks</string>
+    <string name="menu_tarea_detalles">Task details</string>
+    <string name="menu_tarea_crear">New task</string>
+    <string name="menu_tarea_edit">Edit task</string>
+    <string name="menu_perfil">Profile</string>
+
+    <!-- labels -->
+    <string name="label_grupo">Group:</string>
+    <string name="label_tareas">Tasks:</string>
+
+    <!-- TABS -->
+    <string name="tab_login">Login</string>
+    <string name="tab_register">Register</string>
+
+    <!-- FORMS -->
+    <string name="field_user">User</string>
+    <string name="field_nombre_usuario">Username</string>
+    <string name="field_email">Email</string>
+    <string name="field_passwd">Password</string>
+    <string name="field_confirm_passwd">Confirm password</string>
+    <string name="field_cambiar_passwd">Change password</string>
+    <string name="field_descripcion">Description</string>
+    <string name="field_nombre">Name</string>
+    <string name="field_titulo">Title</string>
+    <string name="field_desc">Description</string>
+    <string name="field_grupo_asociado">Associated group</string>
+    <string name="field_fecha_vencimiento">Due date</string>
+
+    <string name="btn_login">Login</string>
+    <string name="btn_crear_cuenta">Create account</string>
+    <string name="btn_crear_grupo">Create group</string>
+    <string name="btn_crear_tarea">Create task</string>
+    <string name="btn_guardar_cambios">Save changes</string>
+    <string name="btn_add_user">Add user</string>
+    <string name="btn_si">Yes</string>
+    <string name="btn_ok">OK</string>
+    <string name="btn_cancelar">Cancel</string>
+
+    <string name="dialog_cerrar_sesion">Log out</string>
+    <string name="dialog_tarea_completada">Task completed</string>
+    <string name="dialog_tarea_no_completada">Task not completed</string>
+    <string name="dialog_eliminar_tarea">Delete task</string>
+    <string name="dialog_eliminar_grupo">Delete group</string>
+    <string name="dialog_actualizado_correctamente">Successfully updated</string>
+    <string name="dialog_pregunta_eliminar_esta_tarea">Are you sure you want to delete this task?</string>
+    <string name="dialog_pregunta_eliminar_este_grupo">Are you sure you want to delete this group? All tasks in it will be deleted</string>
+    <string name="dialog_pregunta_tarea_completada">Mark task as completed?</string>
+    <string name="dialog_pregunta_tarea_no_completada">Mark task as NOT completed?</string>
+
+    <!-- DATOS -->
+    <string name="data_sin_fecha_vencimiento">No due date</string>
+    <string name="data_sin_descripcion">No description</string>
+    <string name="data_vence_el">Due on</string>
+    <string name="data_creado_el">Created on</string>
+    <string name="data_by">by</string>
+
+    <!-- IMGS -->
+    <string name="img_logo">Onyx Logo</string>
+
+    <!-- MENSAJES -->
+    <string name="msg_empty_grupos">No groups</string>
+    <string name="msg_necesitas_grupos">You need to create at least one group</string>
+    <string name="msg_empty_tareas">No tasks</string>
+    <string name="msg_tarea_marcada_completada">Task marked as completed</string>
+    <string name="msg_tarea_marcada_no_completada">Task marked as NOT completed</string>
+</resources>
