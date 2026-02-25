@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -130,6 +131,12 @@ class GrupoCreateFragment : Fragment() {
             }
         }
 
+        binding.btnCrearGrupo.isEnabled = false
+
+        binding.inputNombre.addTextChangedListener {
+            enableBtn()
+        }
+
         binding.btnAddUser.setOnClickListener {
             val username = binding.inputUser.text.toString()
 
@@ -150,5 +157,9 @@ class GrupoCreateFragment : Fragment() {
                 grupoViewModel.postGrupo(nombre, desc, creadorId, usersId)
             }
         }
+    }
+
+    private fun enableBtn() {
+        binding.btnCrearGrupo.isEnabled = binding.inputNombre.text?.isNotEmpty() == true
     }
 }

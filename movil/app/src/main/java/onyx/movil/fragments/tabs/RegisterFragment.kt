@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -80,6 +81,18 @@ class RegisterFragment : Fragment() {
             }
         }
 
+        binding.btnRegister.isEnabled = false
+
+        binding.inputEditTextNombre.addTextChangedListener {
+            enableBtn()
+        }
+        binding.inputEditTextCorreo.addTextChangedListener {
+            enableBtn()
+        }
+        binding.inputEditTextPassword.addTextChangedListener {
+            enableBtn()
+        }
+
         binding.btnRegister.setOnClickListener {
             hideKeyboard()
 
@@ -88,11 +101,20 @@ class RegisterFragment : Fragment() {
             val password = binding.inputEditTextPassword.text.toString()
             val passwordConfirm = binding.inputEditTextConfirmPassword.text.toString()
 
-            if (passwordConfirm == password) {
+            // Patrón regex para validar email
+            val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex()
 
+            if (passwordConfirm == password && email.matches(emailRegex)) {
                 userViewModel.register(user, email, password)
-
+            } else if (passwordConfirm != password) {
+                binding.inputEditTextConfirmPassword.error = getString(R.string.err_passwd_no_coinciden)
+            } else if (!email.matches(emailRegex)) {
+                binding.inputEditTextCorreo.error = getString(R.string.err_email_sin_formate)
             }
         }
+    }
+
+    private fun enableBtn() {
+        binding.btnRegister.isEnabled = binding.inputEditTextNombre.text?.isNotEmpty() == true && binding.inputEditTextCorreo.text?.isNotEmpty() == true && binding.inputEditTextPassword.text?.isNotEmpty() == true
     }
 }

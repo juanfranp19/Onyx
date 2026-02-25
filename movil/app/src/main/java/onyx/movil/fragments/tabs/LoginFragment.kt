@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -80,6 +81,16 @@ class LoginFragment : Fragment() {
             }
         }
 
+        binding.btnLogin.isEnabled = false
+
+        binding.inputEditTextUser.addTextChangedListener {
+            habilitarBtn()
+        }
+
+        binding.inputEditTextPassword.addTextChangedListener {
+            habilitarBtn()
+        }
+
         binding.btnLogin.setOnClickListener {
             hideKeyboard()
 
@@ -88,5 +99,9 @@ class LoginFragment : Fragment() {
 
             userViewModel.login(user, passwd)
         }
+    }
+
+    private fun habilitarBtn() {
+        binding.btnLogin.isEnabled = binding.inputEditTextUser.text?.isNotEmpty() == true && binding.inputEditTextPassword.text?.isNotEmpty() == true
     }
 }

@@ -3,6 +3,8 @@
 
     <!-- ERRORS -->
     <string name="err_user_already_add">User is already added to the group</string>
+    <string name="err_passwd_no_coinciden">Passwords do not match</string>
+    <string name="err_email_sin_formate">Incorrect email format</string>
 
     <string name="err_cargar_grupos">Error loading groups</string>
     <string name="err_cargar_grupo">Error loading group</string>
